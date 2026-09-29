@@ -14,44 +14,50 @@
 </head>
 <body>
 
-<header class="nav" id="nav">
-  <div class="wrap nav-in">
+<!-- progressive blur under the nav (Joi technique: stacked backdrop-filter bands, each masked) -->
+<div class="pblur" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+
+<header class="nav-wrap">
+  <nav class="nav" id="nav" aria-label="Primary">
     <a href="#top" class="logo" aria-label="Trisian home"><img src="assets/img/trisian-logo.png" alt="Trisian"></a>
-    <nav class="nav-links" id="navLinks" aria-label="Primary">
+    <div class="nav-links" id="navLinks">
       <a href="#proof">The three answers</a>
       <a href="#included">What's included</a>
       <a href="#seats">Who it's for</a>
       <a href="#plans">Plans</a>
       <a href="#faq">Questions</a>
-      <a href="#assessment" class="btn btn-sm">Book an assessment</a>
-    </nav>
+      <a href="#assessment" class="btn btn-black btn-sm">Book an assessment</a>
+    </div>
     <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span></button>
-  </div>
+  </nav>
 </header>
 
-<main id="top">
+<main id="top" class="frame">
 
 <!-- ============ HERO ============ -->
 <section class="hero">
-  <div class="wrap">
-    <p class="eyebrow">Managed IT for healthcare, financial services and legal</p>
-    <h1 class="display"><span class="hl">Answered</span><br><span class="d-light">in advance</span></h1>
-    <div class="hero-sub">
-      <p class="lede">Every regulated business is one bad day from a very specific meeting. Not the day of the breach. The day after. What you knew, and when you knew it. <b>Trisian writes that answer before you need it.</b></p>
-      <div class="cta-row">
-        <a href="#assessment" class="btn">Book an assessment</a>
-        <a href="#proof" class="btn btn-ghost">See the three answers</a>
-      </div>
+  <div class="wrap hero-head">
+    <a class="pill-tag" href="#proof" data-in><span><b>Managed IT</b> for healthcare, financial services and legal</span> <span class="fake-link">See how</span></a>
+    <h1 class="display" data-in><span class="hl">Answered</span><br><span class="d-light">in advance</span></h1>
+    <p class="lede" data-in>Every regulated business is one bad day from a very specific meeting. Not the day of the breach. The day after. What you knew, and when you knew it. <b>Trisian writes that answer before you need it.</b></p>
+    <div class="cta-row" data-in>
+      <a href="#assessment" class="btn btn-violet">Book an assessment</a>
+      <a href="#proof" class="btn btn-ghost">See the three answers</a>
     </div>
   </div>
 
-  <div class="wrap">
-    <div class="stage indigo graph" id="graph" role="img" aria-label="Diagram: one question, what did you know and when, answered by three proofs">
+  <div class="wrap" data-in>
+    <div class="stage indigo graph" id="graph" role="img" aria-label="Diagram: three proofs each answer the question, what did you know, and when">
       <svg class="graph-lines" id="graphLines" aria-hidden="true"></svg>
       <div class="node gq" id="gq">
         <span class="node-tag">The day after &middot; 9:00 AM</span>
         <p class="gq-q">What did you know, and when?</p>
-        <span class="node-foot">The question Trisian answers first.</span>
+        <ul class="gq-rows" id="gqRows" aria-hidden="true">
+          <li><i></i>The Empty Room</li>
+          <li><i></i>Industry-Bound</li>
+          <li><i></i>Zero Markup</li>
+        </ul>
+        <span class="gq-status" id="gqStatus">Building the answer</span>
       </div>
       <div class="gcol">
         <article class="node gn" data-n="1">
@@ -66,36 +72,37 @@
           <div><span class="n">02</span><b>Industry-Bound</b><p>Built to the regulation, not to your headcount.</p></div>
         </article>
         <article class="node gn" data-n="3">
-          <div class="mini mini-markup" aria-hidden="true">
-            <span style="--w:90%"></span><span style="--w:90%"></span><em>0%</em>
-          </div>
+          <div class="mini mini-markup" aria-hidden="true"><span style="--w:90%"></span><span style="--w:90%"></span><em>0%</em></div>
           <div><span class="n">03</span><b>Zero Markup</b><p>Azure billed at cost. Line by line.</p></div>
         </article>
       </div>
     </div>
   </div>
 
-  <div class="wrap facts">
-    <div><b>28</b><span>years inside regulated IT</span></div>
-    <div><b>9+</b><span>compliance frameworks covered</span></div>
-    <div><b>0%</b><span>markup on Azure</span></div>
-    <div><b>30 min</b><span>critical response on Enterprise</span></div>
+  <div class="strip" data-in>
+    <p>Nine frameworks. One answer for each.</p>
+    <div class="marquee" aria-label="Frameworks covered">
+      <ul id="marquee">
+        <li>HIPAA</li><li>SOC 2</li><li>PCI-DSS</li><li>GDPR</li><li>SOX</li><li>DORA</li><li>CMMC</li><li>GLBA</li><li>ISO 27001</li>
+      </ul>
+    </div>
   </div>
 </section>
 
-<!-- ============ THE MEETING ============ -->
-<section class="meeting section" id="meeting">
-  <div class="wrap">
-    <div class="split-head">
-      <p class="eyebrow ink">The meeting</p>
-      <h2 class="h2">Not why it happened.<br><span class="d-light">What you knew, and when.</span></h2>
-    </div>
-    <div class="meeting-text">
-      <p>Most companies spend the day after building an answer from scratch. Logs from one vendor. A call to another. Learning the word <em>unfortunately</em>.</p>
-      <p>It never comes out well. It's being written by people who are already losing.</p>
-    </div>
+<!-- ============ THE MEETING: scroll-linked statements (Joi technique) ============ -->
+<section class="statements" id="meeting" aria-label="The meeting">
+  <div class="st-sticky">
+    <p class="st"><span class="st-tag pill-tag ink-tag">The meeting</span>Every regulated business is one bad day away from a <em>very specific meeting.</em></p>
+    <p class="st">Not the day of the breach. <em>The day after.</em> Not why it happened. What you knew, and when you knew it.</p>
+    <p class="st">Most companies build that answer from scratch, that morning. Logs from one vendor. A call to another. The word <em>unfortunately.</em> It's written by people who are already losing.</p>
+    <p class="st st-final"><span class="display sm">Trisian answers <span class="hl">it first.</span></span></p>
+  </div>
+</section>
 
-    <div class="versus reveal" aria-label="Diagram comparing an answer built the day after with an answer already written">
+<!-- ============ BEFORE / AFTER (Clutch hairline + step-pill connector) ============ -->
+<section class="section versus-sec">
+  <div class="wrap">
+    <div class="versus" data-reveal>
       <div class="vs vs-scratch">
         <span class="vs-tag">Built the day after</span>
         <div class="scatter" aria-hidden="true">
@@ -108,6 +115,7 @@
         </div>
         <p class="vs-foot">Written by people who are already losing.</p>
       </div>
+      <div class="vs-mid" aria-hidden="true"><span class="hair"></span><span class="step-pill">Trisian answers first <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='10' fill='none'%3E%3Cpath d='M.5.5l4 4.5-4 4.5' stroke='%23191919'/%3E%3C/svg%3E" alt=""></span><span class="hair"></span></div>
       <div class="vs vs-ready">
         <span class="vs-tag">Already written</span>
         <ul class="ready" aria-hidden="true">
@@ -118,114 +126,108 @@
         <p class="vs-foot">Ready before anyone asks.</p>
       </div>
     </div>
-    <p class="punch">Trisian answers it first.</p>
   </div>
 </section>
 
-<!-- ============ PROOF 01: THE EMPTY ROOM ============ -->
-<section class="scrub" id="proof" data-scrub="room">
-  <div class="scrub-in">
-    <div class="wrap proof-grid">
-      <div class="proof-copy">
-        <ol class="trail" aria-label="Answer 1 of 3"><li class="on">The Empty Room</li><li>Industry-Bound</li><li>Zero Markup</li></ol>
-        <h2 class="h2">A hacker gets in at midnight. At 6am there's nothing to find.</h2>
-        <p>Every desktop wipes itself clean, every night. Non-persistent by design. Hotel-room logic: checked in, used, checked out, reset.</p>
-        <p>Files and profiles are kept separately, so nobody loses work. The machine they worked on is gone.</p>
-        <p class="receipt">What was on that machine? <b>Nothing.</b></p>
-      </div>
-      <figure class="stage indigo viz room" aria-label="Diagram: a pool of desktops fills during the day and is wiped at midnight">
-        <div class="room-top"><span>Desktop pool</span><span class="clock" id="roomClock">09:00</span></div>
-        <div class="room-grid" id="roomGrid"></div>
-        <div class="room-steps" id="roomSteps">
-          <span>Check in</span><span>Use</span><span>Check out</span><span>Reset</span>
+<!-- ============ THE THREE ANSWERS: stacked sticky cards (Jitter technique) ============ -->
+<section class="section proof" id="proof">
+  <div class="wrap">
+    <header class="sec-head" data-reveal>
+      <span class="pill-tag grey">The three answers</span>
+      <h2 class="h2">Written before<br>the question.</h2>
+      <p>Three proofs, not three promises. Each one is something you can check.</p>
+    </header>
+
+    <ul class="stack">
+      <!-- 01 -->
+      <li class="pcard indigo" style="--i:0" data-viz="room">
+        <div class="pc-copy">
+          <span class="pill-tag glass">Answer 1 of 3</span>
+          <h3 class="h3">The Empty Room</h3>
+          <p class="pc-lead">A hacker gets in at midnight. At 6am there's nothing to find.</p>
+          <p>Every desktop wipes itself clean, every night. Non-persistent by design. Hotel-room logic: checked in, used, checked out, reset. Files and profiles are kept separately, so nobody loses work.</p>
+          <p class="receipt">What was on that machine? <b>Nothing.</b></p>
         </div>
-        <div class="room-track"><i id="roomBar"></i><em>09:00</em><em>00:00</em><em>06:00</em></div>
-        <p class="room-note" id="roomNote">Users at work.</p>
-      </figure>
-    </div>
-  </div>
-</section>
+        <figure class="pc-viz viz room" aria-label="Diagram: a pool of desktops fills during the day and is wiped at midnight">
+          <div class="room-top"><span>Desktop pool</span><span class="clock" id="roomClock">09:00</span></div>
+          <div class="room-grid" id="roomGrid"></div>
+          <div class="room-steps" id="roomSteps"><span>Check in</span><span>Use</span><span>Check out</span><span>Reset</span></div>
+          <div class="room-track"><i id="roomBar"></i><em>09:00</em><em>00:00</em><em>06:00</em></div>
+          <p class="room-note" id="roomNote">Users at work.</p>
+        </figure>
+      </li>
 
-<!-- ============ PROOF 02: INDUSTRY-BOUND ============ -->
-<section class="scrub" data-scrub="bound">
-  <div class="scrub-in">
-    <div class="wrap proof-grid flip">
-      <figure class="stage peri viz bound" aria-label="Diagram: a 50-person practice and a 5,000-person hospital carry the same regulatory exposure">
-        <div class="card-in">
-          <div class="bound-line"><span>The regulator's line</span></div>
+      <!-- 02 -->
+      <li class="pcard peri" style="--i:1" data-viz="bound">
+        <div class="pc-copy">
+          <span class="pill-tag white">Answer 2 of 3</span>
+          <h3 class="h3">Industry-Bound, Not Size-Bound</h3>
+          <p class="pc-lead">The regulator doesn't grade on a curve.</p>
+          <p>A 50-person practice carries the same HIPAA exposure as a 5,000-person hospital. Same rules. Same audit. Same meeting the day after. Trisian is built around the rules you answer to, at whatever size you are.</p>
+          <p class="receipt">Same exposure. <b>Same answer.</b></p>
+        </div>
+        <figure class="pc-viz viz bound card-in" aria-label="Diagram: a 50-person practice and a 5,000-person hospital carry the same nine regulatory frameworks">
           <div class="bound-cols">
-            <div class="bcol"><div class="tower" data-tower></div><div class="dots small" data-dots="1"></div><b>50-person practice</b></div>
-            <div class="bcol"><div class="tower" data-tower></div><div class="dots" data-dots="100"></div><b>5,000-person hospital</b></div>
+            <div class="bcol"><div class="iso" data-iso></div><div class="dots small" data-dots="1"></div><b>50-person practice</b></div>
+            <div class="bcol"><div class="iso" data-iso></div><div class="dots" data-dots="100"></div><b>5,000-person hospital</b></div>
           </div>
-          <p class="bound-key"><i></i> 1 dot = 50 people &nbsp;&middot;&nbsp; <i class="sq"></i> 1 block = one layer of HIPAA exposure</p>
+          <p class="bound-key"><i></i> 1 dot = 50 people &nbsp;&middot;&nbsp; <i class="sq"></i> 1 tile = one framework you answer to</p>
           <p class="bound-verdict" id="boundVerdict">Same rules. Same audit. Same exposure.</p>
-        </div>
-      </figure>
-      <div class="proof-copy">
-        <ol class="trail" aria-label="Answer 2 of 3"><li>The Empty Room</li><li class="on">Industry-Bound</li><li>Zero Markup</li></ol>
-        <h2 class="h2">The regulator doesn't grade on a curve.</h2>
-        <p>A 50-person practice carries the same HIPAA exposure as a 5,000-person hospital. Same rules. Same audit. Same meeting the day after.</p>
-        <p>Most IT firms are sized to your headcount. The regulator isn't. Trisian is built around the rules you answer to, at whatever size you are.</p>
-        <ul class="chips" aria-label="Frameworks covered"><li>HIPAA</li><li>SOC 2</li><li>PCI-DSS</li><li>GDPR</li><li>SOX</li><li>DORA</li><li>CMMC</li><li>GLBA</li><li>ISO 27001</li></ul>
-      </div>
-    </div>
-  </div>
-</section>
+        </figure>
+      </li>
 
-<!-- ============ PROOF 03: ZERO MARKUP ============ -->
-<section class="scrub" data-scrub="markup">
-  <div class="scrub-in">
-    <div class="wrap proof-grid">
-      <div class="proof-copy">
-        <ol class="trail" aria-label="Answer 3 of 3"><li>The Empty Room</li><li>Industry-Bound</li><li class="on">Zero Markup</li></ol>
-        <h2 class="h2">Azure billed at cost. We make nothing on it.</h2>
-        <p>Straight pass-through. Full visibility. Trisian optimizes the spend and profits nothing on it.</p>
-        <p>Any competitor could copy this line tomorrow. It costs money to say, so none do.</p>
-        <p class="receipt">Trisian's cut of your Azure bill: <b>0%.</b></p>
-      </div>
-      <figure class="stage purple viz ledger" aria-label="Diagram: Azure charges pass through to the invoice unchanged; Trisian's markup is zero">
-        <div class="card-in">
+      <!-- 03 -->
+      <li class="pcard purple" style="--i:2" data-viz="markup">
+        <div class="pc-copy">
+          <span class="pill-tag glass">Answer 3 of 3</span>
+          <h3 class="h3">Zero Markup</h3>
+          <p class="pc-lead">Azure billed at cost. We make nothing on it.</p>
+          <p>Straight pass-through. Full visibility. Trisian optimizes the spend and profits nothing on it. Any competitor could copy this line tomorrow. It costs money to say, so none do.</p>
+          <p class="receipt">Trisian's cut of your Azure bill: <b>0%.</b></p>
+        </div>
+        <figure class="pc-viz viz ledger card-in" aria-label="Diagram: Azure charges pass through to the invoice unchanged; Trisian's markup is zero">
           <div class="led-head"><span></span><span>Azure charges</span><span>You pay</span></div>
           <div class="led-row" data-at="0.10"><label>Compute</label><div class="bar"><i style="--w:86%"></i></div><div class="bar"><i style="--w:86%"></i></div></div>
           <div class="led-row" data-at="0.28"><label>Storage</label><div class="bar"><i style="--w:54%"></i></div><div class="bar"><i style="--w:54%"></i></div></div>
           <div class="led-row" data-at="0.46"><label>Networking</label><div class="bar"><i style="--w:32%"></i></div><div class="bar"><i style="--w:32%"></i></div></div>
           <div class="led-row zero" data-at="0.68"><label>Trisian markup</label><div class="bar"><i style="--w:0%"></i><em>0%</em></div><div class="bar"><i style="--w:0%"></i><em>0%</em></div></div>
           <p class="led-note" id="ledNote">Every line matches. Nothing added.</p>
-        </div>
-      </figure>
-    </div>
+        </figure>
+      </li>
+    </ul>
   </div>
 </section>
 
 <!-- ============ INCLUDED (BENTO) ============ -->
 <section class="section" id="included">
   <div class="wrap">
-    <div class="split-head">
-      <p class="eyebrow ink">What's included</p>
-      <h2 class="h2">Every plan starts <span class="d-light">with the same six things.</span></h2>
-    </div>
-    <div class="bento">
-      <article class="b b-a indigo reveal">
+    <header class="sec-head" data-reveal>
+      <span class="pill-tag grey">What's included</span>
+      <h2 class="h2">Every plan starts with<br>the same six things.</h2>
+      <p>One managed platform, one accountable team, nothing bolted on afterward.</p>
+    </header>
+    <div class="bento" data-stagger>
+      <article class="b b-a indigo">
         <div class="mini mini-room lg" data-mini="36" aria-hidden="true"></div>
         <div><h3>Nightly reset</h3><p>Every desktop wipes clean. Files and profiles stay put.</p></div>
       </article>
-      <article class="b b-b purple reveal">
+      <article class="b b-b purple">
         <span class="big">0%</span>
         <div><h3>Azure at cost</h3><p>Straight pass-through. Full visibility.</p></div>
       </article>
-      <article class="b b-c pale reveal">
-        <svg viewBox="0 0 48 48" class="ico" aria-hidden="true"><path d="M3 26h10l5-14 8 26 5-12h14"/></svg>
+      <article class="b b-c pale">
+        <svg viewBox="0 0 48 48" class="ico ico-pulse" aria-hidden="true"><path d="M3 26h10l5-14 8 26 5-12h14"/></svg>
         <div><h3>24/7 monitoring</h3><p>Platform monitoring runs around the clock.</p></div>
       </article>
-      <article class="b b-d warm reveal">
+      <article class="b b-d warm">
         <svg viewBox="0 0 48 48" class="ico" aria-hidden="true"><rect x="6" y="6" width="16" height="16" rx="3"/><rect x="26" y="6" width="16" height="16" rx="3"/><rect x="6" y="26" width="16" height="16" rx="3"/><rect x="26" y="26" width="16" height="16" rx="3"/></svg>
         <div><h3>Microsoft 365, included</h3><p>Licensing sits inside the platform fee. One less vendor.</p></div>
       </article>
-      <article class="b b-e peri reveal">
-        <svg viewBox="0 0 48 48" class="ico" aria-hidden="true"><path d="M24 40V10M13 21l11-11 11 11"/><path d="M8 42h32"/></svg>
+      <article class="b b-e peri">
+        <svg viewBox="0 0 48 48" class="ico ico-up" aria-hidden="true"><path d="M24 40V10M13 21l11-11 11 11"/><path d="M8 42h32"/></svg>
         <div><h3>Patching on schedule</h3><p>OS and Microsoft 365 updates land without a ticket.</p></div>
       </article>
-      <article class="b b-f line reveal">
+      <article class="b b-f line">
         <svg viewBox="0 0 48 48" class="ico" aria-hidden="true"><path d="M24 6l18 9-18 9-18-9z"/><path d="M6 24l18 9 18-9"/><path d="M6 33l18 9 18-9"/></svg>
         <div><h3>One golden image</h3><p>One managed desktop image, backed up weekly and kept for four weeks.</p></div>
       </article>
@@ -236,17 +238,17 @@
 <!-- ============ WHO IT'S FOR ============ -->
 <section class="section tinted" id="seats">
   <div class="wrap">
-    <div class="split-head">
-      <p class="eyebrow ink">Who it's for</p>
-      <h2 class="h2">One table. <span class="d-light">Every seat covered.</span></h2>
-    </div>
-    <p class="sub">Seven to twelve people touch this decision. Each one is afraid of something different.</p>
-    <div class="seats-grid">
-      <figure class="s-photo s-table reveal"><img src="assets/img/table.webp" alt="Four colleagues working and talking around a long table" loading="lazy"></figure>
-      <article class="seat pale reveal"><h3>The CTO</h3><p class="q">You already know what's broken.</p><p>You filed the ticket eighteen months ago. We work co-managed: we augment your team, we don't replace it.</p></article>
-      <article class="seat peri reveal"><h3>The IT manager</h3><p class="q">The 2am call. And the 9am question.</p><p>Off your plate, not out of the room. We make you look good to leadership, with receipts.</p></article>
-      <article class="seat indigo reveal"><h3>The owner</h3><p class="q">You want to stop thinking about it.</p><p>Plain language. Predictable pricing. Peers in your industry who already made the call.</p></article>
-      <figure class="s-photo s-close reveal"><img src="assets/img/closeup.webp" alt="A woman at her desk listening closely" loading="lazy"><figcaption>The 9am question is coming. Have the answer.</figcaption></figure>
+    <header class="sec-head" data-reveal>
+      <span class="pill-tag white">Who it's for</span>
+      <h2 class="h2">One table.<br>Every seat covered.</h2>
+      <p>Seven to twelve people touch this decision. Each one is afraid of something different.</p>
+    </header>
+    <div class="seats-grid" data-stagger>
+      <figure class="s-photo s-table"><img src="assets/img/table.webp" alt="Four colleagues working and talking around a long table" loading="lazy"></figure>
+      <article class="seat pale"><h3>The CTO</h3><p class="q">You already know what's broken.</p><p>You filed the ticket eighteen months ago. We work co-managed: we augment your team, we don't replace it.</p></article>
+      <article class="seat peri"><h3>The IT manager</h3><p class="q">The 2am call. And the 9am question.</p><p>Off your plate, not out of the room. We make you look good to leadership, with receipts.</p></article>
+      <article class="seat indigo"><h3>The owner</h3><p class="q">You want to stop thinking about it.</p><p>Plain language. Predictable pricing. Peers in your industry who already made the call.</p></article>
+      <figure class="s-photo s-close"><img src="assets/img/closeup.webp" alt="A woman at her desk listening closely" loading="lazy"><figcaption>The 9am question is coming. Have the answer.</figcaption></figure>
     </div>
   </div>
 </section>
@@ -255,60 +257,50 @@
 <!-- Tier names are placeholders pending the Core/Advanced/Enterprise vs Standard/Premium/Financial Secure Suite decision. -->
 <section class="section" id="plans">
   <div class="wrap">
-    <div class="split-head">
-      <p class="eyebrow ink">Plans</p>
-      <h2 class="h2">Three plans. <span class="d-light">The same nightly reset.</span></h2>
-    </div>
-    <p class="sub">Every plan includes the empty room, Azure at cost, Microsoft 365 licensing and 24/7 platform monitoring. Each one adds to the last.</p>
-    <div class="tiers">
-      <article class="tier reveal">
+    <header class="sec-head" data-reveal>
+      <span class="pill-tag grey">Plans</span>
+      <h2 class="h2">Three plans.<br>The same nightly reset.</h2>
+      <p>Every plan includes the empty room, Azure at cost, Microsoft 365 licensing and 24/7 platform monitoring. Each one adds to the last.</p>
+    </header>
+    <div class="tiers" data-stagger>
+      <article class="tier">
         <h3>Core</h3><p class="who">For smaller regulated teams</p>
         <dl><div><dt>Users</dt><dd>Up to 300</dd></div><div><dt>Support</dt><dd>Business hours</dd></div><div><dt>Critical response</dt><dd>1 hour</dd></div></dl>
         <ul><li>Microsoft 365 Business Premium</li><li>Non-persistent desktops</li><li>MFA and Conditional Access</li><li>Automated patching</li></ul>
       </article>
-      <article class="tier feat reveal">
+      <article class="tier feat">
         <h3>Advanced</h3><p class="who">For teams that can't go dark</p>
         <dl><div><dt>Users</dt><dd>Unlimited</dd></div><div><dt>Support</dt><dd>24/7/365</dd></div><div><dt>Critical response</dt><dd>1 hour</dd></div></dl>
         <ul><li>Everything in Core</li><li>Microsoft 365 E3</li><li>CIS-hardened images</li><li>Behavioral threat detection</li></ul>
       </article>
-      <article class="tier reveal">
+      <article class="tier">
         <h3>Enterprise</h3><p class="who">For the most exposed environments</p>
         <dl><div><dt>Users</dt><dd>Unlimited</dd></div><div><dt>Support</dt><dd>24/7 priority</dd></div><div><dt>Critical response</dt><dd>30 minutes</dd></div></dl>
         <ul><li>Everything in Advanced</li><li>Microsoft 365 E5</li><li>SIEM/SOAR and Zero Trust</li><li>Dedicated team and named technical account manager</li></ul>
       </article>
     </div>
-    <div class="center"><a href="#assessment" class="btn">Find your plan: book an assessment</a></div>
+    <div class="center"><a href="#assessment" class="btn btn-black">Find your plan: book an assessment</a></div>
   </div>
 </section>
 
-<!-- ============ TESTIMONIALS ============ -->
-<section class="section tinted" id="quotes">
+<!-- ============ TESTIMONIAL (Jitter-style big centered quote) ============ -->
+<section class="section quote-sec" id="quotes">
   <div class="wrap">
-    <div class="split-head">
-      <p class="eyebrow ink">In their words</p>
-      <h2 class="h2">Clients say it <span class="d-light">better than we do.</span></h2>
-    </div>
-    <div class="quotes">
-      <blockquote class="quote pale reveal">
-        <span class="ph">Placeholder: quote to be supplied</span>
-        <p>&ldquo;Client quote goes here, dropped in verbatim from the audit.&rdquo;</p>
-        <footer><b>Mark D.</b> Avora Foods</footer>
-      </blockquote>
-      <blockquote class="quote peri reveal">
-        <span class="ph">Placeholder: quote to be supplied</span>
-        <p>&ldquo;Client quote goes here, dropped in verbatim from the audit.&rdquo;</p>
-        <footer><b>Ben F.</b> Crafter &amp; Co</footer>
-      </blockquote>
+    <div class="bigquote" aria-live="polite">
+      <span class="ph">Placeholder: quote to be supplied</span>
+      <p class="bq-text" id="bqText">&ldquo;Client quote goes here, dropped in verbatim from the audit.&rdquo;</p>
+      <p class="bq-who" id="bqWho"><b>Mark D.</b> Avora Foods</p>
+      <div class="bq-dots" id="bqDots" role="tablist" aria-label="Choose testimonial"><button class="on" aria-label="Mark D., Avora Foods"></button><button aria-label="Ben F., Crafter and Co"></button></div>
     </div>
   </div>
 </section>
 
 <!-- ============ FAQ ============ -->
-<section class="section" id="faq">
+<section class="section tinted" id="faq">
   <div class="wrap faq-in">
     <div>
-      <p class="eyebrow ink">Questions</p>
-      <h2 class="h2">What people ask <span class="d-light">before they call.</span></h2>
+      <span class="pill-tag white">Questions</span>
+      <h2 class="h2 faq-h">What people ask before they call.</h2>
     </div>
     <div class="faq-list">
       <details><summary>If desktops wipe every night, what happens to our files?</summary><p>They stay. Profiles and files live in separate, managed storage, so people sign in to a fresh desktop with their work exactly where they left it. Only the machine resets.</p></details>
@@ -339,7 +331,7 @@
             <option>Healthcare</option><option>Financial services</option><option>Legal</option><option>Other regulated industry</option>
           </select>
         </label>
-        <button class="btn btn-purple" type="submit">Book an assessment</button>
+        <button class="btn btn-violet" type="submit">Book an assessment</button>
         <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
       </form>
     </div>
@@ -357,6 +349,7 @@
   </div>
 </footer>
 
+<script src="js/vendor/motion.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
