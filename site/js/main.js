@@ -21,6 +21,39 @@
   }), { threshold: 0.15 });
   $$('.reveal').forEach(el => io.observe(el));
 
+  /* ---------- small looping room grids (hero graph + bento) ---------- */
+  $$('[data-mini]').forEach(m => {
+    const n = +m.dataset.mini, cols = m.classList.contains('lg') ? 12 : 6;
+    for (let i = 0; i < n; i++) {
+      const c = document.createElement('i');
+      c.style.setProperty('--d', ((i % cols) * 0.09 + Math.floor(i / cols) * 0.05).toFixed(2) + 's');
+      m.appendChild(c);
+    }
+  });
+
+  /* ---------- hero answer graph: connectors from the question to each answer ---------- */
+  const graph = $('#graph');
+  const drawGraph = () => {
+    const svg = $('#graphLines'), q = $('#gq');
+    if (!graph || !svg) return;
+    svg.innerHTML = '';
+    const nodes = $$('.gn', graph), g = graph.getBoundingClientRect(), qr = q.getBoundingClientRect();
+    if (getComputedStyle(svg).display === 'none' || nodes[0].getBoundingClientRect().left <= qr.right) return;
+    const sx = qr.right - g.left, sy = qr.top + qr.height / 2 - g.top, NS = 'http://www.w3.org/2000/svg';
+    const add = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); svg.appendChild(e); };
+    nodes.forEach(n => {
+      const r = n.getBoundingClientRect(), ex = r.left - g.left, ey = r.top + r.height / 2 - g.top, dx = (ex - sx) * 0.55;
+      add('path', { d: `M${sx} ${sy} C${sx + dx} ${sy}, ${ex - dx} ${ey}, ${ex} ${ey}` });
+      add('circle', { cx: ex, cy: ey, r: 5 });
+    });
+    add('circle', { cx: sx, cy: sy, r: 5 });
+  };
+  drawGraph();
+  addEventListener('resize', drawGraph);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawGraph);
+  addEventListener('load', drawGraph);
+  setTimeout(drawGraph, 2100);
+
   /* ---------- diagram: The Empty Room ---------- */
   const room = (() => {
     const grid = $('#roomGrid'); if (!grid) return () => {};
