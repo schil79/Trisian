@@ -22,7 +22,7 @@ No [CONFIRM] tags appear in the spec.
 ## Worth a look before launch
 - Financial services shows a chip row "Frameworks Trisian covers" with SOC 2 and ISO 27001. The spec's fact register says never claim attestations until confirmed. The row says "covers", not "certified", but the client or counsel should confirm it.
 - HIPAA 60-day wording is sourced from a secondary site; confirm against HHS. Everything under "stated from knowledge" in the spec's section 10 still needs counsel.
-- Photos are 4 pending blocks (3:2), with the alt text from the imagery briefs.
+- Photos: the four client-supplied images are in (one per industry page, 3:2). Alt text describes what each photo actually shows, not the imagery brief. See the note below about two of them.
 - Forms still send nowhere. No og:image is set because none exists.
 
 ## Checked

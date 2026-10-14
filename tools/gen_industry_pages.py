@@ -198,12 +198,12 @@ def hero(pg, surface):
 </section>'''
 
 
-def photo(alt):
-    return f'''<!-- STAGING ONLY: replace this block with the photo from the imagery brief -->
-        <figure class="ip-photo" role="img" aria-label="{html.escape(alt)}"><span>PHOTO PENDING</span></figure>'''
+def photo(img):
+    src, alt = img
+    return f'''<figure class="ip-photo"><img src="../assets/img/{src}" alt="{html.escape(alt)}" width="1600" height="1066" loading="lazy"></figure>'''
 
 
-def two_col(h2, bodies, fig, alt, note=None):
+def two_col(h2, bodies, fig, img, note=None):
     paras = '\n        '.join(f'<p>{esc(b)}</p>' for b in bodies)
     n = f'\n        <p class="ip-note">{esc(note)}</p>' if note else ''
     return f'''<section class="ip-s ip-white">
@@ -214,7 +214,7 @@ def two_col(h2, bodies, fig, alt, note=None):
     </div>
     <div>
       {fig}
-      {photo(alt)}
+      {photo(img)}
     </div>
   </div>
 </section>'''
@@ -398,7 +398,7 @@ HEALTH = dict(
     clock=dict(h2='The clock starts when you knew.',
                bodies=["HIPAA's Breach Notification Rule gives you 60 days to notify affected patients, counted from the day a breach is discovered. Discovered means known, or should have been known. Nobody gets to start the clock when the investigation ends. So the meeting after an incident is mostly a meeting about timing.",
                        'Most practices spend it rebuilding a timeline from logs they have to go find. A practice with the answers already on file spends it deciding what to say.'],
-               alt='Two front-office staff reviewing a printed schedule at a clinic reception desk before opening.'),
+               img=('healthcare.webp', 'A clinical lab technician in a protective suit and gloves touching a monitor in a bright white room.')),
     answers=[('Whose records were reachable?',
               '**The Empty Room.** Every desktop resets at night. Patient files and profiles live apart from the session, so whoever got in at midnight finds a room nobody lives in.',
               'How the reset works', '../#answer-1'),
@@ -446,7 +446,7 @@ FIN = dict(
                        "Larger firms had to comply by December 3, 2025. Everyone else by June 3, 2026. The date moved. The rule didn't.",
                        "Non-bank lenders, tax preparers and other firms under the FTC's Safeguards Rule have their own version. When a breach involves 500 or more consumers, tell the FTC within 30 days."],
                note="Information, not legal advice. Scope depends on your registration and your counsel's reading.",
-               alt='Two colleagues going through tabbed documents at a conference table in a mid-size office.'),
+               img=('financial-services.webp', 'Two colleagues reviewing a stock chart on a laptop and a printed list of securities.')),
     answers=[('What was reachable, and what did an attacker find?',
               "**The Empty Room.** Every desktop resets at night. Client files and profiles live apart from the session. Someone who got in at 11 PM finds nothing at midnight. That's a short meeting.",
               'How the reset works', '../#answer-1'),
@@ -494,7 +494,7 @@ LEGAL = dict(
                bodies=['ABA Formal Opinion 483 says lawyers should make reasonable efforts to monitor their systems, keep an incident response plan, and keep current clients informed when a breach touches their matters. It calls the duty "not a strict liability standard."',
                        'Nobody expects an impenetrable firm. Everybody expects one that can explain itself. The explanation is the hard part to produce on the day. So it gets produced before.'],
                note="Your state's version of the rules governs. Information, not legal advice.",
-               alt='A partner and an associate reading a document together at a conference table in the evening.'),
+               img=('legal.webp', 'People around a wooden conference table writing on documents, with a laptop and a coffee cup.')),
     answers=[('Whose files were open?',
               '**The Empty Room.** Every desktop resets at night. Documents live in storage, apart from the session, so what a session touched is gone by morning. Someone who got in at midnight finds a room nobody lives in.',
               'How the reset works', '../#answer-1'),
@@ -542,7 +542,7 @@ GROW = dict(
     clock=dict(h2='The proposal is bigger than the last five combined.',
                bodies=["Somewhere inside it: describe your infrastructure's ability to scale. Then a pause, while everyone waits for someone to admit nobody knows the answer.",
                        "Regulated clients pass their rules down to the vendors they hire. So a thirty-person company ends up answering a bank's questions. Trisian closes the pause before the paperwork goes out."],
-               alt='A small team setting up two new desks in an office that is expanding.'),
+               img=('growing-businesses.webp', 'A small team working along a long desk by large windows while one colleague stands and talks.')),
     answers=[('Can you carry a client twice your size?',
               "Yes, and without a rebuild. Core covers up to 300 users. Advanced is unlimited. The architecture is the same on both, so growth doesn't mean redesign.",
               'Compare the plans', '../#plans'),
@@ -580,7 +580,7 @@ def build_industry(pg):
     fig = {'healthcare': svg_clock_health(), 'financial-services': svg_clock_fin(), 'legal': fig_quote()}.get(pg['slug'], '')
     parts = [hero(pg, pg['surface'])]
     c = pg['clock']
-    parts.append(two_col(c['h2'], c['bodies'], fig, c['alt'], c.get('note')))
+    parts.append(two_col(c['h2'], c['bodies'], fig, c['img'], c.get('note')))
     parts.append(answers(pg['answers']))
     if 'rules' in pg:
         r = pg['rules']
@@ -692,6 +692,7 @@ if __name__ == '__main__':
     print('PROBLEMS:' if problems else 'checks passed', *problems, sep='\n  ')
     sys.exit(1 if problems else 0)
 
+# Photos: client-supplied, one per industry page (see img= in each page's clock section).
 # SKIPPED (tagged [HOLD] in the spec; nothing from these renders):
 #   healthcare: Business associate agreement row; SOC 2 and ISO 27001 due-diligence row; proof slot
 #   financial services: notification-window line; attestation-status line; proof slot
