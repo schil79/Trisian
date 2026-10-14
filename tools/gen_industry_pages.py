@@ -10,141 +10,13 @@ Copy is transcribed from Trisian_Who_Its_For_Spec.md. Blocks tagged [HOLD] in th
 deliberately not present here. See SKIPPED at the bottom of this file.
 """
 import html, json, os, re, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = os.path.join(ROOT, 'site')
-BASE_URL = 'https://schil79.github.io/Trisian/'   # staging host; swap at launch
 
 
-def esc(s):
-    return html.escape(s, quote=False)
-
-
-def t(s):
-    """escape, then turn **x** into <b>x</b>"""
-    return re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', esc(s))
-
-
-def plain(s):
-    return s.replace('**', '')
-
-
-# ------------------------------------------------------------------ shared fragments
-def dropdown(base):
-    return f'''<div class="nav-item has-dd">
-        <a href="{base}who-its-for/" class="dd-link">Who it's for</a>
-        <button class="dd-toggle" type="button" aria-expanded="false" aria-controls="ddList" aria-label="Show industries"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4.5l4 4 4-4"/></svg></button>
-        <ul class="dd" id="ddList">
-          <li><a href="{base}healthcare/">Healthcare</a></li>
-          <li><a href="{base}financial-services/">Financial services</a></li>
-          <li><a href="{base}legal/">Legal</a></li>
-          <li><a href="{base}growing-businesses/">Growing businesses</a></li>
-        </ul>
-      </div>'''
-
-
-CARDS = [
-    ('healthcare', 'Healthcare', 'Whose records. Which systems. Since when.',
-     'HIPAA starts a 60-day clock the day a breach is discovered.', 'See the healthcare answers'),
-    ('financial-services', 'Financial services', 'The examiner asks for the log. Not the policy.',
-     'Under Regulation S-P, customers hear within 30 days of you becoming aware. The program has to exist first.',
-     'See the financial answers'),
-    ('legal', 'Legal', 'The rule says reasonable. Be ready to show it.',
-     'ABA Formal Opinion 483: monitor, plan, keep clients informed. Not strict liability. Not optional.',
-     'See the legal answers'),
-    ('growing-businesses', 'Growing businesses', 'The big client is coming. So is their questionnaire.',
-     "Cleared for the deal before it's on paper.", 'See the growth answers'),
-]
-
-
-def cards(base):
-    out = []
-    for slug, label, q, rule, link in CARDS:
-        out.append(f'''<a class="ind-card" href="{base}{slug}/">
-        <span class="ip-kicker">{esc(label)}</span>
-        <h3 class="ind-q">{esc(q)}</h3>
-        <p class="ind-rule">{esc(rule)}</p>
-        <span class="ind-link">{esc(link)}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
-      </a>''')
-    return '\n      '.join(out)
-
-
-def footer(base):
-    return f'''<footer class="foot">
-  <div class="wrap foot-in">
-    <img src="{base}assets/img/trisian-logo.png" alt="Trisian" class="foot-logo">
-    <p>Managed IT for regulated industries. 28 years in.</p>
-    <nav aria-label="Footer"><a href="{base}#proof">The three answers</a><a href="{base}#plans">Plans</a><a href="{base}#faq">Questions</a><a href="{base}#assessment">Book an assessment</a></nav>
-    <div class="foot-col" role="group" aria-label="Who it's for">
-      <b>Who it's for</b>
-      <a href="{base}who-its-for/">All industries</a>
-      <a href="{base}healthcare/">Healthcare</a>
-      <a href="{base}financial-services/">Financial services</a>
-      <a href="{base}legal/">Legal</a>
-      <a href="{base}growing-businesses/">Growing businesses</a>
-    </div>
-    <small>&copy; 2026 Trisian</small>
-  </div>
-</footer>'''
-
-
-def header(base):
-    return f'''<header class="nav-wrap">
-  <nav class="nav" id="nav" aria-label="Primary">
-    <a href="{base}" class="logo" aria-label="Trisian home"><img src="{base}assets/img/trisian-logo.png" alt="Trisian"></a>
-    <div class="nav-links" id="navLinks">
-      <a href="{base}#proof">The three answers</a>
-      <a href="{base}#included">What's included</a>
-      {dropdown(base)}
-      <a href="{base}#plans">Plans</a>
-      <a href="{base}#faq">Questions</a>
-      <a href="#assessment" class="btn btn-black btn-sm">Book an assessment</a>
-    </div>
-    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span></button>
-  </nav>
-</header>'''
-
-
-def head(page, base, jsonld):
-    og = f'''<meta property="og:type" content="website">
-<meta property="og:site_name" content="Trisian">
-<meta property="og:title" content="{html.escape(page['title'])}">
-<meta property="og:description" content="{html.escape(page['desc'])}">
-<meta property="og:url" content="{BASE_URL}{page['slug']}/">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="{html.escape(page['title'])}">
-<meta name="twitter:description" content="{html.escape(page['desc'])}">'''
-    ld = '\n'.join(f'<script type="application/ld+json">{json.dumps(j, ensure_ascii=False)}</script>' for j in jsonld)
-    return f'''<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{html.escape(page['title'])}</title>
-<meta name="description" content="{html.escape(page['desc'])}">
-<meta name="robots" content="noindex, nofollow">
-<!-- REMOVE noindex AT LAUNCH -->
-<link rel="canonical" href="{BASE_URL}{page['slug']}/">
-{og}
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231800AD'/%3E%3Cpath d='M7 9h18v4h-7v11h-4V13H7z' fill='%23fff'/%3E%3C/svg%3E">
-<link rel="preload" href="{base}assets/fonts/Archivo.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="{base}css/styles.css">
-<link rel="stylesheet" href="{base}css/industry.css">
-{ld}
-<script>document.documentElement.classList.add('js')</script>
-</head>'''
-
-
-def breadcrumbs(items):
-    return {'@context': 'https://schema.org', '@type': 'BreadcrumbList',
-            'itemListElement': [{'@type': 'ListItem', 'position': i + 1, 'name': n, 'item': u}
-                                for i, (n, u) in enumerate(items)]}
-
-
-def faqld(faq):
-    return {'@context': 'https://schema.org', '@type': 'FAQPage',
-            'mainEntity': [{'@type': 'Question', 'name': plain(q),
-                            'acceptedAnswer': {'@type': 'Answer', 'text': plain(a)}} for q, a in faq]}
+from shared import *   # esc, t, plain, header, footer, cards, head_common, breadcrumbs, faqld
 
 
 # ------------------------------------------------------------------ section builders
@@ -330,7 +202,7 @@ def cta(pg):
 
 def page_shell(pg, base, body, jsonld, with_industry_js=True):
     js = f'<script src="{base}js/common.js"></script>\n' + (f'<script src="{base}js/industry.js"></script>\n' if with_industry_js else '')
-    return f'''{head(pg, base, jsonld)}
+    return f'''{head_common(base, pg['title'], pg['desc'], pg['slug'], jsonld)}
 <body class="ip">
 <a class="skip" href="#main">Skip to content</a>
 {header(base)}
@@ -575,6 +447,45 @@ GROW = dict(
              button='Book an assessment'))
 
 
+
+# "Configured for your room." One row under the rules table (the proof block on the growth page).
+# Source: the client's earlier architecture, per Trisian_Site_Upgrade_Directive.md section 6.
+CFG = {
+    'healthcare': ([('Long-term audit trail retention available. Archival up to 7+ years.', 'Add-on'),
+                    ('Data loss prevention for patient information.', None),
+                    ('Premium eDiscovery.', 'Enterprise')], ['HIPAA', 'HITECH']),
+    'financial-services': ([('Privileged identity management for segregation of duties.', 'Enterprise'),
+                            ('Long-term record retention available. Archival up to 7+ years.', 'Add-on'),
+                            ('SOX and DORA controls on the nine-framework map.', None)], None),   # chips already in the rules block
+    'legal': ([('Premium eDiscovery.', 'Enterprise'),
+               ('Data loss prevention for sensitive client information.', None)], ['SOC 2', 'GDPR']),
+    # client matter segregation is [CONFIRM]: not rendered
+    'growing-businesses': ([("Start on Core. Move to Advanced or Enterprise when your clients' questionnaires ask for more.", None),
+                            ('Same architecture on every plan. No redesign.', None)], ['SOC 2', 'GDPR', 'ISO 27001']),
+}
+
+
+def configured(slug):
+    items, chips = CFG[slug]
+    cs = []
+    for txt, tag in items:
+        tg = '<span class="cfg-tag">' + esc(tag) + '</span>' if tag else ''
+        cs.append('<article class="cfg-item">' + tg + '<p>' + esc(txt) + '</p></article>')
+    cs = '\n      '.join(cs)
+    ch = ''
+    if chips:
+        lis = ''.join('<li>' + esc(c) + '</li>' for c in chips)
+        ch = '\n    <div class="cfg-chips"><ul class="chips">' + lis + '</ul></div>'
+    return f'''<section class="ip-s ip-tint">
+  <div class="ip-wrap">
+    <h2 class="ip-h2">Configured for your room.</h2>
+    <div class="cfg">
+      {cs}
+    </div>{ch}
+  </div>
+</section>'''
+
+
 def build_industry(pg):
     base = '../'
     fig = {'healthcare': svg_clock_health(), 'financial-services': svg_clock_fin(), 'legal': fig_quote()}.get(pg['slug'], '')
@@ -587,7 +498,7 @@ def build_industry(pg):
         parts.append(rules(r['h2'], r['intro'], r['rows'], r['foot'], r.get('chips'), r.get('head', False)))
     else:
         p = pg['proof']
-        rows = '\n      '.join(f'<div class="ip-proof-row"><p class="ip-num" aria-hidden="true">0{i}</p><p>{esc(l)}</p></div>' for i, l in enumerate(p['lines'], 1))
+        rows = '\n      '.join(f'<div class="ip-proof-row"><p class="ip-num p-num" aria-hidden="true">0{i}</p><p>{esc(l)}</p></div>' for i, l in enumerate(p['lines'], 1))
         parts.append(f'''<section class="ip-s ip-navy ip-dark">
   <div class="ip-wrap">
     <h2 class="ip-h2" style="color:#fff">{esc(p['h2'])}</h2>
@@ -597,6 +508,7 @@ def build_industry(pg):
     <p style="margin-top:32px"><a class="link-arrow" href="../#proof">{esc(p['link'])}</a></p>
   </div>
 </section>''')
+    parts.append(configured(pg['slug']))
     parts.append(seats(*pg['seats']))
     parts.append(plans(pg['plans']))
     parts.append(faq(pg['faq']))
@@ -697,4 +609,6 @@ if __name__ == '__main__':
 #   healthcare: Business associate agreement row; SOC 2 and ISO 27001 due-diligence row; proof slot
 #   financial services: notification-window line; attestation-status line; proof slot
 #   legal: client security questionnaires and outside counsel guidelines row; proof slot
+#   legal: client matter segregation ([CONFIRM] in the upgrade directive): not rendered
+#   healthcare: BAA-ready line stays held until the client says what it means in a contract
 #   growing businesses: proof slot
