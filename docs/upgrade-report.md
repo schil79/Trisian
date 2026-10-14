@@ -1,40 +1,45 @@
-# Site upgrade report
+# Site rebuild report (Directive v2)
 
 Staged at https://schil79.github.io/Trisian/next/ (noindex). The live root is untouched until you say promote.
-Branch: `claude/nifty-ptolemy-ixxiyv`. Build: `python3 tools/gen_home.py` and `python3 tools/gen_industry_pages.py`.
+Build: `python3 tools/gen_home.py`, `python3 tools/gen_pages.py`, `python3 tools/gen_industry_pages.py`.
 
-## Where I followed your message over the directive
-- Font is Graphik everywhere (Light 300 to Bold 700). Headlines pair Bold with Light. Archivo Condensed Black is used for one word: "advance".
-- H1 is `Answered in` (Graphik Regular) and `advance` (Archivo Condensed Black, indigo). The purple underline sits under "Answered".
-- Sign-offs, numerals and the big-slab question are Graphik Bold, not Archivo Black.
-- Content sits in the middle 75% (12.5% sides at 1100px and up), not the directive's 1200px cap.
+## Decisions you made that override the directive
+- Fonts hold as built: Graphik throughout, Bold against Light. H1 is `Answered in` (Graphik Regular) and `advance` (Archivo Condensed Black, indigo), with the blue underline under "Answered". The directive's Archivo and Google Sans pairing is not used.
+- The 75% middle column stays (12.5% each side from 1100px up).
+- Kept graphics (invoice, six vendors) have no black sides or outlines: white and pale tops, periwinkle sides, 1.5px indigo lines.
 - Labels render as typed. No text-transform.
-- Commits are grouped, not one per phase, and I did not stop after phase 1.
 
-## Other deviations
-- Slabs are inline SVG, not CSS 3D. Text stays vector-sharp in every browser, at the cost of not being selectable. Each scene carries an aria-label. Only Chromium was tested.
-- The grain beam is a pre-dithered WebP (`tools/make_stipple.py`) used as an SVG mask over solid #1453FF, rather than a gradient times a stipple tile.
-- "Answered" label in the progress widget is ink, not purple, because purple text under 24px fails contrast.
-- Hero room tabs start with nothing selected, showing the default "What did you know, and when?". Autoplay selects Healthcare after 6s.
+## What changed
+- Slab, hard-shadow, grain and iso-stair system removed. Flat solid fills, 24px panels, 16px cards, no shadows.
+- Home order: hero, receipts and frameworks, meeting, the 3 answers, One table, One partner, What we offer, six things, handoff, services band, questions, form.
+- Plans, billing and Find your room are off the home page. Coverage, Services and Insights (plus an article template) are new pages. Hub and sector pages restyled with the Industries header and the language fix.
+- Motion: hero panel sequence, pointer-reactive dot grid and panel, magnetic buttons, word-by-word headline reveals, scroll-linked panel scaling, scroll progress bar, handoff line that fills as you scroll, parallax on photos, counters, desktop pool loop, dot wave, hover reactions on every icon, lift on every card. Reduced motion shows final states.
 
-## Purple search (9B4DFF / 155, 77, 255)
-Only `site/css/styles.css` and `site/css/industry.css` define or use it, in the four budget uses: H1 underline, widget final dot, "Already written" check dots (also the "Trisian answers first" dots on industry pages), and the framework-chip dot on hover match. No hits in any HTML. The old purple cards, buttons, numerals and blur bands are gone.
+## Purple
+No purple anywhere. Search for 9B4DFF, #9b4dff, 155, 77, 255 and `--purple` finds nothing in site or tools.
+
+## Language fix ("room")
+Replaced everywhere per the table. Two uncovered matches, left as written, for you to decide: `Off your plate, not out of the room.` (The IT manager card, home and hub) and none else.
 
 ## Checks
-- axe-core: 0 violations on home (375, 1280) and all four industry pages and the hub, after one hub contrast fix.
-- H1 stays on one line at 375, 768, 1024, 1280 and 1920. No horizontal scroll at those widths.
-- Tabs: arrow keys, Home/End, hover pause, no autoplay under reduced motion, final-state rendering under reduced motion: checked.
-- Weight (HTML, CSS, JS, fonts, beam; images excluded): 235 KB before, 319 KB after. The home HTML is 104 KB because of inline SVG. Motion library removed.
-- No em dashes, banned words, emoji, Montserrat or Open Sans found.
+axe-core: 0 violations on home, coverage, services, insights, article template, hub and four sector pages at 1280 and 375.
+No horizontal scroll at 375, 768, 1280, 1920. H1 stays on one line.
+Keyboard: services tablist arrows and deep links, insights filter, topic hash sets the hidden interest field.
+No em dashes, banned words or emoji.
 
 ## Not verified
-Safari and Firefox rendering, Lighthouse, a screen reader pass, real touch devices, 768px visual review of every section.
+Safari, Firefox, Lighthouse, a screen-reader pass, touch devices, 768px visual review of every section.
 
-## [CONFIRM] and [HOLD] items left out
-- After-hours "aim to be on it in 15 minutes": omitted from the FAQ and the One name card.
-- All response times (1 hour, 30 minutes) are shown as already live but need checking against the contract.
-- Per-tier framework lists from the old architecture: not rendered.
-- Phone number: none. Legal entity wording, Privacy Policy, Terms: not rendered. Footer says `© 2026 Trisian`.
-- "See all services" link: held until /services/ exists.
-- Legal page: client matter segregation omitted. Healthcare: BAA line held.
-- Testimonials: placeholder removed, nothing rendered.
+## Judgment calls
+- Industries header sits directly under the nav on the hub and sectors as written, so the hub H2 comes before its H1.
+- Services band button on the Services page, "Scope the way out", is my label. The directive gave none.
+- Services and Insights band copy follows the directive. "Read" links on Insights point to the article template.
+- Microsoft four-colour mark rendered on staging.
+
+## [CONFIRM] and [HOLD] left out
+- The 15-minute after-hours target: omitted in One partner, the home FAQ and the Coverage FAQ.
+- Response times, comparison-table rows, nine frameworks on every level: shown as written, need checking against the contract.
+- Microsoft partner status for the four-square mark.
+- Footer entity wording, phone, Privacy Policy, Terms. Client matter segregation (Legal), BAA line (Healthcare).
+- Insights: every card is Coming soon. Do not launch like this. Hide the nav item if fewer than three articles are live.
+- Photo placeholders everywhere the directive lists them (handoff, services band, coverage, services, insights).

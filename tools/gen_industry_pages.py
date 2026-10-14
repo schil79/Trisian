@@ -158,7 +158,7 @@ def plans(items):
     <div class="ip-plans">
       {cs}
     </div>
-    <p class="ip-plans-link"><a class="link-arrow" href="../#plans">Compare the plans</a></p>
+    <p class="ip-plans-link"><a class="link-arrow" href="../coverage/">Compare the plans</a></p>
   </div>
 </section>'''
 
@@ -201,11 +201,11 @@ def cta(pg):
 
 
 def page_shell(pg, base, body, jsonld, with_industry_js=True):
-    js = f'<script src="{base}js/common.js"></script>\n' + (f'<script src="{base}js/industry.js"></script>\n' if with_industry_js else '')
+    js = f'<script src="{base}js/common.js"></script>\n<script src="{base}js/main.js"></script>\n' + (f'<script src="{base}js/industry.js"></script>\n' if with_industry_js else '')
     return f'''{head_common(base, pg['title'], pg['desc'], pg['slug'], jsonld)}
 <body class="ip">
 <a class="skip" href="#main">Skip to content</a>
-{header(base)}
+{header(base, active='who')}
 <main id="main">
 {body}
 </main>
@@ -270,9 +270,9 @@ HEALTH = dict(
     clock=dict(h2='The clock starts when you knew.',
                bodies=["HIPAA's Breach Notification Rule gives you 60 days to notify affected patients, counted from the day a breach is discovered. Discovered means known, or should have been known. Nobody gets to start the clock when the investigation ends. So the meeting after an incident is mostly a meeting about timing.",
                        'Most practices spend it rebuilding a timeline from logs they have to go find. A practice with the answers already on file spends it deciding what to say.'],
-               img=('healthcare.webp', 'A clinical lab technician in a protective suit and gloves touching a monitor in a bright white room.')),
+               img=('healthcare.webp', 'A clinical lab technician in a protective suit and gloves touching a monitor in a bright white lab.')),
     answers=[('Whose records were reachable?',
-              '**The Empty Room.** Every desktop resets at night. Patient files and profiles live apart from the session, so whoever got in at midnight finds a room nobody lives in.',
+              '**Nothing to find.** Every desktop resets at night. Patient files and profiles live apart from the session, so whoever got in at midnight finds nothing to take.',
               'How the reset works', '../#answer-1'),
              ('Does a 40-person practice answer to a lower standard?',
               "**Industry-bound, not size-bound.** A 50-person practice carries the same HIPAA exposure as a 5,000-person hospital. Trisian builds to the rule, not the headcount.",
@@ -280,12 +280,12 @@ HEALTH = dict(
              ('What does the cloud cost, line by line?',
               '**Zero markup.** Azure is billed at cost, straight pass-through, every dollar visible. Trisian optimizes the spend and makes nothing on it. Your administrator can read the invoice.',
               'See the line items', '../#answer-3')],
-    rules=dict(h2='The rules in the room.', intro='Three things get asked for, in this order.',
+    rules=dict(h2='The rules behind the questions.', intro='Three things get asked for, in this order.',
                rows=[('HIPAA Breach Notification Rule', 'How long did you know? Who was affected?', 'Logs and audit trail written before anyone asks. 24/7 monitoring on every plan.'),
                      ('HIPAA Security Rule', 'Show us the risk analysis and the safeguards.', 'Nightly reset. MFA and Conditional Access. Scheduled patching. CIS-hardened images on Advanced.'),
                      ('Vendor oversight', 'Which of your vendors held the data?', 'One contract, one team, one name.')],
                foot='Information, not legal advice. Your counsel decides what applies to your organization.'),
-    seats=("Who's in the room.",
+    seats=("Who's at the table.",
            [('The administrator.', 'Wants the audit to stop being an event.', 'Gets plain language, a predictable invoice and one number to call.'),
             ('The IT lead.', 'Wants to look good to leadership without carrying it alone.', 'Gets a co-managed team that takes the off-hours load.'),
             ('The compliance officer.', 'Wants the paper trail before they have to ask for it.', 'Gets it.')]),
@@ -302,7 +302,7 @@ HEALTH = dict(
              button='Book a healthcare assessment'))
 
 FIN = dict(
-    slug='financial-services', industry='financial', industry_label='Financial services', surface='ip-black',
+    slug='financial-services', industry='financial', industry_label='Financial services', surface='ip-navy',
     title='Managed IT for Financial Services Firms | Trisian',
     desc='The examiner asks for the log, not the policy. Trisian writes the evidence before anyone asks, with nightly-reset desktops and Azure at cost.',
     hero=dict(kicker='FINANCIAL SERVICES', light='The examiner asks for the log.', black='Not the policy.',
@@ -320,7 +320,7 @@ FIN = dict(
                note="Information, not legal advice. Scope depends on your registration and your counsel's reading.",
                img=('financial-services.webp', 'Two colleagues reviewing a stock chart on a laptop and a printed list of securities.')),
     answers=[('What was reachable, and what did an attacker find?',
-              "**The Empty Room.** Every desktop resets at night. Client files and profiles live apart from the session. Someone who got in at 11 PM finds nothing at midnight. That's a short meeting.",
+              "**Nothing to find.** Every desktop resets at night. Client files and profiles live apart from the session. Someone who got in at 11 PM finds nothing at midnight. That's a short meeting.",
               'How the reset works', '../#answer-1'),
              ("We're small. Does the later date mean a lighter rule?",
               '**Industry-bound, not size-bound.** A later date, not a lighter rule. A 12-person adviser answers to the same rule as a 1,200-person firm. Trisian builds to the rule, not the headcount.',
@@ -328,13 +328,13 @@ FIN = dict(
              ('Can the CFO read the cloud bill?',
               '**Zero markup.** Azure is billed at cost, straight pass-through, every dollar visible. Trisian optimizes the spend and makes nothing on it. The invoice reads like an invoice.',
               'See the line items', '../#answer-3')],
-    rules=dict(h2='The rules in the room.', intro=None,
+    rules=dict(h2='The rules behind the questions.', intro=None,
                rows=[('SEC Regulation S-P (2024 amendments)', 'Show us the incident response program and the notice timeline.', 'Logs and audit trails written before anyone asks. 24/7 monitoring on every plan.'),
                      ('FTC Safeguards Rule (GLBA)', 'Show us the controls, and who you told.', 'MFA and Conditional Access. Scheduled patching. Nightly reset.'),
                      ('Service provider oversight', 'Which vendor held the data, and how fast did they tell you?', 'One contract, one team, one name.')],
                chips=('Frameworks Trisian covers', ['SOX', 'PCI-DSS', 'SOC 2', 'GLBA', 'DORA', 'ISO 27001']),
                foot='Information, not legal advice.', head=True),
-    seats=("Who's in the room.",
+    seats=("Who's at the table.",
            [('The managing principal.', 'Wants to stop thinking about it.', 'Gets plain language, predictable pricing and proof from firms their size.'),
             ('The CTO.', "Already knows what's broken. Wants to be augmented, not replaced.", "Gets a co-managed partner who works inside the team's decisions."),
             ('The chief compliance officer.', "Wants the evidence on file before the examiner's letter arrives.", 'Gets it.')]),
@@ -368,7 +368,7 @@ LEGAL = dict(
                note="Your state's version of the rules governs. Information, not legal advice.",
                img=('legal.webp', 'People around a wooden conference table writing on documents, with a laptop and a coffee cup.')),
     answers=[('Whose files were open?',
-              '**The Empty Room.** Every desktop resets at night. Documents live in storage, apart from the session, so what a session touched is gone by morning. Someone who got in at midnight finds a room nobody lives in.',
+              '**Nothing to find.** Every desktop resets at night. Documents live in storage, apart from the session, so what a session touched is gone by morning. Someone who got in at midnight finds nothing to take.',
               'How the reset works', '../#answer-1'),
              ('Does a twenty-lawyer firm get a lighter standard?',
               '**Industry-bound, not size-bound.** What counts as reasonable weighs the sensitivity of the information against the cost of the safeguards. Trisian changes the second number. Trisian builds to the rule, not the headcount.',
@@ -376,12 +376,12 @@ LEGAL = dict(
              ('Can the firm administrator read the cloud bill?',
               '**Zero markup.** Azure is billed at cost, straight pass-through, every dollar visible. Trisian optimizes the spend and makes nothing on it.',
               'See the line items', '../#answer-3')],
-    rules=dict(h2='The rules in the room.', intro=None,
+    rules=dict(h2='The rules behind the questions.', intro=None,
                rows=[('ABA Model Rule 1.6(c)', 'What efforts did you make to prevent unauthorized access?', 'Nightly reset. MFA and Conditional Access. Scheduled patching. 24/7 monitoring on every plan.'),
                      ('Model Rule 1.1, technology competence', 'Did you understand the risks of the tools you chose?', 'One partner who explains the environment in plain language.'),
                      ('Model Rule 1.4 and Formal Opinion 483', 'When did you tell the client, and what did you know?', 'A timeline already on file. Logs and audit trails written before anyone asks.')],
                foot="Your state's version of the rules governs."),
-    seats=("Who's in the room.",
+    seats=("Who's at the table.",
            [('The managing partner.', 'Wants to stop thinking about it.', 'Gets plain language, predictable pricing and proof from firms their size.'),
             ('The firm administrator.', 'Wants the audit to stop being an event.', 'Gets one invoice, one team, one number to call.'),
             ('The IT manager.', 'Wants to look good to the partners without doing it alone.', 'Gets a co-managed team that takes the off-hours load.')]),
@@ -417,9 +417,9 @@ GROW = dict(
                img=('growing-businesses.webp', 'A small team working along a long desk by large windows while one colleague stands and talks.')),
     answers=[('Can you carry a client twice your size?',
               "Yes, and without a rebuild. Core covers up to 300 users. Advanced is unlimited. The architecture is the same on both, so growth doesn't mean redesign.",
-              'Compare the plans', '../#plans'),
+              'Compare the plans', '../coverage/'),
              ("Will their security team accept your answers?",
-              '**The Empty Room.** Every desktop resets at night, and a written answer for each question on the form already exists. Nine frameworks, mapped and ready.',
+              '**Nothing to find.** Every desktop resets at night, and a written answer for each question on the form already exists. Nine frameworks, mapped and ready.',
               'How the reset works', '../#answer-1'),
              ('What does this cost as we grow?',
               '**Zero markup.** Azure is billed at cost, straight pass-through, so growth shows up as your consumption, not as our margin. Every dollar visible.',
@@ -429,7 +429,7 @@ GROW = dict(
                       'A desktop that resets every night, and the log to show it.',
                       'An invoice a procurement team can read in a minute.'],
                link='See the three answers'),
-    seats=("Who's in the room.",
+    seats=("Who's at the table.",
            [('The founder or owner.', 'Wants to say yes to the big client without wondering about the servers.', 'Gets plain language and predictable pricing.'),
             ('The operations lead.', 'Wants the next hire to start on day one.', "Gets a desktop that's ready before they are."),
             ('The IT manager.', 'Wants to stop being the answer to every questionnaire.', 'Gets a partner who writes the answers.')]),
@@ -448,7 +448,7 @@ GROW = dict(
 
 
 
-# "Configured for your room." One row under the rules table (the proof block on the growth page).
+# "Configured for your industry." One row under the rules table (the proof block on the growth page).
 # Source: the client's earlier architecture, per Trisian_Site_Upgrade_Directive.md section 6.
 CFG = {
     'healthcare': ([('Long-term audit trail retention available. Archival up to 7+ years.', 'Add-on'),
@@ -478,7 +478,7 @@ def configured(slug):
         ch = '\n    <div class="cfg-chips"><ul class="chips">' + lis + '</ul></div>'
     return f'''<section class="ip-s ip-tint">
   <div class="ip-wrap">
-    <h2 class="ip-h2">Configured for your room.</h2>
+    <h2 class="ip-h2">Configured for your industry.</h2>
     <div class="cfg">
       {cs}
     </div>{ch}
@@ -489,7 +489,7 @@ def configured(slug):
 def build_industry(pg):
     base = '../'
     fig = {'healthcare': svg_clock_health(), 'financial-services': svg_clock_fin(), 'legal': fig_quote()}.get(pg['slug'], '')
-    parts = [hero(pg, pg['surface'])]
+    parts = [industries(base, pg['slug'], compact=True), hero(pg, pg['surface'])]
     c = pg['clock']
     parts.append(two_col(c['h2'], c['bodies'], fig, c['img'], c.get('note')))
     parts.append(answers(pg['answers']))
@@ -520,35 +520,27 @@ def build_industry(pg):
 
 HUB = dict(slug='who-its-for',
            title='Who Trisian is for | Healthcare, Financial Services, Legal',
-           desc="The room changes. The question doesn't. See how Trisian answers it for healthcare, financial services, legal and growing businesses.")
+           desc="Different regulator. Same question. See how Trisian answers it for healthcare, financial services, legal and growing businesses.")
 
 
 def build_hub():
     base = '../'
     seats_html = '\n      '.join(
-        f'<article class="ip-seat"><h3 class="ip-h3">{esc(r)}</h3><p><b style="font-weight:500;color:var(--ink-1)">{esc(q)}</b></p><p>{esc(b)}</p></article>'
+        f'<article class="ip-seat"><h3 class="ip-h3">{esc(r)}</h3><p><b>{esc(q)}</b></p><p>{esc(b)}</p></article>'
         for r, q, b in [
             ('The CTO', "You already know what's broken.", "You filed the ticket eighteen months ago. We work co-managed: we augment your team, we don't replace it."),
             ('The IT manager', 'The 2am call. And the 9am question.', 'Off your plate, not out of the room. We make you look good to leadership, with receipts.'),
             ('The owner', 'You want to stop thinking about it.', 'Plain language. Predictable pricing. Peers in your industry who already made the call.')])
-    body = f'''<section class="ip-hero ip-hub-hero ip-dark ip-navy" id="top">
+    body = f'''{industries(base)}
+
+<section class="ip-hero ip-hub-hero ip-dark ip-navy" id="top">
   <div class="ip-wrap">
-    <p class="ip-kicker">WHO IT'S FOR</p>
-    {split_h("The room changes.", "The question doesn't.")}
-    <p class="ip-sub">After an incident, every regulated business ends up in a meeting. The people are different. The first question is the same: what did you know, and when? Pick your room.</p>
+    {split_h("Different regulator.", "Same question.")}
+    <p class="ip-sub">After an incident, every regulated business ends up in a meeting. The people are different. The first question is the same: what did you know, and when?</p>
   </div>
 </section>
 
-<section class="ip-s ip-grey">
-  <div class="ip-wrap">
-    <h2 class="sr-only">Industries</h2>
-    <div class="ind-grid">
-      {cards('../')}
-    </div>
-  </div>
-</section>
-
-<section class="ip-s ip-white">
+'''+f'''<section class="ip-s ip-white">
   <div class="ip-wrap">
     <h2 class="ip-h2">One table. Every seat covered.</h2>
     <p class="ip-sub" style="margin-top:0">Between seven and twelve people weigh in on this decision. Each one needs a different answer. Same table, same partner.</p>
