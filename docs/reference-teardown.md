@@ -43,5 +43,6 @@ All three lean on the same family of tools: Motion / Framer Motion for reveals, 
 - Motion (vanilla, bundled to 63 KB) for hero orchestration, reveals, scroll-linked values.
 - Hero graph: state machine with the same spring (300/15), a packet traveling along an SVG path, connector lines redrawn from real layout.
 - Three proofs as Jitter-style stacked sticky cards; the card underneath scales back as the next one covers it.
-- Scroll-linked statements (Joi), progressive blur under the nav (Joi), hairline frame and step-pill connector (Clutch), isometric framework tiles with CSS 3D (Clutch), pill tags, marquee and big centered quote (Jitter).
+- Progressive blur under the nav (Joi). The scroll-linked statements were cut: the meeting is now one short full-bleed purple band.
+- Also: hairline frame and step-pill connector (Clutch), isometric framework tiles with CSS 3D (Clutch), pill tags, marquee and big centered quote (Jitter).
 - Not used: Rive, Lottie, video. They need assets authored elsewhere. If wanted later, real product or scene footage can drop into the cards as `<video>` with no code change beyond the markup.

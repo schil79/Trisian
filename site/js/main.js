@@ -168,22 +168,6 @@
     $$('[data-stagger]').forEach(el => once(el, () => animate([...el.children], { opacity: [0, 1], y: [28, 0] }, { delay: stagger(0.09), duration: 0.7, ease: 'easeOut' }), { amount: 0.12 }));
   }
 
-  /* ---------- Joi: statements rise and fade as you scroll, one at a time ---------- */
-  const sts = $$('.st'), sec = $('#meeting');
-  if (live && sts.length && sec) {
-    const upd = p => {
-      const n = sts.length;
-      sts.forEach((el, i) => {
-        const t = p * n - i;
-        const inn = i === 0 ? 1 : clamp(t / 0.24), out = i === n - 1 ? 0 : clamp((t - 0.76) / 0.24);
-        el.style.opacity = inn * (1 - out);
-        el.style.transform = `translateY(${(1 - inn) * 110 - out * 70}px)`;
-      });
-    };
-    upd(0);
-    scroll(upd, { target: sec, offset: ['start start', 'end end'] });
-  }
-
   /* ---------- Jitter: as the next card slides over, the one beneath scales back ---------- */
   const cards = $$('.pcard');
   if (live) cards.forEach((c, i) => {

@@ -165,17 +165,6 @@ p{color:var(--muted)}
 .marquee li:nth-child(3n){color:var(--indigo)}
 @keyframes marq{to{transform:translateX(-50%)}}
 
-/* ---------- Joi: scroll-linked statements ---------- */
-.statements{padding:clamp(4rem,9vw,7rem) var(--gut)}
-.st{font-family:var(--disp);font-stretch:62%;font-weight:300;font-size:clamp(2.8rem,6.6vw,5.8rem);line-height:1;text-align:center;color:var(--ink);max-width:24ch;margin:0 auto 3.5rem;text-wrap:balance}
-.st em{font-style:normal;font-weight:900;color:var(--indigo)}
-.st-final{max-width:none;margin-bottom:0}
-.st-final .display{display:block;color:var(--ink)}
-.mo .statements{height:440vh;padding:0}
-.mo .st-sticky{position:sticky;top:0;height:100vh;display:grid;place-items:center;padding:0 var(--gut)}
-.mo .st{grid-area:1/1;margin:0;opacity:0;will-change:transform,opacity}
-.st-tag{display:flex;width:max-content;margin:0 auto 1.6rem}
-
 /* ---------- before / after (Clutch step-pill connector) ---------- */
 .versus{display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch}
 .vs{border-radius:var(--r);padding:1.7rem;min-height:400px;display:flex;flex-direction:column;position:relative;overflow:hidden}
@@ -330,11 +319,7 @@ p{color:var(--muted)}
 .faq-list details p{padding:0 2rem 1.5rem 0;max-width:38rem}
 
 /* ---------- close ---------- */
-.cta{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,6vw,5rem);align-items:center;padding:clamp(2rem,5vw,4.5rem);background:var(--indigo)}
-.cta-glow{position:absolute;right:-10%;top:-40%;width:60%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(155,77,255,.7),transparent 65%);pointer-events:none}
 .cta-copy,.form{position:relative}
-.cta .display{color:#fff}
-.cta .lede{margin-top:1.6rem;color:rgba(255,255,255,.85)}
 .form{background:#fff;color:var(--ink);border-radius:24px;padding:1.7rem;display:grid;gap:1rem;box-shadow:0 30px 60px rgba(1,4,65,.35)}
 .form label{display:grid;gap:.4rem;font-size:.85rem;font-weight:500;color:var(--ink)}
 .form input,.form select{font:400 1rem var(--body);font-stretch:87.5%;color:var(--ink);background:var(--lav);border:1.5px solid var(--line);border-radius:12px;padding:.85rem 1rem;width:100%}
@@ -362,7 +347,7 @@ p{color:var(--muted)}
   .nav-links.open{display:flex}
   .nav-links a{padding:.85rem 0}.nav-links .btn{margin-top:.6rem}
   .burger{display:block}
-  .graph,.faq-in,.cta,.tiers,.pcard{grid-template-columns:1fr}
+  .graph,.faq-in,.close-sec .cta,.tiers,.pcard{grid-template-columns:1fr}
   .graph{gap:1.4rem;min-height:0}
   .graph-lines{display:none}
   .pcard{position:relative;top:auto;min-height:0;margin-bottom:1rem}
@@ -388,8 +373,32 @@ p{color:var(--muted)}
   .iso{height:170px}
   .marquee li{font-size:1.8rem}
   .fake-link{display:none}
+  .meeting .scatter i{font-size:.8rem;padding:.45rem .7rem}
+  .meeting .scatter i:nth-child(2),.meeting .scatter i:nth-child(4){left:52%}
+  .meeting .scatter i:nth-child(6){left:46%}
 }
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .marquee ul,.graph-lines path,.mini-room i{animation:none}
 }
+
+/* ---------- full-bleed accent bands ---------- */
+.bleed{width:100vw;margin-left:calc(50% - 50vw);border-top:0!important}
+.purple :focus-visible{outline-color:#fff}
+.btn-black:focus-visible{outline-color:#fff}
+.meeting{padding:clamp(4rem,7vw,6rem) 0}
+.meeting-in{max-width:1240px;margin:0 auto;padding:0 var(--gut);display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.4rem}
+.meeting .h2{color:#fff;margin:0}
+.meeting .lede{color:var(--ink);font-weight:400;max-width:34rem;margin-bottom:1.4rem}
+.meeting .lede b{color:var(--ink);font-weight:500}
+.meeting .versus{width:100%;text-align:left}
+.meeting .vs{min-height:260px;padding:1.4rem}
+.meeting .scatter{min-height:160px;margin:.8rem 0}
+.meeting .ready{margin:.8rem 0;gap:.6rem}
+.meeting .ready li{padding:.8rem 1rem}
+.meeting .vs-mid .hair{background:var(--ink)}
+.close-sec{padding:clamp(4.5rem,9vw,8rem) 0}
+.close-sec .cta{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,6vw,5rem);align-items:center;max-width:calc(1240px - 2*var(--gut));margin:0 auto}
+.close-sec .display{color:#fff}
+.close-sec .lede{color:var(--ink);font-weight:400;margin-top:1.6rem}
+.marquee li:nth-child(3n+2){background:var(--purple);border-color:transparent;color:#fff}
