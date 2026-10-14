@@ -2,7 +2,7 @@
    White canvas. Color arrives as big rounded stages and cards, never as a dark page.
    Locked palette only. Muted text = #191919 @ 60%. Layered color = #1800AD / #010441 at partial opacity.
    Techniques borrowed on purpose (see docs/reference-teardown.md):
-   - Clutch: 0.5px hairline frame, step-pill connectors, orchestrated hero illustration
+   - Clutch: step-pill connectors, orchestrated hero illustration
    - Jitter: stacked sticky cards, pill tags, marquee strip, big centered quote
    - Joi: scroll-linked statements, progressive blur, restraint */
 
@@ -12,10 +12,10 @@
   --purple:#9B4DFF; --black:#000; --ink:#191919; --white:#fff; --tint:#F4F4F4; --warm:#E2E1DC;
   --navy:#010441; --indigo:#1800AD; --blue:#0031A8; --corn:#576FF6; --bright:#1453FF;
   --pale:#ECEFFE; --peri:#C7CBFA; --lav:#FAF7FF;
-  --muted:rgba(25,25,25,.6); --line:rgba(25,25,25,.12); --hair:rgba(25,25,25,.4);
+  --muted:rgba(25,25,25,.7); --line:rgba(25,25,25,.12); --hair:rgba(25,25,25,.4);
   --body:"Archivo","Helvetica Neue",Arial,sans-serif;
   --disp:"Archivo","Arial Narrow",Impact,sans-serif;
-  --gut:clamp(20px,5vw,64px); --r:28px;
+  --gut:clamp(20px,5vw,64px); --side:clamp(20px,5vw,64px); --r:28px;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:88px}
@@ -26,14 +26,11 @@ img{max-width:100%;display:block}
 a{color:inherit}
 h1,h2,h3,p,ul,ol,dl,figure,blockquote{margin:0}
 ul,ol{padding:0;list-style:none}
-:focus-visible{outline:2px solid var(--indigo);outline-offset:3px}
-.wrap{width:100%;margin:0 auto;padding:0 var(--gut)}
+:focus-visible{outline:3px solid #1453FF;outline-offset:2px}
+.wrap{width:100%;margin:0 auto;padding:0 var(--side)}
+@media(min-width:1100px){:root{--side:12.5vw}}
 p{color:var(--muted)}
 
-/* Clutch: hairline frame */
-.frame{max-width:1240px;margin:0 auto;border-inline:.5px solid var(--hair)}
-.frame>section{border-top:.5px solid var(--hair)}
-.frame>section:first-child{border-top:0}
 
 /* ---------- type ---------- */
 .display,.h2,.h3,.hl,.d-light,.d-black,.gq-q,.receipt b,.clock,.tier h3,.seat .q,.b h3,.big,.bound-verdict{font-family:var(--disp);font-stretch:62%}
@@ -99,7 +96,8 @@ p{color:var(--muted)}
 .pale{background:var(--pale);color:var(--ink)}
 .warm{background:var(--warm);color:var(--ink)}
 .line{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
-.indigo p,.purple p{color:rgba(255,255,255,.82)}
+.indigo p{color:rgba(255,255,255,.82)}
+.purple p{color:#000}
 .peri p,.pale p,.warm p,.line p{color:rgba(25,25,25,.7)}
 .stage{border-radius:36px;padding:clamp(1.4rem,3vw,2.6rem);position:relative;overflow:hidden}
 .card-in{background:#fff;color:var(--ink);border-radius:22px;padding:clamp(1.2rem,2.4vw,2rem)}
@@ -110,7 +108,9 @@ p{color:var(--muted)}
 /* ---------- hero (centered, Clutch/Jitter/Joi all center it) ---------- */
 .hero{padding:calc(96px + clamp(2rem,5vw,4.5rem)) 0 0}
 .hero-head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.6rem;padding-bottom:clamp(2.5rem,5vw,4rem)}
-.hero .display{margin:.4rem 0 .2rem}
+.hero .display{margin:.4rem 0 .2rem;white-space:nowrap;font-size:11.2vw}
+@media(min-width:1100px){.hero .display{font-size:min(9.6vw,15rem)}}
+.hero-head .lede{max-width:60rem;text-wrap:balance}
 .graph{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(4rem,10vw,9rem);align-items:center;padding:clamp(1.6rem,4.5vw,4rem);min-height:520px;background:radial-gradient(70% 90% at 90% 0%,rgba(155,77,255,.55),transparent 60%),var(--indigo)}
 .graph::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(80% 90% at 60% 40%,#000,transparent);-webkit-mask-image:radial-gradient(80% 90% at 60% 40%,#000,transparent)}
 .graph-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
@@ -211,7 +211,7 @@ p{color:var(--muted)}
 .cell.gone{border:1.5px dashed var(--peri);background:transparent;opacity:.6}
 .room-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:1.2rem 0 .8rem}
 .room-steps span{text-align:center;font-size:.7rem;font-weight:500;letter-spacing:.01em;padding:.5rem .1rem;border-radius:999px;border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.75);transition:.3s}
-.room-steps span.act{background:var(--purple);border-color:var(--purple);color:#fff}
+.room-steps span.act{background:#fff;border-color:#fff;color:var(--indigo)}
 .room-track{position:relative;height:3px;background:rgba(255,255,255,.25);border-radius:3px;margin:1.4rem 0 2rem}
 .room-track i{position:absolute;left:0;top:0;bottom:0;background:#fff;border-radius:3px;width:0}
 .room-track em{position:absolute;top:12px;font-style:normal;font-size:.72rem;color:rgba(255,255,255,.75);transform:translateX(-50%)}
@@ -329,7 +329,7 @@ p{color:var(--muted)}
 
 /* ---------- footer ---------- */
 .foot{background:var(--tint);padding:3rem 0}
-.foot-in{display:flex;flex-wrap:wrap;gap:1.5rem 3rem;align-items:center;justify-content:space-between;max-width:1240px}
+.foot-in{display:flex;flex-wrap:wrap;gap:1.5rem 3rem;align-items:center;justify-content:space-between}
 .foot-logo{height:20px;width:auto}
 .foot p{flex:1 1 220px;font-size:.92rem}
 .foot nav{display:flex;flex-wrap:wrap;gap:1.4rem}
@@ -360,7 +360,6 @@ p{color:var(--muted)}
   .s-table,.s-close,.seat:nth-of-type(n){grid-column:auto;grid-row:auto}
   .s-table{min-height:280px}
   .led-head,.led-row{grid-template-columns:6rem 1fr 1fr;gap:.6rem}
-  .frame{border-inline:0}
 }
 @media(max-width:600px){
   .bento{grid-template-columns:1fr}
@@ -383,11 +382,11 @@ p{color:var(--muted)}
 }
 
 /* ---------- full-bleed accent bands ---------- */
-.bleed{width:100vw;margin-left:calc(50% - 50vw);border-top:0!important}
+.bleed{border-top:0}
 .purple :focus-visible{outline-color:#fff}
 .btn-black:focus-visible{outline-color:#fff}
 .meeting{padding:clamp(4rem,7vw,6rem) 0}
-.meeting-in{max-width:1240px;margin:0 auto;padding:0 var(--gut);display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.4rem}
+.meeting-in{margin:0 auto;padding:0 var(--side);display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.4rem}
 .meeting .h2{margin:0}
 .meeting .lede{max-width:34rem;margin-bottom:1.4rem}
 .meeting .versus{width:100%;text-align:left}
@@ -396,19 +395,24 @@ p{color:var(--muted)}
 .meeting .ready{margin:.8rem 0;gap:.6rem}
 .meeting .ready li{padding:.8rem 1rem}
 .close-sec{padding:clamp(4.5rem,9vw,8rem) 0}
-.close-sec .cta{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,6vw,5rem);align-items:center;max-width:calc(1240px - 2*var(--gut));margin:0 auto}
+.close-sec .cta{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,6vw,5rem);align-items:center;margin:0 auto}
 .close-sec .display{color:#fff}
-.close-sec .lede{color:var(--ink);font-weight:400;margin-top:1.6rem}
+.close-sec .lede{color:#000;font-weight:400;margin-top:1.6rem}
 .marquee li:nth-child(3n+2){background:var(--purple);border-color:transparent;color:#fff}
 
 /* ---------- three answers: purple band, full-screen intro, then the cards ---------- */
 .proof.section{padding:0 0 clamp(4rem,8vw,7rem)}
-.proof-intro{min-height:100vh;min-height:100svh;max-width:1240px;margin:0 auto;padding:112px var(--gut) 4.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1.6rem}
+.proof-intro{min-height:100vh;min-height:100svh;margin:0 auto;padding:112px var(--side) 4.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1.6rem}
 .proof-intro .h2{color:#fff;margin:0;font-size:clamp(3.8rem,12vw,10.5rem);line-height:.92}
-.proof-intro p{color:var(--ink);font-weight:400;font-size:clamp(1.1rem,1.8vw,1.35rem);max-width:30rem}
+.proof-intro p{color:#000;font-weight:400;font-size:clamp(1.1rem,1.8vw,1.35rem);max-width:30rem}
 .scroll-cue{margin-top:1.4rem;width:56px;height:56px;border-radius:50%;border:1.5px solid var(--ink);display:grid;place-items:center;color:var(--ink);transition:background .2s,color .2s}
 .scroll-cue svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;animation:cue 1.8s ease-in-out infinite}
 .scroll-cue:hover{background:var(--ink);color:#fff}
 @keyframes cue{0%,100%{transform:translateY(-3px)}50%{transform:translateY(4px)}}
 .proof .pcard{box-shadow:0 24px 70px rgba(1,4,65,.28)}
 @media(prefers-reduced-motion:reduce){.scroll-cue svg{animation:none}}
+
+.proof-intro .pill-tag.glass{color:var(--ink)}
+.nav-links a:not(.btn){display:inline-flex;align-items:center;min-height:44px}
+.pcard.indigo p{color:rgba(255,255,255,.82)}
+.proof-intro .scroll-cue{border-color:#000;color:#000}

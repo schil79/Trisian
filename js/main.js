@@ -16,11 +16,6 @@
 
   const once = (el, fn, opts) => { let done = false; inView(el, () => { if (!done) { done = true; fn(); } }, opts); };
 
-  /* ---------- nav ---------- */
-  const burger = $('#burger'), links = $('#navLinks');
-  burger.addEventListener('click', () => { const o = links.classList.toggle('open'); burger.setAttribute('aria-expanded', o); });
-  links.addEventListener('click', e => { if (e.target.closest('a')) { links.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); } });
-
   /* ---------- marquee (Jitter): duplicate the list so the -50% loop is seamless ---------- */
   const mq = $('#marquee');
   if (mq) [...mq.children].forEach(li => { const c = li.cloneNode(true); c.setAttribute('aria-hidden', 'true'); mq.appendChild(c); });
@@ -192,13 +187,4 @@
   dots.forEach((d, i) => d.addEventListener('click', () => { show(i); cycle(); }));
   cycle();
 
-  /* ---------- assessment form ---------- */
-  // Front-end only for now. Nothing is sent anywhere yet; wire to email/CRM before launch.
-  const form = $('#form'), msg = $('#formMsg');
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    if (!form.checkValidity()) { form.reportValidity(); msg.textContent = ''; return; }
-    msg.textContent = 'Thanks. We will be in touch.';
-    form.reset();
-  });
 })();

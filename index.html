@@ -10,9 +10,11 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231800AD'/%3E%3Cpath d='M7 9h18v4h-7v11h-4V13H7z' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="preload" href="assets/fonts/Archivo.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/industry.css">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
+<a class="skip" href="#top">Skip to content</a>
 
 <!-- progressive blur under the nav (Joi technique: stacked backdrop-filter bands, each masked) -->
 <div class="pblur" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
@@ -23,7 +25,16 @@
     <div class="nav-links" id="navLinks">
       <a href="#proof">The three answers</a>
       <a href="#included">What's included</a>
-      <a href="#seats">Who it's for</a>
+      <div class="nav-item has-dd">
+        <a href="who-its-for/" class="dd-link">Who it's for</a>
+        <button class="dd-toggle" type="button" aria-expanded="false" aria-controls="ddList" aria-label="Show industries"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4.5l4 4 4-4"/></svg></button>
+        <ul class="dd" id="ddList">
+          <li><a href="healthcare/">Healthcare</a></li>
+          <li><a href="financial-services/">Financial services</a></li>
+          <li><a href="legal/">Legal</a></li>
+          <li><a href="growing-businesses/">Growing businesses</a></li>
+        </ul>
+      </div>
       <a href="#plans">Plans</a>
       <a href="#faq">Questions</a>
       <a href="#assessment" class="btn btn-black btn-sm">Book an assessment</a>
@@ -32,13 +43,13 @@
   </nav>
 </header>
 
-<main id="top" class="frame">
+<main id="top">
 
 <!-- ============ HERO ============ -->
 <section class="hero">
   <div class="wrap hero-head">
     <a class="pill-tag" href="#proof" data-in><span><b>Managed IT</b> for healthcare, financial services and legal</span> <span class="fake-link">See how</span></a>
-    <h1 class="display" data-in><span class="hl">Answered</span><br><span class="d-light">in advance</span></h1>
+    <h1 class="display" data-in><span class="hl">Answered</span> <span class="d-light">in advance</span></h1>
     <p class="lede" data-in>Every regulated business is one bad day from a very specific meeting. Not the day of the breach. The day after. What you knew, and when you knew it. <b>Trisian writes that answer before you need it.</b></p>
     <div class="cta-row" data-in>
       <a href="#assessment" class="btn btn-violet">Book an assessment</a>
@@ -151,7 +162,7 @@
       </li>
 
       <!-- 02 -->
-      <li class="pcard peri" style="--i:1" data-viz="bound">
+      <li class="pcard peri" id="answer-2" style="--i:1" data-viz="bound">
         <div class="pc-copy">
           <span class="pill-tag white">Answer 2 of 3</span>
           <h3 class="h3">Industry-Bound, Not Size-Bound</h3>
@@ -170,7 +181,7 @@
       </li>
 
       <!-- 03 -->
-      <li class="pcard pale" style="--i:2" data-viz="markup">
+      <li class="pcard pale" id="answer-3" style="--i:2" data-viz="markup">
         <div class="pc-copy">
           <span class="pill-tag white">Answer 3 of 3</span>
           <h3 class="h3">Zero Markup</h3>
@@ -228,6 +239,42 @@
   </div>
 </section>
 
+<!-- ============ INDUSTRY STRIP ============ -->
+<section class="section" id="rooms">
+  <div class="wrap">
+    <header class="sec-head" data-reveal>
+      <span class="pill-tag grey">Who it's for</span>
+      <h2 class="h2">Find your room.</h2>
+    </header>
+    <div class="ind-grid" data-stagger>
+      <a class="ind-card" href="healthcare/">
+        <span class="ip-kicker">Healthcare</span>
+        <h3 class="ind-q">Whose records. Which systems. Since when.</h3>
+        <p class="ind-rule">HIPAA starts a 60-day clock the day a breach is discovered.</p>
+        <span class="ind-link">See the healthcare answers<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="ind-card" href="financial-services/">
+        <span class="ip-kicker">Financial services</span>
+        <h3 class="ind-q">The examiner asks for the log. Not the policy.</h3>
+        <p class="ind-rule">Under Regulation S-P, customers hear within 30 days of you becoming aware. The program has to exist first.</p>
+        <span class="ind-link">See the financial answers<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="ind-card" href="legal/">
+        <span class="ip-kicker">Legal</span>
+        <h3 class="ind-q">The rule says reasonable. Be ready to show it.</h3>
+        <p class="ind-rule">ABA Formal Opinion 483: monitor, plan, keep clients informed. Not strict liability. Not optional.</p>
+        <span class="ind-link">See the legal answers<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="ind-card" href="growing-businesses/">
+        <span class="ip-kicker">Growing businesses</span>
+        <h3 class="ind-q">The big client is coming. So is their questionnaire.</h3>
+        <p class="ind-rule">Cleared for the deal before it's on paper.</p>
+        <span class="ind-link">See the growth answers<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- ============ WHO IT'S FOR ============ -->
 <section class="section tinted" id="seats">
   <div class="wrap">
@@ -235,6 +282,7 @@
       <span class="pill-tag white">Who it's for</span>
       <h2 class="h2">One table.<br><span class="d-light">Every seat covered.</span></h2>
       <p>Seven to twelve people touch this decision. Each one is afraid of something different.</p>
+      <a class="link-arrow" href="who-its-for/">Pick your room.</a>
     </header>
     <div class="seats-grid" data-stagger>
       <figure class="s-photo s-table"><img src="assets/img/table.webp" alt="Four colleagues working and talking around a long table" loading="lazy"></figure>
@@ -283,7 +331,7 @@
       <span class="ph">Placeholder: quote to be supplied</span>
       <p class="bq-text" id="bqText">&ldquo;Client quote goes here, dropped in verbatim from the audit.&rdquo;</p>
       <p class="bq-who" id="bqWho"><b>Mark D.</b> Avora Foods</p>
-      <div class="bq-dots" id="bqDots" role="tablist" aria-label="Choose testimonial"><button class="on" aria-label="Mark D., Avora Foods"></button><button aria-label="Ben F., Crafter and Co"></button></div>
+      <div class="bq-dots" id="bqDots" role="group" aria-label="Choose testimonial"><button class="on" aria-label="Mark D., Avora Foods"></button><button aria-label="Ben F., Crafter and Co"></button></div>
     </div>
   </div>
 </section>
@@ -320,7 +368,7 @@
         <label for="f-ind">Industry
           <select id="f-ind" name="industry" required>
             <option value="">Choose one</option>
-            <option>Healthcare</option><option>Financial services</option><option>Legal</option><option>Other regulated industry</option>
+            <option>Healthcare</option><option>Financial services</option><option>Legal</option><option>Growing business</option><option>Other regulated industry</option>
           </select>
         </label>
         <button class="btn btn-black" type="submit">Book an assessment</button>
@@ -337,11 +385,20 @@
     <img src="assets/img/trisian-logo.png" alt="Trisian" class="foot-logo">
     <p>Managed IT for regulated industries. 28 years in.</p>
     <nav aria-label="Footer"><a href="#proof">The three answers</a><a href="#plans">Plans</a><a href="#faq">Questions</a><a href="#assessment">Book an assessment</a></nav>
+    <div class="foot-col" role="group" aria-label="Who it's for">
+      <b>Who it's for</b>
+      <a href="who-its-for/">All industries</a>
+      <a href="healthcare/">Healthcare</a>
+      <a href="financial-services/">Financial services</a>
+      <a href="legal/">Legal</a>
+      <a href="growing-businesses/">Growing businesses</a>
+    </div>
     <small>&copy; 2026 Trisian</small>
   </div>
 </footer>
 
 <script src="js/vendor/motion.js"></script>
+<script src="js/common.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
