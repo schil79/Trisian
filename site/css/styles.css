@@ -2,7 +2,7 @@
    White canvas. Color arrives as big rounded stages and cards, never as a dark page.
    Locked palette only. Muted text = #191919 @ 60%. Layered color = #1800AD / #010441 at partial opacity.
    Techniques borrowed on purpose (see docs/reference-teardown.md):
-   - Clutch: 0.5px hairline frame, step-pill connectors, orchestrated hero illustration
+   - Clutch: step-pill connectors, orchestrated hero illustration
    - Jitter: stacked sticky cards, pill tags, marquee strip, big centered quote
    - Joi: scroll-linked statements, progressive blur, restraint */
 
@@ -15,7 +15,7 @@
   --muted:rgba(25,25,25,.7); --line:rgba(25,25,25,.12); --hair:rgba(25,25,25,.4);
   --body:"Archivo","Helvetica Neue",Arial,sans-serif;
   --disp:"Archivo","Arial Narrow",Impact,sans-serif;
-  --gut:clamp(20px,5vw,64px); --r:28px;
+  --gut:clamp(20px,5vw,64px); --maxw:1760px; --r:28px;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:88px}
@@ -27,13 +27,9 @@ a{color:inherit}
 h1,h2,h3,p,ul,ol,dl,figure,blockquote{margin:0}
 ul,ol{padding:0;list-style:none}
 :focus-visible{outline:3px solid #1453FF;outline-offset:2px}
-.wrap{width:100%;margin:0 auto;padding:0 var(--gut)}
+.wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
 p{color:var(--muted)}
 
-/* Clutch: hairline frame */
-.frame{max-width:1240px;margin:0 auto;border-inline:.5px solid var(--hair)}
-.frame>section{border-top:.5px solid var(--hair)}
-.frame>section:first-child{border-top:0}
 
 /* ---------- type ---------- */
 .display,.h2,.h3,.hl,.d-light,.d-black,.gq-q,.receipt b,.clock,.tier h3,.seat .q,.b h3,.big,.bound-verdict{font-family:var(--disp);font-stretch:62%}
@@ -330,7 +326,7 @@ p{color:var(--muted)}
 
 /* ---------- footer ---------- */
 .foot{background:var(--tint);padding:3rem 0}
-.foot-in{display:flex;flex-wrap:wrap;gap:1.5rem 3rem;align-items:center;justify-content:space-between;max-width:1240px}
+.foot-in{display:flex;flex-wrap:wrap;gap:1.5rem 3rem;align-items:center;justify-content:space-between;max-width:var(--maxw)}
 .foot-logo{height:20px;width:auto}
 .foot p{flex:1 1 220px;font-size:.92rem}
 .foot nav{display:flex;flex-wrap:wrap;gap:1.4rem}
@@ -361,7 +357,6 @@ p{color:var(--muted)}
   .s-table,.s-close,.seat:nth-of-type(n){grid-column:auto;grid-row:auto}
   .s-table{min-height:280px}
   .led-head,.led-row{grid-template-columns:6rem 1fr 1fr;gap:.6rem}
-  .frame{border-inline:0}
 }
 @media(max-width:600px){
   .bento{grid-template-columns:1fr}
@@ -384,11 +379,11 @@ p{color:var(--muted)}
 }
 
 /* ---------- full-bleed accent bands ---------- */
-.bleed{width:100vw;margin-left:calc(50% - 50vw);border-top:0!important}
+.bleed{border-top:0}
 .purple :focus-visible{outline-color:#fff}
 .btn-black:focus-visible{outline-color:#fff}
 .meeting{padding:clamp(4rem,7vw,6rem) 0}
-.meeting-in{max-width:1240px;margin:0 auto;padding:0 var(--gut);display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.4rem}
+.meeting-in{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut);display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.4rem}
 .meeting .h2{margin:0}
 .meeting .lede{max-width:34rem;margin-bottom:1.4rem}
 .meeting .versus{width:100%;text-align:left}
@@ -397,14 +392,14 @@ p{color:var(--muted)}
 .meeting .ready{margin:.8rem 0;gap:.6rem}
 .meeting .ready li{padding:.8rem 1rem}
 .close-sec{padding:clamp(4.5rem,9vw,8rem) 0}
-.close-sec .cta{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,6vw,5rem);align-items:center;max-width:calc(1240px - 2*var(--gut));margin:0 auto}
+.close-sec .cta{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,6vw,5rem);align-items:center;max-width:calc(var(--maxw) - 2*var(--gut));margin:0 auto}
 .close-sec .display{color:#fff}
 .close-sec .lede{color:#000;font-weight:400;margin-top:1.6rem}
 .marquee li:nth-child(3n+2){background:var(--purple);border-color:transparent;color:#fff}
 
 /* ---------- three answers: purple band, full-screen intro, then the cards ---------- */
 .proof.section{padding:0 0 clamp(4rem,8vw,7rem)}
-.proof-intro{min-height:100vh;min-height:100svh;max-width:1240px;margin:0 auto;padding:112px var(--gut) 4.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1.6rem}
+.proof-intro{min-height:100vh;min-height:100svh;max-width:var(--maxw);margin:0 auto;padding:112px var(--gut) 4.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1.6rem}
 .proof-intro .h2{color:#fff;margin:0;font-size:clamp(3.8rem,12vw,10.5rem);line-height:.92}
 .proof-intro p{color:#000;font-weight:400;font-size:clamp(1.1rem,1.8vw,1.35rem);max-width:30rem}
 .scroll-cue{margin-top:1.4rem;width:56px;height:56px;border-radius:50%;border:1.5px solid var(--ink);display:grid;place-items:center;color:var(--ink);transition:background .2s,color .2s}
