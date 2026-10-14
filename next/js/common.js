@@ -28,6 +28,27 @@
     dd.addEventListener('focusout', e => { if (!dd.contains(e.relatedTarget)) set(false); });
   }
 
+  /* ---------- topic links: /#assessment?topic=x sets the hidden interest field ---------- */
+  // The query sits inside the hash, so read it from there as well as from ?topic=.
+  const topicOf = str => { const m = /[?&]topic=([a-z-]+)/.exec(str || ''); return m ? m[1] : ''; };
+  const interest = $('#f-interest');
+  const applyTopic = t => { if (t && interest) interest.value = t; };
+  applyTopic(topicOf(location.search) || topicOf(location.hash));
+  if (/^#assessment/.test(location.hash)) {
+    const t = $('#assessment');
+    if (t) setTimeout(() => t.scrollIntoView(), 60);
+  }
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href*="#assessment?topic="]');
+    if (!a) return;
+    const url = new URL(a.getAttribute('href'), location.href);
+    if (url.pathname !== location.pathname || !$('#assessment')) return;      // another page: let the browser go
+    e.preventDefault();
+    applyTopic(topicOf(url.hash));
+    $('#assessment').scrollIntoView({ behavior: 'smooth' });
+    history.replaceState(null, '', '#assessment');
+  });
+
   /* ---------- assessment form ---------- */
   // Front-end only for now. Nothing is sent anywhere yet; wire to email/CRM before launch.
   const form = $('#form'), msg = $('#formMsg');

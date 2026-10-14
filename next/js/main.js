@@ -1,94 +1,57 @@
-/* Trisian home page behaviour. No libraries. CSS does the drawing; this adds classes and numbers.
-   Under prefers-reduced-motion: no counters, no hero sequence, no autoplay. Pages render their final state. */
+/* Trisian home and secondary pages: the motion layer. No libraries.
+   CSS draws; this file adds classes and numbers, and runs one rAF loop for everything tied to scroll.
+   Under prefers-reduced-motion: no loops, no counters, no parallax, no scroll-linked scaling, no word reveals.
+   Every graphic is left in its final state. */
 (() => {
   'use strict';
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const hasIO = 'IntersectionObserver' in window;
-  const ease = t => 1 - Math.pow(1 - t, 3);                 // ease-out cubic
+  const ease = t => 1 - Math.pow(1 - t, 3);                         // ease-out cubic
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const wait = ms => new Promise(r => setTimeout(r, ms));
 
-  /* ---------- enter-view classes ---------- */
-  const watch = (els, cb, threshold) => {
+  const watch = (els, cb, threshold = 0.15) => {
     if (!hasIO) { els.forEach(e => cb(e)); return; }
-    const io = new IntersectionObserver(es => es.forEach(en => {
-      if (en.isIntersecting) { cb(en.target); io.unobserve(en.target); }
-    }), { threshold });
+    const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { cb(en.target); io.unobserve(en.target); } }), { threshold });
     els.forEach(e => io.observe(e));
   };
+
+  /* ---------- enter-view: reveals, staggers, word splits, anim containers ---------- */
   $$('[data-stagger]').forEach(g => [...g.children].forEach((c, i) => c.style.setProperty('--i', i)));
-  watch($$('[data-reveal],[data-stagger]'), e => e.classList.add('in'), 0.12);
-  watch($$('.anim:not(#stage)'), e => e.classList.add('in'), 0.4);
+  $$('[data-split]').forEach(el => {
+    const words = el.textContent.trim().split(/\s+/);
+    el.innerHTML = words.map((w, i) => `<span class="w" style="--i:${i}"><span>${w}</span></span>`).join(' ');
+  });
+  watch($$('[data-reveal],[data-stagger],[data-split],.vs-mid'), e => e.classList.add('in'), 0.12);
+  watch($$('.anim:not(#hpanel),[data-viz]'), e => e.classList.add('in'), 0.35);
 
-  /* ---------- progress widget ---------- */
-  const setStep = (w, n, done) => {
-    if (!w) return;
-    w.style.setProperty('--p', (n / 3 * 100) + '%');
-    $$('.pw-dots i', w).forEach((d, i) => d.classList.toggle('on', i < n));
-    $('[data-pw-n]', w).textContent = n;
-    w.classList.toggle('done', !!done);
-    $('[data-pw-label]', w).textContent = done ? 'Answered' : 'Answers on file';
-  };
-
-  /* ---------- hero: sequence, tabs ---------- */
-  const stage = $('#stage'), heroPw = $('#heroPw'), hero = $('.hero');
-  if (stage) {
-    if (reduce) { stage.classList.add('in'); }
-    else {
-      setStep(heroPw, 0, false);
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        stage.classList.add('in');
-        [[700, 1], [1100, 2], [1500, 3]].forEach(([t, n]) => setTimeout(() => setStep(heroPw, n, false), t));
-        setTimeout(() => { setStep(heroPw, 3, true); hero.classList.add('go'); }, 1650);
-      }));
-    }
-  }
-
-  const data = JSON.parse(($('#roomData') || {}).textContent || '{}');
-  const tabs = $$('.rt-tab'), panel = $('#roomPanel'), chips = $('#roomChips'), link = $('#roomLink'), sr = $('#roomSr');
-  const keys = tabs.map(t => t.dataset.room);
-  let cur = -1;
-  const select = (i, focus) => {
-    cur = i;
-    const k = keys[i], d = data[k];
-    tabs.forEach((t, j) => { const on = j === i; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; });
-    $$('.room').forEach(r => r.classList.toggle('on', r.dataset.room === k));
-    chips.innerHTML = d.chips.map(c => `<li>${c}</li>`).join('');
-    link.href = d.href;
-    link.setAttribute('aria-label', 'See this room: ' + tabs[i].textContent);
-    sr.textContent = d.stamp + '. ' + d.q;
-    panel.hidden = false;
-    panel.setAttribute('aria-labelledby', tabs[i].id);
-    if (focus) tabs[i].focus();
-  };
-  if (tabs.length && data.healthcare) {
-    tabs.forEach((t, i) => {
-      t.addEventListener('click', () => select(i));
-      t.addEventListener('keydown', e => {
-        const n = tabs.length;
-        const to = { ArrowRight: (i + 1) % n, ArrowLeft: (i + n - 1) % n, Home: 0, End: n - 1 }[e.key];
-        if (to !== undefined) { e.preventDefault(); select(to, true); }
+  /* ---------- hero: load sequence, pointer reaction ---------- */
+  const hero = $('.hero');
+  if (hero) {
+    requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('go')));
+    if (!reduce && matchMedia('(hover:hover)').matches) {
+      const bg = $('#heroBg'), panel = $('#hpanel');
+      hero.addEventListener('pointermove', e => {
+        const r = hero.getBoundingClientRect();
+        bg.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        bg.style.setProperty('--my', (e.clientY - r.top) + 'px');
+        if (panel) {
+          const p = panel.getBoundingClientRect();
+          panel.style.setProperty('--px', clamp((e.clientX - (p.left + p.width / 2)) / innerWidth * 2, -1, 1).toFixed(3));
+          panel.style.setProperty('--py', clamp((e.clientY - (p.top + p.height / 2)) / innerHeight * 2, -1, 1).toFixed(3));
+        }
       });
-    });
-    // autoplay: every 6s, only while the stage is on screen and not hovered or focused. Never under reduced motion.
-    if (!reduce) {
-      let paused = false, visible = false;
-      const bar = $('.stage');
-      ['mouseenter', 'focusin'].forEach(ev => bar.addEventListener(ev, () => { paused = true; }));
-      ['mouseleave', 'focusout'].forEach(ev => bar.addEventListener(ev, () => { paused = false; }));
-      if (hasIO) new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(bar);
-      setInterval(() => { if (!paused && visible) select((cur + 1) % tabs.length); }, 6000);
     }
   }
+  const hp = $('#hpanel');
+  if (hp) {
+    if (reduce) hp.classList.add('play', 'done');
+    else watch([hp], e => { e.classList.add('play'); setTimeout(() => e.classList.add('done'), 2900); }, 0.3);
+  }
 
-  /* ---------- which framework chips light up (hover or focus on an industry) ---------- */
-  const hi = k => { if (k) document.body.dataset.hi = k; else delete document.body.dataset.hi; };
-  tabs.forEach(t => { t.addEventListener('mouseenter', () => hi(t.dataset.room)); t.addEventListener('focus', () => hi(t.dataset.room));
-    t.addEventListener('mouseleave', () => hi()); t.addEventListener('blur', () => hi()); });
-  $$('.ind-card').forEach(c => { c.addEventListener('mouseenter', () => hi(c.dataset.ind)); c.addEventListener('focus', () => hi(c.dataset.ind));
-    c.addEventListener('mouseleave', () => hi()); c.addEventListener('blur', () => hi()); });
-
-  /* ---------- receipts: counters run once ---------- */
+  /* ---------- counters (receipts), run once ---------- */
   const grid = $('#rcGrid');
   if (grid && !reduce) {
     const nums = $$('[data-count]', grid);
@@ -104,49 +67,121 @@
     }, 0.5);
   }
 
-  /* ---------- answers: sticky widget advances, illustrations play once ---------- */
-  const side = $('#sidePw'), arts = $$('.ans');
-  if (side && arts.length) {
-    let last = -1, queued = false;
-    const update = () => {
-      queued = false;
-      const line = innerHeight * 0.6;
-      let n = 0;
-      arts.forEach((a, i) => { if (a.getBoundingClientRect().top < line) n = i + 1; });
-      n = Math.max(1, n);
-      const done = n === 3 && arts[2].getBoundingClientRect().top < innerHeight * 0.45;
-      const key = n + (done ? 'd' : '');
-      if (key !== last) { last = key; setStep(side, n, done); }
-    };
-    addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(update); } }, { passive: true });
-    update();
-  }
+  /* ---------- dots (answer 2): 1 dot = 50 people ---------- */
+  $$('.dots').forEach(d => {
+    const n = +d.dataset.dots;
+    for (let i = 0; i < n; i++) {
+      const s = document.createElement('span');
+      s.style.setProperty('--c', i % 10); s.style.setProperty('--r', Math.floor(i / 10));
+      s.style.transitionDelay = (i * 12) + 'ms';
+      d.appendChild(s);
+    }
+  });
 
-  const room = $('[data-viz="room"]');
-  if (room) {
-    const time = $('[data-rs-time]', room), pct = $('[data-rs-pct]', room), fill = $('[data-rs-fill]', room);
-    const paint = p => {
-      const m = Math.round((1 - p) * 60);
-      time.textContent = p >= 1 ? '00:00' : '23:' + String(Math.max(0, 60 - Math.round(p * 60)) % 60).padStart(2, '0');
-      pct.textContent = 'Reset ' + Math.round(p * 100) + '%';
-      fill.parentNode.style.setProperty('--p', p * 100 + '%');
-      void m;
-    };
-    if (!reduce) {
-      paint(0);
-      watch([room], () => {
-        const t0 = performance.now() + 700;
-        const tick = now => {
-          const p = Math.max(0, Math.min(1, (now - t0) / 1300));
-          paint(ease(p));
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      }, 0.4);
+  /* ---------- desktop pool (answer 1): check in, use, check out, reset, loop while in view ---------- */
+  const pool = $('#pool');
+  if (pool) {
+    const tiles = $$('.pt', pool), cols = 6, gridEl = $('#poolGrid'), clock = $('#poolClock'), status = $('#poolStatus'), steps = $$('#poolSteps li');
+    const setStep = k => steps.forEach(s => s.classList.toggle('on', s.dataset.s === k));
+    const fmt = m => { m = Math.round(m) % 1440; return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); };
+    const showReset = () => { tiles.forEach(t => { t.classList.remove('on', 'cursor', 'flash'); t.classList.add('rs'); }); clock.textContent = '00:00'; status.textContent = 'Reset 100%'; setStep('rs'); pool.dataset.phase = 'reset'; };
+    if (reduce) showReset();
+    else {
+      let alive = false, token = 0;
+      const run = async () => {
+        const my = ++token;
+        const live = () => alive && my === token;
+        const tween = (a, b, ms) => new Promise(res => { const t0 = performance.now(); const f = n => { if (!live()) return res(); const p = clamp((n - t0) / ms); clock.textContent = fmt(a + (b - a) * p); p < 1 ? requestAnimationFrame(f) : res(); }; requestAnimationFrame(f); });
+        while (live()) {
+          // idle
+          tiles.forEach(t => t.classList.remove('on', 'cursor', 'rs', 'flash'));
+          pool.dataset.phase = 'idle'; clock.textContent = '14:14'; setStep(''); status.textContent = 'Desktops idle.';
+          await wait(900); if (!live()) break;
+          // check in
+          setStep('in'); status.textContent = 'People checking in.';
+          const order = [...tiles.keys()].sort(() => Math.random() - .5);
+          const tw1 = tween(14 * 60 + 14, 16 * 60 + 40, 1800);
+          for (const i of order) { if (!live()) break; tiles[i].classList.add('on'); await wait(70); }
+          await tw1; if (!live()) break;
+          // use
+          setStep('use'); status.textContent = 'Users at work.';
+          const tw2 = tween(16 * 60 + 40, 24 * 60 - 1, 3400);
+          let cur = null;
+          const cursorTimer = setInterval(() => { if (cur) cur.classList.remove('cursor'); cur = tiles[Math.floor(Math.random() * tiles.length)]; cur.classList.add('cursor'); }, 650);
+          await tw2; clearInterval(cursorTimer); if (cur) cur.classList.remove('cursor'); if (!live()) break;
+          // check out
+          setStep('out'); status.textContent = 'Checking out.'; clock.textContent = '23:59'; await wait(900); if (!live()) break;
+          // reset: a sweep line crosses the pool, each tile flashes, clears, and goes dashed
+          setStep('rs'); status.textContent = 'Resetting.'; clock.textContent = '00:00';
+          pool.style.setProperty('--gw', (gridEl.clientWidth - 3) + 'px');
+          pool.dataset.phase = 'sweep';
+          tiles.forEach((t, i) => { const c = i % cols; setTimeout(() => { if (!live()) return; t.classList.add('flash'); setTimeout(() => { t.classList.remove('on', 'flash'); t.classList.add('rs'); }, 120); }, (c + .5) / cols * 1400); });
+          await wait(1700); if (!live()) break;
+          pool.dataset.phase = 'reset'; status.textContent = 'Reset 100%';
+          await wait(3200);
+        }
+      };
+      // start and stop with visibility
+      if (hasIO) new IntersectionObserver(es => { alive = es[0].isIntersecting; if (alive) run(); else token++; }, { threshold: 0.35 }).observe(pool);
     }
   }
 
-  $$('.dots').forEach(d => {
-    for (let i = 0; i < +d.dataset.dots; i++) { const s = document.createElement('span'); s.style.setProperty('--i', i); d.appendChild(s); }
-  });
+  /* ---------- mini pool inside the nightly reset tile: once, on entry ---------- */
+  const mini = $('#miniPool');
+  if (mini) {
+    const mt = $$('.mt', mini);
+    if (reduce) mt.forEach(t => t.classList.add('rs'));
+    else watch([mini], async () => {
+      for (const t of mt) { t.classList.add('on'); await wait(60); }
+      await wait(500);
+      mini.dataset.phase = 'sweep';
+      const sw = $('.sweep', mini); const w = mini.clientWidth;
+      sw.style.cssText = `opacity:.9;transition:transform 1s linear;transform:translateX(${w}px)`;
+      mt.forEach((t, i) => setTimeout(() => { t.classList.remove('on'); t.classList.add('rs'); }, (i % 3 + .5) / 3 * 1000));
+      setTimeout(() => { sw.style.opacity = 0; }, 1100);
+    }, 0.6);
+  }
+
+  /* ---------- magnetic buttons ---------- */
+  if (!reduce && matchMedia('(hover:hover)').matches) {
+    $$('[data-magnet]').forEach(b => {
+      b.addEventListener('pointermove', e => {
+        const r = b.getBoundingClientRect();
+        b.style.translate = `${((e.clientX - r.left - r.width / 2) * .14).toFixed(1)}px ${((e.clientY - r.top - r.height / 2) * .22).toFixed(1)}px`;
+      });
+      b.addEventListener('pointerleave', () => { b.style.translate = ''; });
+    });
+  }
+
+  /* ---------- one loop for everything tied to scroll ---------- */
+  const navWrap = $('#navWrap'), intro = $('#ansIntro'), introIn = intro && $('.ans-intro-in', intro);
+  const ans = $$('[data-ans]'), steps = $('#steps'), parallax = $$('[data-parallax]'), pimgs = $$('[data-parallax-img]');
+  const navLinks = $$('.nav-links a').filter(a => /#(answers|offer)$/.test(a.getAttribute('href') || ''));
+  const secs = { answers: $('#answers'), offer: null };
+  const secOf = id => (id === 'answers' ? [$('#answers')] : [$('#offer'), $('#six')]).filter(Boolean);
+  let queued = false;
+  const frame = () => {
+    queued = false;
+    const y = scrollY, H = innerHeight, max = document.documentElement.scrollHeight - H;
+    if (navWrap) { navWrap.classList.toggle('scrolled', y > 8); navWrap.style.setProperty('--sp', max > 0 ? (y / max).toFixed(4) : 0); }
+    navLinks.forEach(a => {
+      const id = a.getAttribute('href').split('#')[1];
+      const on = secOf(id).some(s => { const r = s.getBoundingClientRect(); return r.top < H * .4 && r.bottom > H * .4; });
+      a.classList.toggle('is-here', on);
+    });
+    if (reduce) return;
+    if (intro) { const r = intro.getBoundingClientRect(); const q = clamp(-r.top / r.height); introIn.style.setProperty('--is', (1 - .1 * q).toFixed(3)); introIn.style.setProperty('--io', (1 - 1.1 * q).toFixed(3)); }
+    ans.forEach(a => { const r = a.getBoundingClientRect(); a.style.setProperty('--p', clamp((H * .98 - r.top) / (H * .5)).toFixed(3)); });
+    if (steps) {
+      const r = steps.getBoundingClientRect();
+      steps.style.setProperty('--sp', clamp((H * .6 - r.top) / r.height).toFixed(3));
+      $$('.step', steps).forEach(s => s.classList.toggle('here', s.getBoundingClientRect().top < H * .6));
+    }
+    parallax.forEach(el => { const r = el.getBoundingClientRect(); if (r.bottom < -100 || r.top > H + 100) return; const f = +el.dataset.parallax; el.style.transform = `translateY(${(((r.top + r.height / 2) - H / 2) * -f).toFixed(1)}px)`; });
+    pimgs.forEach(im => { const c = im.parentElement.getBoundingClientRect(); if (c.bottom < -100 || c.top > H + 100) return; im.style.transform = `translateY(${clamp(((c.top + c.height / 2) - H / 2) * -.06, -c.height * .1, c.height * .1).toFixed(1)}px)`; });
+  };
+  const queue = () => { if (!queued) { queued = true; requestAnimationFrame(frame); } };
+  addEventListener('scroll', queue, { passive: true });
+  addEventListener('resize', queue);
+  frame();
 })();
