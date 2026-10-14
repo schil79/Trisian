@@ -190,13 +190,13 @@ p{color:var(--muted)}
 .pcard:last-child{margin-bottom:0}
 .pc-copy p{max-width:30rem;margin-bottom:1rem}
 .pc-lead{font:500 clamp(1.15rem,1.8vw,1.4rem)/1.25 var(--body);font-stretch:87.5%;letter-spacing:-.01em}
-.indigo .pc-lead,.purple .pc-lead{color:#fff}
-.peri .pc-lead{color:var(--ink)}
+.pcard.indigo .pc-lead{color:#fff}
+.pcard.peri .pc-lead,.pcard.pale .pc-lead{color:var(--ink)}
 .receipt{margin-top:1.4rem;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.3);font-weight:500;font-size:1.1rem}
-.peri .receipt{border-color:rgba(25,25,25,.18);color:var(--ink)}
-.indigo .receipt,.purple .receipt{color:#fff}
+.pcard.peri .receipt,.pcard.pale .receipt{border-color:rgba(25,25,25,.18);color:var(--ink)}
+.pcard.indigo .receipt{color:#fff}
 .receipt b{font-size:1.9rem;font-weight:900;vertical-align:-3px}
-.indigo .receipt b{color:var(--peri)}.purple .receipt b{color:#fff}.peri .receipt b{color:var(--indigo)}
+.pcard.indigo .receipt b{color:var(--peri)}.pcard.peri .receipt b,.pcard.pale .receipt b{color:var(--indigo)}
 .pc-viz{margin:0}
 .pcard.indigo .pc-viz{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:28px;padding:clamp(1.2rem,2.4vw,2rem)}
 
@@ -388,17 +388,27 @@ p{color:var(--muted)}
 .btn-black:focus-visible{outline-color:#fff}
 .meeting{padding:clamp(4rem,7vw,6rem) 0}
 .meeting-in{max-width:1240px;margin:0 auto;padding:0 var(--gut);display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.4rem}
-.meeting .h2{color:#fff;margin:0}
-.meeting .lede{color:var(--ink);font-weight:400;max-width:34rem;margin-bottom:1.4rem}
-.meeting .lede b{color:var(--ink);font-weight:500}
+.meeting .h2{margin:0}
+.meeting .lede{max-width:34rem;margin-bottom:1.4rem}
 .meeting .versus{width:100%;text-align:left}
 .meeting .vs{min-height:260px;padding:1.4rem}
 .meeting .scatter{min-height:160px;margin:.8rem 0}
 .meeting .ready{margin:.8rem 0;gap:.6rem}
 .meeting .ready li{padding:.8rem 1rem}
-.meeting .vs-mid .hair{background:var(--ink)}
 .close-sec{padding:clamp(4.5rem,9vw,8rem) 0}
 .close-sec .cta{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,6vw,5rem);align-items:center;max-width:calc(1240px - 2*var(--gut));margin:0 auto}
 .close-sec .display{color:#fff}
 .close-sec .lede{color:var(--ink);font-weight:400;margin-top:1.6rem}
 .marquee li:nth-child(3n+2){background:var(--purple);border-color:transparent;color:#fff}
+
+/* ---------- three answers: purple band, full-screen intro, then the cards ---------- */
+.proof.section{padding:0 0 clamp(4rem,8vw,7rem)}
+.proof-intro{min-height:100vh;min-height:100svh;max-width:1240px;margin:0 auto;padding:112px var(--gut) 4.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1.6rem}
+.proof-intro .h2{color:#fff;margin:0;font-size:clamp(3.8rem,12vw,10.5rem);line-height:.92}
+.proof-intro p{color:var(--ink);font-weight:400;font-size:clamp(1.1rem,1.8vw,1.35rem);max-width:30rem}
+.scroll-cue{margin-top:1.4rem;width:56px;height:56px;border-radius:50%;border:1.5px solid var(--ink);display:grid;place-items:center;color:var(--ink);transition:background .2s,color .2s}
+.scroll-cue svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;animation:cue 1.8s ease-in-out infinite}
+.scroll-cue:hover{background:var(--ink);color:#fff}
+@keyframes cue{0%,100%{transform:translateY(-3px)}50%{transform:translateY(4px)}}
+.proof .pcard{box-shadow:0 24px 70px rgba(1,4,65,.28)}
+@media(prefers-reduced-motion:reduce){.scroll-cue svg{animation:none}}
