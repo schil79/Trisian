@@ -28,24 +28,49 @@
     dd.addEventListener('focusout', e => { if (!dd.contains(e.relatedTarget)) set(false); });
   }
 
-  /* ---------- topic links: /#assessment?topic=x sets the hidden interest field ---------- */
-  // The query sits inside the hash, so read it from there as well as from ?topic=.
-  const topicOf = str => { const m = /[?&]topic=([a-z-]+)/.exec(str || ''); return m ? m[1] : ''; };
+  /* ---------- hash with a query: /#assessment?topic=question ----------
+     One parser, on load, on hashchange and on click. Split location.hash on "?", scroll to the part before it, read topic from
+     the part after it and put it in the hidden interest field. Unknown topics fall back to "general".
+     Scroll is 600ms (instant under reduced motion) and focus moves to the form's first field once it arrives.
+     There is no contact page: "Ask us" and every topic link land on the form. */
+  const TOPICS = ['question', 'services', 'core', 'advanced', 'enterprise', 'coverage', 'general'];
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const interest = $('#f-interest');
-  const applyTopic = t => { if (t && interest) interest.value = t; };
-  applyTopic(topicOf(location.search) || topicOf(location.hash));
-  if (/^#assessment/.test(location.hash)) {
-    const t = $('#assessment');
-    if (t) setTimeout(() => t.scrollIntoView(), 60);
-  }
+  const parseHash = h => {
+    const [id, q] = String(h || '').replace(/^#/, '').split('?');
+    const m = q && /(?:^|&)topic=([^&]*)/.exec(q);
+    return { id, topic: m ? (TOPICS.includes(m[1]) ? m[1] : 'general') : '' };
+  };
+  const scrollToY = (y, done) => {
+    if (reduceMotion) { scrollTo(0, y); done && done(); return; }
+    const y0 = scrollY, t0 = performance.now(), dur = 600;
+    const step = now => {
+      const p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+      scrollTo({ top: y0 + (y - y0) * e, behavior: 'instant' });
+      p < 1 ? requestAnimationFrame(step) : done && done();
+    };
+    requestAnimationFrame(step);
+  };
+  const route = (hash, fromClick) => {
+    const { id, topic } = parseHash(hash);
+    if (interest && topic) interest.value = topic;
+    const el = id && document.getElementById(id);
+    if (!el) return false;
+    scrollToY(el.getBoundingClientRect().top + scrollY - (id === 'assessment' ? 72 : 0), () => {
+      if (id === 'assessment') { const f = $('#f-name'); if (f) f.focus({ preventScroll: true }); }
+    });
+    return true;
+  };
+  if (location.hash.includes('?') || /^#assessment/.test(location.hash)) setTimeout(() => route(location.hash), 80);
+  addEventListener('hashchange', () => { if (location.hash.includes('?')) route(location.hash); });
   document.addEventListener('click', e => {
-    const a = e.target.closest('a[href*="#assessment?topic="]');
-    if (!a) return;
+    const a = e.target.closest('a[href*="#assessment"]');
+    if (!a || !$('#assessment')) return;
     const url = new URL(a.getAttribute('href'), location.href);
-    if (url.pathname !== location.pathname || !$('#assessment')) return;      // another page: let the browser go
+    if (url.pathname !== location.pathname) return;                        // another page: let the browser go
     e.preventDefault();
-    applyTopic(topicOf(url.hash));
-    $('#assessment').scrollIntoView({ behavior: 'smooth' });
+    const topic = a.dataset.topic;
+    route(topic ? '#assessment?topic=' + topic : url.hash);
     history.replaceState(null, '', '#assessment');
   });
 

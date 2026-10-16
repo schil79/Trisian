@@ -14,6 +14,8 @@
       if (i < 0) return;
       tabs.forEach((t, j) => { t.setAttribute('aria-selected', j === i); t.tabIndex = j === i ? 0 : -1; });
       panels.forEach((p, j) => { if (j === i) { p.removeAttribute('data-off'); p.classList.remove('swap'); void p.offsetWidth; p.classList.add('swap'); } else p.setAttribute('data-off', ''); });
+      // entry motion again for the cards in the group that was just shown (fade up, 60ms stagger, capped at 6)
+      $$('[data-ico-host]', panels[i]).forEach(h => { h.classList.remove('is-in', 'done'); void h.offsetWidth; requestAnimationFrame(() => { h.classList.add('is-in'); setTimeout(() => h.classList.add('done'), 900); }); });
       if (focus) tabs[i].focus();
       if (push) history.replaceState(null, '', '#' + k);
     };

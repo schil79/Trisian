@@ -24,27 +24,31 @@
     const words = el.textContent.trim().split(/\s+/);
     el.innerHTML = words.map((w, i) => `<span class="w" style="--i:${i}"><span>${w}</span></span>`).join(' ');
   });
-  watch($$('[data-reveal],[data-stagger],[data-split],.vs-mid'), e => e.classList.add('in'), 0.12);
+  watch($$('[data-reveal],[data-stagger],[data-split],.vs-mid'), e => { e.classList.add('in'); if (e.hasAttribute('data-stagger')) setTimeout(() => e.classList.add('settled'), 1500); }, 0.12);
   watch($$('.anim:not(#hpanel),[data-viz]'), e => e.classList.add('in'), 0.35);
 
-  /* ---------- hero: load sequence, pointer reaction ---------- */
-  const hero = $('.hero');
+  /* ---------- hero: fit the line to 75% of the viewport width ----------
+     This routine only sets font-size on #h1. It measures the rendered line at a 100px probe size, then scales.
+     Desktop: one line. Under 768px the line breaks into two and the wider one fills 75vw (minimum 44px). */
+  const hero = $('.hero'), h1 = $('#h1');
+  const fit = () => {
+    if (!h1) return;
+    const box = $('.h1-fit', h1), target = document.documentElement.clientWidth * 0.75;
+    h1.style.fontSize = '100px';
+    const w = innerWidth < 768 ? Math.max(...[...box.children].map(c => c.getBoundingClientRect().width)) : box.getBoundingClientRect().width;
+    h1.style.fontSize = Math.max(44, 100 * target / w).toFixed(2) + 'px';
+    h1.classList.add('fit');
+  };
   if (hero) {
+    fit();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+    let rt; addEventListener('resize', () => { cancelAnimationFrame(rt); rt = requestAnimationFrame(fit); });
     requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('go')));
-    if (!reduce && matchMedia('(hover:hover)').matches) {
-      const bg = $('#heroBg'), panel = $('#hpanel');
-      hero.addEventListener('pointermove', e => {
-        const r = hero.getBoundingClientRect();
-        bg.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-        bg.style.setProperty('--my', (e.clientY - r.top) + 'px');
-        if (panel) {
-          const p = panel.getBoundingClientRect();
-          panel.style.setProperty('--px', clamp((e.clientX - (p.left + p.width / 2)) / innerWidth * 2, -1, 1).toFixed(3));
-          panel.style.setProperty('--py', clamp((e.clientY - (p.top + p.height / 2)) / innerHeight * 2, -1, 1).toFixed(3));
-        }
-      });
-    }
   }
+  const hs = $('#hsteps');
+  if (hs) { if (reduce) hs.classList.add('go'); else watch([hs], e => e.classList.add('go'), 0.3); }
+  const versus = $('#versus');
+  if (versus) { if (reduce) versus.classList.add('go'); else watch([versus], e => e.classList.add('go'), 0.35); }
   const hp = $('#hpanel');
   if (hp) {
     if (reduce) hp.classList.add('play', 'done');
@@ -67,16 +71,12 @@
     }, 0.5);
   }
 
-  /* ---------- dots (answer 2): 1 dot = 50 people ---------- */
-  $$('.dots').forEach(d => {
-    const n = +d.dataset.dots;
-    for (let i = 0; i < n; i++) {
-      const s = document.createElement('span');
-      s.style.setProperty('--c', i % 10); s.style.setProperty('--r', Math.floor(i / 10));
-      s.style.transitionDelay = (i * 12) + 'ms';
-      d.appendChild(s);
-    }
-  });
+  /* ---------- certificate row: about 60px per second ---------- */
+  const certSet = $('.cert-set');
+  if (certSet && !reduce) {
+    const speed = () => { const w = certSet.getBoundingClientRect().width; if (w) $('.cert-track').style.setProperty('--mq-dur', (w / 60).toFixed(1) + 's'); };
+    speed(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(speed); addEventListener('resize', speed);
+  }
 
   /* ---------- desktop pool (answer 1): check in, use, check out, reset, loop while in view ---------- */
   const pool = $('#pool');
@@ -153,12 +153,59 @@
     });
   }
 
+  /* ---------- isometric icons: one rule for all 68 (Directive v3 section 6) ----------
+     Entry once (60ms stagger per icon in a group, capped at 6), ambient float only while the host is on screen,
+     cursor lean through one delegated pointer handler (capped at 6px), a one-off lift on tap for touch.
+     Under reduced motion none of this runs and the icons simply appear. */
+  const hosts = $$('[data-ico-host]');
+  hosts.forEach((h, n) => {
+    const group = h.parentElement, sibs = [...group.children].filter(c => c.hasAttribute('data-ico-host'));
+    const i = Math.min(sibs.indexOf(h), 5);
+    h.style.setProperty('--gi', i);
+    $$('.ico', h).forEach(ic => { ic.style.setProperty('--i', i); ic.style.setProperty('--fi', n % 12); });
+  });
+  if (hosts.length) {
+    if (!hasIO || reduce) hosts.forEach(h => h.classList.add('is-in'));
+    else {
+      const io = new IntersectionObserver(es => es.forEach(en => {
+        en.target.classList.toggle('is-live', en.isIntersecting);
+        if (en.isIntersecting && !en.target.classList.contains('is-in')) { en.target.classList.add('is-in'); setTimeout(() => en.target.classList.add('done'), 900); }
+      }), { threshold: 0.2 });
+      hosts.forEach(h => io.observe(h));
+    }
+  }
+  if (!reduce && matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    let cur = null, px = 0, py = 0, raf = 0;
+    const apply = () => {
+      raf = 0;
+      if (cur) $$('.ico', cur).forEach(ic => { ic.style.setProperty('--px', px.toFixed(3)); ic.style.setProperty('--py', py.toFixed(3)); });
+    };
+    const reset = h => { if (h) $$('.ico', h).forEach(ic => { ic.style.setProperty('--px', 0); ic.style.setProperty('--py', 0); }); };
+    document.addEventListener('pointermove', e => {
+      const h = e.target.closest && e.target.closest('[data-ico-host]');
+      if (h !== cur) { reset(cur); cur = h; }
+      if (!h) return;
+      const r = h.getBoundingClientRect();
+      px = clamp(((e.clientX - r.left) / r.width) * 2 - 1, -1, 1);
+      py = clamp(((e.clientY - r.top) / r.height) * 2 - 1, -1, 1);
+      if (!raf) raf = requestAnimationFrame(apply);
+    }, { passive: true });
+    document.addEventListener('pointerleave', () => { reset(cur); cur = null; });
+  } else if (!reduce) {
+    document.addEventListener('pointerdown', e => {
+      if (e.pointerType !== 'touch') return;
+      const h = e.target.closest && e.target.closest('[data-ico-host]');
+      if (!h) return;
+      h.classList.add('is-tap'); setTimeout(() => h.classList.remove('is-tap'), 450);
+    }, { passive: true });
+  }
+
   /* ---------- one loop for everything tied to scroll ---------- */
   const navWrap = $('#navWrap'), intro = $('#ansIntro'), introIn = intro && $('.ans-intro-in', intro);
   const ans = $$('[data-ans]'), steps = $('#steps'), parallax = $$('[data-parallax]'), pimgs = $$('[data-parallax-img]');
-  const navLinks = $$('.nav-links a').filter(a => /#(answers|offer)$/.test(a.getAttribute('href') || ''));
+  const navLinks = $$('.nav-links a').filter(a => /#(answers|seats|offer)$/.test(a.getAttribute('href') || ''));
   const secs = { answers: $('#answers'), offer: null };
-  const secOf = id => (id === 'answers' ? [$('#answers')] : [$('#offer'), $('#six')]).filter(Boolean);
+  const secOf = id => (id === 'answers' ? [$('#answers'), $('#receipts')] : id === 'seats' ? [$('#seats')] : [$('#offer'), $('#six')]).filter(Boolean);
   let queued = false;
   const frame = () => {
     queued = false;

@@ -34,9 +34,8 @@
     <a href="" class="logo" aria-label="Trisian home"><img src="assets/img/trisian-logo.png" alt="Trisian"></a>
     <div class="nav-links" id="navLinks">
       <a href="#answers">The 3 answers</a>
-      <a href="#offer">What we offer</a>
       <div class="nav-item has-dd">
-        <a href="who-its-for/" class="dd-link">Who it's for</a>
+        <a href="#seats" class="dd-link">Who it's for</a>
         <button class="dd-toggle" type="button" aria-expanded="false" aria-controls="ddList" aria-label="Show industries"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4.5l4 4 4-4"/></svg></button>
         <ul class="dd" id="ddList">
           <li><a href="who-its-for/">All industries</a></li>
@@ -46,6 +45,7 @@
           <li><a href="growing-businesses/">Growing businesses</a></li>
         </ul>
       </div>
+      <a href="#offer">What we offer</a>
       <a href="coverage/">Coverage</a>
       <a href="services/">Services</a>
       <a href="insights/">Insights</a>
@@ -56,15 +56,14 @@
 </header>
 <main id="top">
 <section class="hero" id="top-hero">
-  <div class="hero-grid-bg" id="heroBg" aria-hidden="true"></div>
   <div class="wrap hero-in">
-    <a class="banner" href="#answers" data-reveal><span>Managed IT for regulated industries</span><span class="banner-go">See how<svg class="ic ic-arrow-right " width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></a>
-    <h1 class="h1"><span class="u">Answered</span> in <span class="adv">advance</span></h1>
-    <p class="hero-sub" data-reveal>Every regulated business is one bad day from a very specific meeting. Not the day of the breach. The day after. What you knew, and when you knew it. <b>Trisian writes that answer</b> before you need it.</p>
-    <div class="cta-row" data-reveal>
-      <a href="#assessment" class="btn" data-magnet>Book an assessment</a>
-      <a href="#answers" class="btn btn-o" data-magnet>Read the 3 answers</a>
-    </div>
+    <h1 class="h1" id="h1"><span class="h1-fit"><span class="h1-a">Answered</span> <span class="h1-b">in <span class="adv">advance</span></span></span></h1>
+    <p class="hero-sub">Every regulated business is one bad day from a very specific meeting. Not the day of the breach. The day after. What you knew, and when you knew it. <b>Trisian writes that answer</b> before you need it.</p>
+  </div>
+  <a class="scroll-cue" href="#dayafter" aria-label="Scroll to the next section"><svg class="ic ic-arrow-right " width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+</section>
+<section class="panel-sec" id="dayafter">
+  <div class="wrap">
     <div class="hpanel anim" id="hpanel" data-reveal="scale">
       <span class="scr-chip c1" aria-hidden="true">Logs from vendor A</span>
       <span class="scr-chip c2" aria-hidden="true">Legal on line two</span>
@@ -88,29 +87,10 @@
     </div>
   </div>
 </section>
-<section class="receipts" id="receipts">
-  <div class="wrap">
-    <p class="rc-kicker" data-reveal>Hours, not adjectives.</p>
-    <ul class="rc-grid" id="rcGrid" data-stagger>
-      <li><b class="num"><span data-count="28">28</span></b><span>years in business. Since 1998, in healthcare, finance and law.</span></li>
-      <li><b class="num"><span data-count="9">9</span></b><span>frameworks, named, mapped, on file.</span></li>
-      <li><b class="num">24/7</b><span>monitoring, for every client.</span></li>
-      <li><b class="num"><span data-count="30">30</span><small> min</small></b><span>critical response, top coverage level.</span></li>
-    </ul>
-    <div class="strip" data-reveal>
-      <p>Nine frameworks. One answer for each.</p>
-      <div class="marquee" aria-label="Frameworks covered">
-        <ul class="mq-track"><li class="chip">HIPAA</li><li class="chip">SOC 2</li><li class="chip">PCI-DSS</li><li class="chip">GDPR</li><li class="chip">SOX</li><li class="chip">DORA</li><li class="chip">CMMC</li><li class="chip">GLBA</li><li class="chip">ISO 27001</li></ul>
-        <ul class="mq-track mq-dup" aria-hidden="true"><li class="chip">HIPAA</li><li class="chip">SOC 2</li><li class="chip">PCI-DSS</li><li class="chip">GDPR</li><li class="chip">SOX</li><li class="chip">DORA</li><li class="chip">CMMC</li><li class="chip">GLBA</li><li class="chip">ISO 27001</li></ul>
-      </div>
-    </div>
-  </div>
-</section>
 <section class="sec s-white" id="meeting">
   <div class="wrap">
     <header class="sec-head" data-reveal>
-      <span class="pill ">The meeting</span>
-      <h2 class="h2"><span class="line"><span class="bd">Not why</span> <span class="lt">it happened.</span></span><span class="line"><span class="lt">What you knew, and when.</span></span></h2>
+      <h2 class="h2 h2-xl"><span class="line"><span class="bd">The meeting</span> <span class="lt">asks one thing.</span></span><span class="line"><span class="bd">What you knew, and when.</span></span></h2>
       <p class="sub-p">Most companies spend that morning building the answer from scratch. Gathering logs. Calling vendors. Learning the word &ldquo;unfortunately.&rdquo; Trisian answers it first.</p>
     </header>
     <div class="versus" id="versus">
@@ -119,17 +99,15 @@
         <ul class="scatter" aria-label="What the morning after looks like"><li style="--r:-4deg;--i:0">Logs from vendor A</li><li style="--r:3deg;--i:1">Call vendor B</li><li style="--r:-2deg;--i:2">Who had access?</li><li style="--r:5deg;--i:3">What was patched?</li><li style="--r:-5deg;--i:4">Legal on line two</li><li style="--r:3deg;--i:5">“Unfortunately…”</li></ul>
         <p class="vs-foot">Written by people who are already losing.</p>
       </div>
-      <div class="vs-mid" aria-hidden="true"><i class="cl"></i><span class="vs-label">Trisian answers first</span><i class="cr"></i></div>
+      <div class="bridge">
+        <i class="bridge-line" aria-hidden="true"></i><i class="bridge-abut a-l" aria-hidden="true"></i><i class="bridge-abut a-r" aria-hidden="true"></i><i class="bridge-arrow" aria-hidden="true"></i><i class="bridge-dot" aria-hidden="true"></i>
+        <span class="bridge-pill"><span>Trisian</span><span>answers first</span></span>
+      </div>
       <div class="vs vs-ready" data-reveal="right">
         <span class="vs-tag">Already written</span>
         <ul class="ready"><li style="--i:0"><span class="ck"><svg class="ic ic-check " width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Every desktop reset at midnight</li><li style="--i:1"><span class="ck"><svg class="ic ic-check " width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Exposure mapped to your regulation</li><li style="--i:2"><span class="ck"><svg class="ic ic-check " width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Azure billed at cost, line by line</li></ul>
         <p class="vs-foot">Ready before anyone asks.</p>
       </div>
-    </div>
-    <p class="signoff " data-reveal>Answer it first.</p>
-    <div class="cta-end" data-reveal>
-      <p class="cta-line">Tell us what they'd ask you first.</p>
-      <a class="btn" href="mailto:contact@trisian.com?subject=The%20question%20I%27d%20be%20asked%20first">Send us the question</a>
     </div>
   </div>
 </section>
@@ -154,11 +132,13 @@
           <p class="stat">What was on that machine? <span class="hl">Nothing.</span></p>
         </div>
         <figure class="ans-viz" data-viz="pool" aria-label="Diagram: a pool of desktops fills during the day and is wiped at midnight">
+          <div class="scene-slot" data-scene="nothing-to-find">
           <div class="pool" id="pool" data-phase="reset">
             <div class="pool-top"><span>Desktop pool</span><span class="clock" id="poolClock">00:00</span></div>
             <div class="pool-grid" id="poolGrid"><i class="sweep" aria-hidden="true"></i><div class="pt" style="--i:0"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:1"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:2"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:3"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:4"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:5"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:6"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:7"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:8"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:9"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:10"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:11"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:12"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:13"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:14"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:15"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:16"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:17"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:18"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:19"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:20"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:21"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:22"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="pt" style="--i:23"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div></div>
             <ol class="pool-steps" id="poolSteps"><li data-s="in">Check in</li><li data-s="use">Use</li><li data-s="out">Check out</li><li data-s="rs" class="on">Reset</li></ol>
             <p class="pool-status" id="poolStatus" aria-live="off">Reset 100%</p>
+          </div>
           </div>
         </figure>
       </article>
@@ -171,13 +151,16 @@
           <p>A 50-person practice carries the same HIPAA exposure as a 5,000-person hospital. The small firm needs the big firm's infrastructure and can't afford the big firm's IT department. Trisian builds to the rule, not the headcount.</p>
           <p class="stat">Same exposure. <b>Same answer.</b></p>
         </div>
-        <figure class="ans-viz" data-viz="dots" aria-label="Diagram: one dot is 50 people. One dot for the 50-person practice, one hundred dots for the 5,000-person hospital">
-          <div class="bd-dots">
-            <div><span class="dots d1" data-dots="1" aria-hidden="true"></span><b>50-person practice</b></div>
-            <div><span class="dots d100" data-dots="100" aria-hidden="true"></span><b>5,000-person hospital</b></div>
+        <figure class="ans-viz" data-viz="discs" aria-label="Diagram: two discs on one baseline. The small disc, the 50-person practice, is a tenth of the width of the big disc, the 5,000-person hospital">
+          <div class="scene-slot" data-scene="same-exposure">
+            <div class="discs">
+              <span class="disc disc-s" aria-hidden="true"></span>
+              <span class="disc disc-b" aria-hidden="true"></span>
+              <b>50-person practice</b>
+              <b>5,000-person hospital</b>
+            </div>
+            <p class="bd-verdict">Same rules. Same audit. Same exposure.</p>
           </div>
-          <p class="bd-verdict">Same rules. Same audit. Same exposure.</p>
-          <p class="bd-key"><i></i> 1 dot = 50 people</p>
         </figure>
       </article>
 
@@ -195,13 +178,31 @@
       </article>
     </div>
     <p class="mega-sign" data-reveal="scale">Not protection. Proof.</p>
-    <div class="cta-end" data-reveal>
-      <p class="cta-line">Check our work.</p>
-      <a class="btn" href="#assessment?topic=walkthrough">Ask for a live walkthrough</a>
+  </div>
+</section>
+<section class="sec s-white receipts" id="receipts">
+  <div class="wrap">
+    <p class="rc-kicker" data-reveal>Hours, not adjectives.</p>
+    <ul class="rc-grid" id="rcGrid" data-stagger>
+      <li><b class="num"><span data-count="28">28</span></b><span>years in business. Since 1998, in healthcare, finance and law.</span></li>
+      <li><b class="num"><span data-count="9">9</span></b><span>frameworks, named, mapped, on file.</span></li>
+      <li><b class="num">24/7</b><span>monitoring, for every client.</span></li>
+      <li><b class="num"><span data-count="30">30</span><small> min</small></b><span>critical response, top coverage level.</span></li>
+    </ul>
+    <h2 class="h2 h2-m cert-h" data-reveal><span class="bd">Nine frameworks. One answer for each.</span></h2>
+  </div>
+  <!-- the certificate row: a full-bleed band, two identical sets so the loop has no seam. Pills are not links.
+       Purple is allowed here and nowhere else in the code (client request). Reduced motion: no marquee, a static wrapped grid. -->
+  <div class="cert" id="cert" tabindex="0" role="region" aria-label="Frameworks covered">
+    <div class="cert-viewport">
+      <div class="cert-track">
+        <ul class="cert-set" role="list"><li class="cp cp-p">SOC 2</li><li class="cp cp-i">PCI-DSS</li><li class="cp cp-k">GDPR</li><li class="cp cp-p">SOX</li><li class="cp cp-i">DORA</li><li class="cp cp-k">CMMC</li><li class="cp cp-p">GLBA</li><li class="cp cp-i">ISO 27001</li><li class="cp cp-k">HIPAA</li></ul>
+        <ul class="cert-set" aria-hidden="true"><li class="cp cp-p">SOC 2</li><li class="cp cp-i">PCI-DSS</li><li class="cp cp-k">GDPR</li><li class="cp cp-p">SOX</li><li class="cp cp-i">DORA</li><li class="cp cp-k">CMMC</li><li class="cp cp-p">GLBA</li><li class="cp cp-i">ISO 27001</li><li class="cp cp-k">HIPAA</li></ul>
+      </div>
     </div>
   </div>
 </section>
-<section class="sec s-grey" id="seats">
+<section class="sec s-grey seats" id="seats">
   <div class="wrap">
     <header class="sec-head" data-reveal>
       <span class="pill ">Who it's for</span>
@@ -209,68 +210,55 @@
       <p class="sub-p">Seven to twelve people touch this decision. Each one is afraid of something different.</p>
       <a class="link-arrow" href="who-its-for/">Your industry</a>
     </header>
-    <div class="seats-grid" data-stagger>
-      <figure class="s-photo s-table"><img src="assets/img/table.webp" alt="Four colleagues working and talking around a long table" width="1600" height="1066" loading="lazy" data-parallax-img></figure>
-      <article class="seat"><h3 class="h4">The CTO</h3><p class="q">You already know what's broken.</p><p>You filed the ticket eighteen months ago. We work co-managed: we augment your team, we don't replace it.</p></article>
-      <article class="seat"><h3 class="h4">The IT manager</h3><p class="q">The 2am call. And the 9am question.</p><p>Off your plate, not out of the room. We make you look good to leadership, with receipts.</p></article>
-      <article class="seat"><h3 class="h4">The owner</h3><p class="q">You want to stop thinking about it.</p><p>Plain language. Predictable pricing. Peers in your industry who already made the call.</p></article>
-      <figure class="s-photo s-close"><img src="assets/img/closeup.webp" alt="A woman at her desk listening closely" width="1600" height="1066" loading="lazy" data-parallax-img><figcaption>The 9am question is coming. Have the answer.</figcaption></figure>
-    </div>
-    <div class="cta-end" data-reveal>
-      <p class="cta-line">Bring everyone who gets a vote.</p>
-      <a class="btn" href="#assessment?topic=team-call">Set up a team call</a>
-    </div>
-  </div>
-</section>
-<section class="sec s-white" id="partner">
-  <div class="wrap">
-    <header class="sec-head" data-reveal>
-      <span class="pill ">One partner</span>
-      <h2 class="h2"><span class="lt">One contract. One team. One name.</span></h2>
-      <p class="sub-p">The day something breaks isn't the failure. It's the day Trisian shows up.</p>
-    </header>
-    <div class="one-grid">
-      <figure class="one-l anim" data-viz="vendors">
-        <svg class="iso vendors-iso" viewBox="-29.3 -375 337.5 417" width="337.5" height="417" role="img" aria-label="Six separate vendors stacked in a leaning pile" xmlns="http://www.w3.org/2000/svg"><g class="rise lift" style="--d:0ms"><g><polygon class="" points="0,-10 31.2,8 31.2,18 0,0" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="31.2,8 213,-97 213,-87 31.2,18" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="0,-10 181.9,-115 213,-97 31.2,8" fill="#ECEFFE" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/></g><text transform="matrix(0.9 -0.5 0.9 0.5 0 -10)" class="t-m" font-size="14" fill="#191919"><tspan x="14" y="23">Endpoint vendor</tspan></text></g><g class="rise lift" style="--d:70ms"><g><polygon class="" points="19.1,-61 50.2,-43 50.2,-33 19.1,-51" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="50.2,-43 232.1,-148 232.1,-138 50.2,-33" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="19.1,-61 200.9,-166 232.1,-148 50.2,-43" fill="#FFFFFF" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/></g><text transform="matrix(0.9 -0.5 0.9 0.5 19.1 -61)" class="t-m" font-size="14" fill="#191919"><tspan x="14" y="23">Identity vendor</tspan></text></g><g class="rise lift" style="--d:140ms"><g><polygon class="" points="-12.1,-83 19.1,-65 19.1,-55 -12.1,-73" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="19.1,-65 200.9,-170 200.9,-160 19.1,-55" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="-12.1,-83 169.7,-188 200.9,-170 19.1,-65" fill="#ECEFFE" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/></g><text transform="matrix(0.9 -0.5 0.9 0.5 -12.1 -83)" class="t-m" font-size="14" fill="#191919"><tspan x="14" y="23">Cloud reseller</tspan></text></g><g class="rise lift" style="--d:210ms"><g><polygon class="" points="24.2,-144 55.4,-126 55.4,-116 24.2,-134" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="55.4,-126 254.6,-241 254.6,-231 55.4,-116" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="24.2,-144 223.4,-259 254.6,-241 55.4,-126" fill="#FFFFFF" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/></g><text transform="matrix(0.9 -0.5 0.9 0.5 24.2 -144)" class="t-m" font-size="14" fill="#191919"><tspan x="14" y="23">Compliance consultant</tspan></text></g><g class="rise lift" style="--d:280ms"><g><polygon class="" points="-5.2,-167 26,-149 26,-139 -5.2,-157" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="26,-149 207.8,-254 207.8,-244 26,-139" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="-5.2,-167 176.7,-272 207.8,-254 26,-149" fill="#ECEFFE" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/></g><text transform="matrix(0.9 -0.5 0.9 0.5 -5.2 -167)" class="t-m" font-size="14" fill="#191919"><tspan x="14" y="23">The break/fix guy</tspan></text></g><g class="rise lift" style="--d:350ms"><g><polygon class="" points="13.9,-218 45,-200 45,-190 13.9,-208" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="45,-200 296.2,-345 296.2,-335 45,-190" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="13.9,-218 265,-363 296.2,-345 45,-200" fill="#FFFFFF" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/></g><text transform="matrix(0.9 -0.5 0.9 0.5 13.9 -218)" class="t-m" font-size="14" fill="#191919"><tspan x="14" y="23">Whoever set up the firewall in 2014</tspan></text></g></svg>
-        <figcaption>Six vendors. Six answers. One word: &ldquo;unfortunately.&rdquo;</figcaption>
-      </figure>
-      <div class="one-r" data-reveal="right">
-        <div class="trisian-box">
-          <p class="tb-name">Trisian</p>
-          <ul><li style="--i:0"><span class="ck"><svg class="ic ic-check " width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><span>Every issue has an owner, an SLA and a resolution path.</span></li><li style="--i:1"><span class="ck"><svg class="ic ic-check " width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><span>Critical response in 1 hour on Core and Advanced. 30 minutes on Enterprise.</span></li><li style="--i:2"><span class="ck"><svg class="ic ic-check " width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><span>After hours, every level has emergency escalation through your named contacts.</span></li></ul>
-        </div>
-      </div>
-    </div>
-    <p class="signoff " data-reveal>One partner. One answer.</p>
-    <div class="cta-end" data-reveal>
-      <p class="cta-line">Find out who picks up at 2am.</p>
-      <a class="btn" href="#assessment?topic=intro">Hear from a real person</a>
-    </div>
+    <figure class="s-photo s-table" data-reveal><img src="assets/img/table.webp" alt="Four colleagues working and talking around a long table" width="1600" height="1066" loading="lazy" data-parallax-img></figure>
+    <ol class="stair" data-stagger><li class="stair-card st-blue" style="--k:0">
+        <div class="stair-top"><span class="stair-photo"><img src="assets/img/table.webp" alt="" width="192" height="192" loading="lazy" style="object-position:18% 40%"></span><span class="stair-num" aria-hidden="true">1</span></div>
+        <h3 class="stair-title">The CTO</h3>
+        <p class="stair-q">You already know what's broken.</p>
+        <p class="stair-body">You filed the ticket eighteen months ago. We work co-managed: we augment your team, we don't replace it.</p>
+      </li>
+      <li class="stair-card st-dark" style="--k:1">
+        <div class="stair-top"><span class="stair-photo"><img src="assets/img/closeup.webp" alt="" width="192" height="192" loading="lazy" style="object-position:50% 28%"></span><span class="stair-num" aria-hidden="true">2</span></div>
+        <h3 class="stair-title">The IT manager</h3>
+        <p class="stair-q">The 2am call. And the 9am question.</p>
+        <p class="stair-body">Off your plate, not out of the room. We make you look good to leadership, with receipts.</p>
+      </li>
+      <li class="stair-card st-blue" style="--k:2">
+        <div class="stair-top"><span class="stair-photo"><img src="assets/img/growing-businesses.webp" alt="" width="192" height="192" loading="lazy" style="object-position:45% 40%"></span><span class="stair-num" aria-hidden="true">3</span></div>
+        <h3 class="stair-title">The owner</h3>
+        <p class="stair-q">You want to stop thinking about it.</p>
+        <p class="stair-body">Plain language. Predictable pricing. Peers in your industry who already made the call.</p>
+      </li>
+      <li class="stair-card st-dark" style="--k:3">
+        <div class="stair-top"><span class="stair-photo stair-ph" role="img" aria-label="An operations leader reviewing a report at a desk" title="an operations leader reading a board report at a desk, daylight"><span>PHOTO PENDING &middot; 1:1</span></span><span class="stair-num" aria-hidden="true">4</span></div>
+        <h3 class="stair-title">The COO</h3>
+        <p class="stair-q">Continuity. Board-ready visibility. Single ownership.</p>
+        <p class="stair-body">The one who has to say "it's handled" out loud, and mean it. A missed SLA or a failed audit lands on revenue. One accountable partner means one owner, fewer vendors to run and a report the board can read.</p>
+      </li></ol>
   </div>
 </section>
 <section class="sec s-pale" id="offer">
   <div class="wrap">
     <header class="sec-head" data-reveal>
-      <span class="pill ">The product</span>
       <h2 class="h2"><span class="bd">What we offer.</span></h2>
       <p class="sub-p lead-p">Safe Workspace: your whole digital environment, run by one partner.</p>
       <p class="sub-p">A cloud desktop on Azure Virtual Desktop or Citrix Cloud, with security, licensing, monitoring, compliance and support built in. Your people log in. Everything else is our job.</p>
     </header>
-    <div class="boxes4" data-stagger><article class="box" tabindex="-1">
-        <span class="box-ico"><svg class="ic ic-desktop " width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="3"/><path d="M8 21h8M12 17v4"/><path class="ln l1" d="M6 8h8"/><path class="ln l2" d="M6 11h11"/><path class="ln l3" d="M6 14h5"/></svg></span>
-        <h3 class="h4">The desktop</h3>
+    <div class="boxes4" data-stagger><article class="box" data-ico-host>
+        <span class="ico ico--rich ico--offer " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="assets/icons/offer-desktop.webp"><img class="ico__img" src="assets/icons/offer-desktop.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture></span></span>
+        <h3 class="h4 ico-title">The desktop</h3>
         <p>Windows desktops in the cloud, on Azure or Citrix. Sessions reset after each use. Profiles and files stay put.</p>
-      </article><article class="box" tabindex="-1">
-        <span class="box-ico"><svg class="ic ic-radar " width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><path class="sweep" d="M12 12 19.5 4.5"/></svg></span>
-        <h3 class="h4">The defense</h3>
+      </article><article class="box" data-ico-host>
+        <span class="ico ico--rich ico--offer " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="assets/icons/offer-defense.webp"><img class="ico__img" src="assets/icons/offer-defense.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture><span class="ico__ov ov-radar" aria-hidden="true"><i></i></span></span></span>
+        <h3 class="h4 ico-title">The defense</h3>
         <p>MFA and Conditional Access from day one. Hardened images and behavioral detection as coverage climbs. Encrypted at rest and in transit.</p>
-      </article><article class="box" tabindex="-1">
-        <span class="box-ico"><svg class="ic ic-growth " width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><g class="arr"><path d="m7 15 4-4 3 3 6-7"/><path d="M15 7h5v5"/></g></svg></span>
-        <h3 class="h4">The headroom</h3>
+      </article><article class="box" data-ico-host>
+        <span class="ico ico--rich ico--offer " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="assets/icons/offer-headroom.webp"><img class="ico__img" src="assets/icons/offer-headroom.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture></span></span>
+        <h3 class="h4 ico-title">The headroom</h3>
         <p>Auto-scaling follows real demand. Off-hours cost drops on schedule. Ten users or unlimited, with no redesign.</p>
-      </article><article class="box" tabindex="-1">
-        <span class="box-ico"><svg class="ic ic-filecheck " width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path class="ck" d="m9 15 2 2 4-4"/></svg></span>
-        <h3 class="h4">The paper trail</h3>
+      </article><article class="box" data-ico-host>
+        <span class="ico ico--rich ico--offer " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="assets/icons/offer-paper-trail.webp"><img class="ico__img" src="assets/icons/offer-paper-trail.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture><span class="ico__ov ov-scan" aria-hidden="true"><i></i></span></span></span>
+        <h3 class="h4 ico-title">The paper trail</h3>
         <p>Evidence collected automatically. Audit trails that can’t be edited. Controls mapped to nine frameworks.</p>
       </article></div>
   </div>
@@ -278,68 +266,31 @@
 <section class="sec s-white" id="six">
   <div class="wrap">
     <header class="sec-head" data-reveal>
-      <h2 class="h2"><span class="bd">Every client starts with</span><span class="lt">the same six things.</span></h2>
+      <h2 class="h2"><span class="lt">Every client starts with the same</span><span class="bd">six things.</span></h2>
       <p class="sub-p">One managed platform, one accountable team, nothing bolted on afterward.</p>
     </header>
-    <div class="tiles6" data-stagger><article class="tile t-indigo">
-        <div class="mini-pool3" aria-hidden="true" id="miniPool"><i class="sweep"></i><div class="mt" style="--i:0"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="mt" style="--i:1"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="mt" style="--i:2"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="mt" style="--i:3"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="mt" style="--i:4"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="mt" style="--i:5"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="mt" style="--i:6"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="mt" style="--i:7"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div><div class="mt" style="--i:8"><svg viewBox="0 0 40 34" aria-hidden="true"><rect class="scr" x="2" y="2" width="36" height="22" rx="4"/><path class="stand" d="M20 24v5M12 30h16"/><path class="wl w1" d="M8 9h14"/><path class="wl w2" d="M8 14h20"/><path class="wl w3" d="M8 19h10"/><rect class="cur" x="27" y="16" width="2" height="5"/></svg></div></div>
-        <span class="box-ico"><svg class="ic ic-reset " width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="rot"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></g></svg></span>
-        <div><h3 class="h4">Nightly reset</h3><p>Every desktop wipes clean. Files and profiles stay put.</p></div>
-      </article><article class="tile t-peri">
-        
-        <span class="box-ico"><svg class="ic ic-percent " width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="pct"><line x1="19" x2="5" y1="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></g></svg></span>
-        <div><h3 class="h4">Azure at cost</h3><p>Straight pass-through. Full visibility.</p></div>
-      </article><article class="tile t-pale">
-        
-        <span class="box-ico"><svg class="ic ic-activity " width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="act" d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
-        <div><h3 class="h4">24/7 monitoring</h3><p>Platform monitoring runs around the clock.</p></div>
-      </article><article class="tile t-pale">
-        
-        <span class="box-ico"><svg class="ic ic-msft " width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="q q1" x="3" y="3" width="8.5" height="8.5" fill="#F25022" stroke="none"/><rect class="q q2" x="12.5" y="3" width="8.5" height="8.5" fill="#7FBA00" stroke="none"/><rect class="q q3" x="3" y="12.5" width="8.5" height="8.5" fill="#00A4EF" stroke="none"/><rect class="q q4" x="12.5" y="12.5" width="8.5" height="8.5" fill="#FFB900" stroke="none"/></svg></span>
-        <div><h3 class="h4">Microsoft 365, included</h3><p>Licensing sits inside the platform fee. One less vendor.</p></div>
-      </article><article class="tile t-indigo">
-        
-        <span class="box-ico"><svg class="ic ic-calendar " width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="rot"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></g><path class="ck" d="m9 16 2 2 4-4"/></svg></span>
-        <div><h3 class="h4">Patching on schedule</h3><p>OS and Microsoft 365 updates land without a ticket.</p></div>
-      </article><article class="tile t-peri">
-        
-        <span class="box-ico"><svg class="ic ic-backup " width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="11" cy="5" rx="8" ry="3"/><path d="M3 5v6c0 1.7 3.6 3 8 3M19 5v4"/><path d="M3 11v6c0 1.7 3.6 3 8 3"/><g class="arr"><path d="M18 21v-7M15 17l3-3 3 3"/></g></svg></span>
-        <div><h3 class="h4">One golden image</h3><p>One managed desktop image, backed up weekly and kept for four weeks.</p></div>
+    <div class="tiles6" data-stagger><article class="tile t-pale" data-ico-host>
+        <span class="ico ico--rich ico--six " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="assets/icons/six-nightly-reset.webp"><img class="ico__img" src="assets/icons/six-nightly-reset.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture><span class="ico__ov ov-wipe" aria-hidden="true"><i></i></span></span></span>
+        <div><h3 class="h4 ico-title">Nightly reset</h3><p>Every desktop wipes clean. Files and profiles stay put.</p></div>
+      </article><article class="tile t-grey" data-ico-host>
+        <span class="ico ico--rich ico--six " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="assets/icons/six-azure-at-cost.webp"><img class="ico__img" src="assets/icons/six-azure-at-cost.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture></span></span>
+        <div><h3 class="h4 ico-title">Azure at cost</h3><p>Straight pass-through. Full visibility.</p></div>
+      </article><article class="tile t-pale" data-ico-host>
+        <span class="ico ico--rich ico--six " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="assets/icons/six-monitoring-247.webp"><img class="ico__img" src="assets/icons/six-monitoring-247.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture><span class="ico__ov ov-ping" aria-hidden="true"><i></i></span></span></span>
+        <div><h3 class="h4 ico-title">24/7 monitoring</h3><p>Platform monitoring runs around the clock.</p></div>
+      </article><article class="tile t-grey" data-ico-host>
+        <span class="ico ico--rich ico--six " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="assets/icons/six-licensing-included.webp"><img class="ico__img" src="assets/icons/six-licensing-included.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture></span></span>
+        <div><h3 class="h4 ico-title">Microsoft 365, included</h3><p>Licensing sits inside the platform fee. One less vendor.</p></div>
+      </article><article class="tile t-pale" data-ico-host>
+        <span class="ico ico--rich ico--six " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="assets/icons/six-patching.webp"><img class="ico__img" src="assets/icons/six-patching.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture></span></span>
+        <div><h3 class="h4 ico-title">Patching on schedule</h3><p>OS and Microsoft 365 updates land without a ticket.</p></div>
+      </article><article class="tile t-grey" data-ico-host>
+        <span class="ico ico--rich ico--six " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="assets/icons/six-golden-image.webp"><img class="ico__img" src="assets/icons/six-golden-image.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture></span></span>
+        <div><h3 class="h4 ico-title">One golden image</h3><p>One managed desktop image, backed up weekly and kept for four weeks.</p></div>
       </article></div>
     <div class="cta-end" data-reveal>
       <p class="cta-line">Not sure how much you'd need?</p>
       <a class="btn" href="coverage/">See how coverage works</a>
-    </div>
-  </div>
-</section>
-<section class="sec s-grey" id="handoff">
-  <div class="wrap">
-    <header class="sec-head" data-reveal>
-      <h2 class="h2"><span class="bd">The handoff.</span></h2>
-      <p class="sub-p">Five steps from first call to a workspace that runs without you.</p>
-    </header>
-    <div class="handoff-grid">
-      <div class="ph ph-tall" style="aspect-ratio:4/5" role="img" aria-label="A quiet office at the end of the day, desks cleared" data-parallax="0.06"><span class="ph-label">PHOTO PENDING · 4:5 · an office at the end of the day, desks cleared, lights low</span></div>
-      <ol class="steps" id="steps"><li class="step" style="--i:0">
-        <span class="badge-n" aria-hidden="true">1</span>
-        <div class="step-box"><h3 class="h4"><span class="sr-only">1. </span>Assess</h3><p>We map your security, performance and compliance against the rules you answer to. You get the gaps in writing.</p></div>
-      </li><li class="step" style="--i:1">
-        <span class="badge-n" aria-hidden="true">2</span>
-        <div class="step-box"><h3 class="h4"><span class="sr-only">2. </span>Design</h3><p>We build the Safe Workspace around your applications, your regulators and your growth plan.</p></div>
-      </li><li class="step" style="--i:2">
-        <span class="badge-n" aria-hidden="true">3</span>
-        <div class="step-box"><h3 class="h4"><span class="sr-only">3. </span>Deploy</h3><p>Pilot group first. Then everyone, with training and a check at each stage.</p></div>
-      </li><li class="step" style="--i:3">
-        <span class="badge-n" aria-hidden="true">4</span>
-        <div class="step-box"><h3 class="h4"><span class="sr-only">4. </span>Operate</h3><p>We run it. Monitoring, patching, security, tuning. Your team doesn’t file tickets for any of it.</p></div>
-      </li><li class="step" style="--i:4">
-        <span class="badge-n" aria-hidden="true">5</span>
-        <div class="step-box"><h3 class="h4"><span class="sr-only">5. </span>Review</h3><p>Every quarter: what changed in your rules, what changed in your business, what we adjust.</p></div>
-      </li></ol>
-    </div>
-    <div class="cta-end" data-reveal>
-      <p class="cta-line">The first step is a conversation.</p>
-      <a class="btn" href="#assessment?topic=start">Start the handoff</a>
     </div>
   </div>
 </section>
@@ -351,7 +302,58 @@
     <a class="btn btn-w" href="services/" data-magnet data-reveal>See the services</a>
   </div>
 </section>
-<section class="sec s-white" id="faq">
+<section class="sec s-white" id="partner">
+  <div class="wrap">
+    <header class="sec-head" data-reveal>
+      <span class="pill ">One partner</span>
+      <h2 class="h2 h2-xl"><span class="lt">One contract. One team.</span><span class="lt">One name.</span></h2>
+      <p class="sub-p">The day something breaks isn't the failure. It's the day Trisian shows up.</p>
+    </header>
+    <div class="one-grid">
+      <figure class="one-l anim" data-viz="vendors">
+        <svg class="iso vendors-iso" viewBox="-29.3 -375 337.5 417" width="337.5" height="417" role="img" aria-label="Six separate vendors stacked in a leaning pile" xmlns="http://www.w3.org/2000/svg"><g class="rise lift" style="--d:0ms"><g><polygon class="" points="0,-10 31.2,8 31.2,18 0,0" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="31.2,8 213,-97 213,-87 31.2,18" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="0,-10 181.9,-115 213,-97 31.2,8" fill="#ECEFFE" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/></g><text transform="matrix(0.9 -0.5 0.9 0.5 0 -10)" class="t-m" font-size="14" fill="#191919"><tspan x="14" y="23">Endpoint vendor</tspan></text></g><g class="rise lift" style="--d:70ms"><g><polygon class="" points="19.1,-61 50.2,-43 50.2,-33 19.1,-51" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="50.2,-43 232.1,-148 232.1,-138 50.2,-33" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="19.1,-61 200.9,-166 232.1,-148 50.2,-43" fill="#FFFFFF" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/></g><text transform="matrix(0.9 -0.5 0.9 0.5 19.1 -61)" class="t-m" font-size="14" fill="#191919"><tspan x="14" y="23">Identity vendor</tspan></text></g><g class="rise lift" style="--d:140ms"><g><polygon class="" points="-12.1,-83 19.1,-65 19.1,-55 -12.1,-73" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="19.1,-65 200.9,-170 200.9,-160 19.1,-55" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="-12.1,-83 169.7,-188 200.9,-170 19.1,-65" fill="#ECEFFE" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/></g><text transform="matrix(0.9 -0.5 0.9 0.5 -12.1 -83)" class="t-m" font-size="14" fill="#191919"><tspan x="14" y="23">Cloud reseller</tspan></text></g><g class="rise lift" style="--d:210ms"><g><polygon class="" points="24.2,-144 55.4,-126 55.4,-116 24.2,-134" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="55.4,-126 254.6,-241 254.6,-231 55.4,-116" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="24.2,-144 223.4,-259 254.6,-241 55.4,-126" fill="#FFFFFF" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/></g><text transform="matrix(0.9 -0.5 0.9 0.5 24.2 -144)" class="t-m" font-size="14" fill="#191919"><tspan x="14" y="23">Compliance consultant</tspan></text></g><g class="rise lift" style="--d:280ms"><g><polygon class="" points="-5.2,-167 26,-149 26,-139 -5.2,-157" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="26,-149 207.8,-254 207.8,-244 26,-139" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="-5.2,-167 176.7,-272 207.8,-254 26,-149" fill="#ECEFFE" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/></g><text transform="matrix(0.9 -0.5 0.9 0.5 -5.2 -167)" class="t-m" font-size="14" fill="#191919"><tspan x="14" y="23">The break/fix guy</tspan></text></g><g class="rise lift" style="--d:350ms"><g><polygon class="" points="13.9,-218 45,-200 45,-190 13.9,-208" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="45,-200 296.2,-345 296.2,-335 45,-190" fill="#C7CBFA" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/><polygon class="" points="13.9,-218 265,-363 296.2,-345 45,-200" fill="#FFFFFF" stroke="#1800AD" stroke-width="1.5" stroke-linejoin="round"/></g><text transform="matrix(0.9 -0.5 0.9 0.5 13.9 -218)" class="t-m" font-size="14" fill="#191919"><tspan x="14" y="23">Whoever set up the firewall in 2014</tspan></text></g></svg>
+      </figure>
+      <div class="one-r" data-reveal="right">
+        <div class="trisian-box">
+          <p class="tb-name">Trisian</p>
+          <ul><li style="--i:0"><span class="ck"><svg class="ic ic-check " width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><span>Every issue has an owner, an SLA and a resolution path.</span></li><li style="--i:1"><span class="ck"><svg class="ic ic-check " width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><span>Critical response in 1 hour on Core and Advanced. 30 minutes on Enterprise.</span></li><li style="--i:2"><span class="ck"><svg class="ic ic-check " width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><span>After hours, every level has emergency escalation through your named contacts.</span></li></ul>
+        </div>
+      </div>
+    </div>
+    <p class="signoff " data-reveal>One partner. One answer.</p>
+  </div>
+</section>
+<section class="sec s-grey" id="handoff">
+  <div class="wrap">
+    <header class="sec-head" data-reveal>
+      <h2 class="h2"><span class="bd">The handoff.</span></h2>
+      <p class="sub-p">Five steps from first call to a workspace that runs without you.</p>
+    </header>
+    <ol class="hsteps" id="hsteps"><li class="hs" style="--k:0" data-ico-host>
+        <div class="hs-ico"><span class="ico ico--rich ico--handoff " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="assets/icons/handoff-assess.webp"><img class="ico__img" src="assets/icons/handoff-assess.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture></span></span></div>
+        <span class="hs-node" aria-hidden="true">1</span>
+        <div class="hs-text"><h3 class="hs-title ico-title"><span class="sr-only">1. </span>Assess</h3><p>We map your security, performance and compliance against the rules you answer to. You get the gaps in writing.</p></div>
+      </li><li class="hs" style="--k:1" data-ico-host>
+        <div class="hs-ico"><span class="ico ico--rich ico--handoff " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="assets/icons/handoff-design.webp"><img class="ico__img" src="assets/icons/handoff-design.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture></span></span></div>
+        <span class="hs-node" aria-hidden="true">2</span>
+        <div class="hs-text"><h3 class="hs-title ico-title"><span class="sr-only">2. </span>Design</h3><p>We build the Safe Workspace around your applications, your regulators and your growth plan.</p></div>
+      </li><li class="hs" style="--k:2" data-ico-host>
+        <div class="hs-ico"><span class="ico ico--rich ico--handoff " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="assets/icons/handoff-deploy.webp"><img class="ico__img" src="assets/icons/handoff-deploy.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture></span></span></div>
+        <span class="hs-node" aria-hidden="true">3</span>
+        <div class="hs-text"><h3 class="hs-title ico-title"><span class="sr-only">3. </span>Deploy</h3><p>Pilot group first. Then everyone, with training and a check at each stage.</p></div>
+      </li><li class="hs" style="--k:3" data-ico-host>
+        <div class="hs-ico"><span class="ico ico--rich ico--handoff " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="assets/icons/handoff-operate.webp"><img class="ico__img" src="assets/icons/handoff-operate.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture><span class="ico__ov ov-blink" aria-hidden="true"><i></i></span></span></span></div>
+        <span class="hs-node" aria-hidden="true">4</span>
+        <div class="hs-text"><h3 class="hs-title ico-title"><span class="sr-only">4. </span>Operate</h3><p>We run it. Monitoring, patching, security, tuning. Your team doesn’t file tickets for any of it.</p></div>
+      </li><li class="hs" style="--k:4" data-ico-host>
+        <div class="hs-ico"><span class="ico ico--rich ico--handoff " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="assets/icons/handoff-review.webp"><img class="ico__img" src="assets/icons/handoff-review.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture></span></span></div>
+        <span class="hs-node" aria-hidden="true">5</span>
+        <div class="hs-text"><h3 class="hs-title ico-title"><span class="sr-only">5. </span>Review</h3><p>Every quarter: what changed in your rules, what changed in your business, what we adjust.</p></div>
+      </li></ol>
+  </div>
+</section>
+<a id="faq" aria-hidden="true"></a>
+<section class="sec s-white" id="questions">
   <div class="wrap faq-in">
     <header class="sec-head" data-reveal>
       <span class="pill ">Questions</span>
@@ -372,7 +374,7 @@
     </div>
     <div class="cta-end" data-reveal>
       <p class="cta-line">Still stuck on one?</p>
-      <a class="btn" href="#assessment?topic=question">Put it to us</a>
+      <a class="btn" href="#assessment" data-topic="question">Ask us</a>
     </div>
   </div>
 </section>
@@ -385,7 +387,7 @@
       </div>
       <div class="form-card" data-reveal="right">
         <form class="form" id="form" novalidate>
-          <input type="hidden" name="interest" id="f-interest" value="">
+          <input type="hidden" name="interest" id="f-interest" value="general">
           <label for="f-name">Name<input id="f-name" name="name" autocomplete="name" required></label>
           <label for="f-email">Work email<input id="f-email" name="email" type="email" autocomplete="email" required></label>
           <label for="f-co">Company<input id="f-co" name="company" autocomplete="organization" required></label>
@@ -417,7 +419,7 @@
         <a href="coverage/">Coverage</a>
         <a href="services/">Services</a>
         <a href="insights/">Insights</a>
-        <a href="#faq">Questions</a>
+        <a href="#questions">Questions</a>
       </div>
       <div class="foot-col" role="group" aria-label="Who it's for">
         <b>Who it's for</b>
@@ -432,8 +434,11 @@
         <a href="mailto:contact@trisian.com">contact@trisian.com</a>
         <a href="#assessment">Book an assessment</a>
       </div>
+      <div class="foot-soc" role="group" aria-label="Social profiles"><a class="soc" href="#" data-confirm="url" target="_blank" rel="noopener noreferrer" aria-label="Trisian on LinkedIn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg></a><a class="soc" href="#" data-confirm="url" target="_blank" rel="noopener noreferrer" aria-label="Trisian on Instagram"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a><a class="soc" href="#" data-confirm="url" target="_blank" rel="noopener noreferrer" aria-label="Trisian on X"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l16 16M20 4 4 20"/></svg></a></div>
     </div>
     <p class="foot-legal">&copy; 2026 Trisian</p>
+    <!-- the large wordmark: the existing logo file, scaled to the full container width, white at 12% opacity. No new asset. -->
+    <img class="foot-mark" src="assets/img/trisian-logo.png" alt="" aria-hidden="true" width="960" height="220">
   </div>
 </footer>
 <script src="js/common.js"></script>
