@@ -467,6 +467,14 @@ button,input,select{font:inherit}
   .ov-blink i{left:66%;top:9%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#EFF239;opacity:0}
   [data-ico-host]:hover .ov-blink i{animation:ov-blink .6s steps(1) forwards}
   @keyframes ov-blink{0%{opacity:1}25%{opacity:0}50%{opacity:1}75%{opacity:0}100%{opacity:1}}
+  /* desktop (v5): a 2px indigo caret at the screen's corner blinks twice (600ms), then rests. A clean session starts. */
+  .ov-caret i{left:52%;top:47.5%;width:2px;height:4.6%;background:#1800AD;opacity:0}
+  [data-ico-host]:hover .ov-caret i{animation:ov-blink .6s steps(1) forwards}
+  /* headroom (v5): three thin bars beside the icon rise in sequence (80ms apart, 250ms each) and fall back on mouse out */
+  .ov-bars i{bottom:76%;width:2.8%;height:10%;background:#C7CBFA;box-shadow:0 0 0 1px #576FF6;transform-origin:50% 100%;transform:scaleY(.25);transition:transform 250ms var(--ease)}
+  .ov-bars i:nth-child(1){left:74%}.ov-bars i:nth-child(2){left:80%;height:16%}.ov-bars i:nth-child(3){left:86%;height:22%}
+  [data-ico-host]:hover .ov-bars i{transform:scaleY(1)}
+  [data-ico-host]:hover .ov-bars i:nth-child(2){transition-delay:80ms}[data-ico-host]:hover .ov-bars i:nth-child(3){transition-delay:160ms}
 }
 
 /* ---------- the handoff: five steps on one horizontal line (Directive v3 5.9) ---------- */
@@ -489,24 +497,6 @@ button,input,select{font:inherit}
   .hs-text{order:2;margin-top:8px}
   .hs-node{position:absolute;left:-64px;top:calc(48px - 20px)}
 }
-@media (prefers-reduced-motion:no-preference){
-  /* the line draws (900ms), each node pops as the line reaches it, each icon fades up with its node */
-  .js .hsteps:not(.go)::before{transform:scaleX(0)}
-  .js .hsteps.go::before{animation:hline .9s var(--ease) both}
-  @keyframes hline{from{transform:scaleX(0)}to{transform:none}}
-  .js .hsteps:not(.go) .hs-node{opacity:0;transform:scale(0)}
-  .js .hsteps.go .hs-node{animation:hnode .45s var(--ease) both;animation-delay:calc(var(--k)*225ms)}
-  @keyframes hnode{from{opacity:0;transform:scale(0)}60%{transform:scale(1.15)}to{opacity:1;transform:none}}
-  .js .hsteps .hs .ico{transition-delay:calc(var(--k)*225ms)}
-  .js .hsteps:not(.go) .hs-text{opacity:0}
-  .js .hsteps.go .hs-text{animation:fadeup .6s var(--ease) both;animation-delay:calc(var(--k)*225ms + 200ms)}
-  @media (max-width:1023px){
-    .js .hsteps:not(.go)::before{transform:scaleY(0)}
-    .js .hsteps.go::before{animation-name:hlinev}
-    @keyframes hlinev{from{transform:scaleY(0)}to{transform:none}}
-  }
-}
-
 /* ---------- services band ---------- */
 .svc-band{position:relative;background:var(--navy);color:#fff;padding:140px 0;text-align:center;overflow:hidden}
 .svc-bg{position:absolute;inset:-12% 0;display:grid;place-items:end start;background:var(--navy);background-image:repeating-linear-gradient(135deg,transparent 0 14px,rgba(87,111,246,.12) 14px 15px);opacity:1}
@@ -593,24 +583,6 @@ button,input,select{font:inherit}
   .js .hero .hero-sub,.js .hero .scroll-cue{opacity:0}
   .js .hero.go .hero-sub{animation:fadeup .7s var(--ease) .35s both}
   .js .hero.go .scroll-cue{animation:fadeup .7s var(--ease) .7s both}
-
-  /* the bridge, once on entry: the line draws, a dot travels to the arrowhead (900ms), then the checks tick in (120ms stagger) */
-  .js .versus:not(.go) .bridge-line{transform:scaleX(0)}
-  .js .versus.go .bridge-line{animation:bline .5s var(--ease) both}
-  @keyframes bline{from{transform:scaleX(0)}to{transform:none}}
-  .js .versus:not(.go) .bridge-abut,.js .versus:not(.go) .bridge-arrow,.js .versus:not(.go) .bridge-pill{opacity:0}
-  .js .versus.go .bridge-abut,.js .versus.go .bridge-arrow,.js .versus.go .bridge-pill{animation:fadein .4s var(--ease) .2s both}
-  .js .versus.go .bridge-dot{animation:bdot .9s cubic-bezier(.2,.7,.2,1) .5s both}
-  @keyframes bdot{0%{opacity:1;transform:translateX(0)}99%{opacity:1}100%{opacity:0;transform:translateX(218px)}}
-  @keyframes fadein{from{opacity:0}to{opacity:1}}
-  .js .versus:not(.go) .ready .ck{opacity:0;transform:scale(.4)}
-  .js .versus.go .ready .ck{animation:ckpop .35s var(--ease) both;animation-delay:calc(1.45s + var(--i)*120ms)}
-  @media (max-width:960px){
-    .js .versus:not(.go) .bridge-line{transform:scaleY(0)}
-    .js .versus.go .bridge-line{animation-name:bliney}
-    @keyframes bliney{from{transform:scaleY(0)}to{transform:none}}
-    @keyframes bdot{0%{opacity:1;transform:translateY(0)}99%{opacity:1}100%{opacity:0;transform:translateY(98px)}}
-  }
 
   /* hero panel sequence */
   .js .hpanel:not(.play) .hp-q>*,.js .hpanel:not(.play) .hp-rows li{opacity:0}
@@ -831,3 +803,136 @@ button,input,select{font:inherit}
 .pool-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
 
 @media (max-width:640px){.hp-rows .mini{display:none}.hp-rows li{grid-template-columns:auto 1fr}}
+
+
+/* =====================================================================================================
+   v4 copy and flow (Directive v4). Later rules win over the v2/v3 rules above where they overlap.
+   ===================================================================================================== */
+
+/* section pills on #1800AD, larger (hero-adjacent sections that name themselves) */
+.pill.pill-d{background:var(--indigo);color:var(--tint-2);font-size:20px;padding:12px 30px;letter-spacing:.04em}
+@media (max-width:720px){.pill.pill-d{font-size:17px;padding:10px 24px}}
+
+/* nav dropdown lines (Plans & Projects) */
+.dd{min-width:250px}
+.dd a{flex-direction:column;align-items:flex-start!important;justify-content:center;padding:8px 12px;gap:2px}
+.dd a small{display:block;font-size:13px;line-height:1.35;font-weight:400;color:var(--muted);white-space:normal;max-width:24em}
+.dd a:hover small{color:var(--indigo)}
+.nav-links .has-dd:nth-of-type(2) .dd{min-width:290px}
+
+/* hero: the body is the definition, so it is large and fills the space under the line */
+.hero-in{gap:36px}
+.hero-sub{max-width:min(980px,100%);font-size:clamp(22px,2.2vw,34px);line-height:1.38;color:var(--ink);font-weight:400;letter-spacing:-.005em}
+.hero-sub b{font-weight:700;color:var(--indigo)}
+.hero-strip{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 22px;font-size:clamp(17px,1.5vw,22px);font-weight:600;color:var(--cobalt)}
+@media (max-width:720px){.hero{padding-bottom:104px}}
+
+/* the meeting */
+#meeting .sec-head{margin-bottom:40px;max-width:none}
+#meeting .h2-xl{font-size:min(83px,5.2vw);text-wrap:initial}
+#meeting .h2 .line{white-space:nowrap}
+.m-body{display:grid;gap:18px;max-width:60rem;margin:0 auto 64px;text-align:center;font-size:clamp(19px,1.7vw,25px);line-height:1.5;color:var(--ink)}
+.m-body .m-last{font-weight:700;font-size:1.2em;color:var(--indigo);margin-top:6px}
+@media (max-width:900px){#meeting .h2-xl{font-size:clamp(30px,8.6vw,52px)}#meeting .h2 .line{white-space:normal}}
+.versus{grid-template-columns:1fr 230px 1fr}
+.vs{padding:36px}
+.vs-scratch{background:var(--tint-1);color:var(--ink)}
+.vs-ready{background:var(--tint-2);color:var(--ink)}
+.vs-tag{font-size:15px;font-weight:600;color:var(--indigo)}
+.vs-title{font-size:clamp(22px,2vw,30px);line-height:1.15;font-weight:700;letter-spacing:-.01em}
+.vs-foot{font-size:18px}
+.scatter li{background:#fff;color:var(--ink);font-size:16px;padding:10px 16px;box-shadow:inset 0 0 0 1.5px var(--tint-2)}
+.ready li{background:#fff;color:var(--ink);box-shadow:none;font-size:18px;padding:14px 16px}
+.ready .ck{background:var(--tint-1);color:var(--indigo);width:26px;height:26px;border-radius:50%}
+.ready .ck svg{width:16px;height:16px}
+.bridge-pill{background:#fff;color:var(--indigo);box-shadow:inset 0 0 0 1.5px var(--indigo);padding:14px 18px;gap:6px;border-radius:20px}
+.bridge-pill img{height:24px;width:auto}
+.bridge-pill span{font-size:14px;font-weight:600;letter-spacing:.01em}
+@media (max-width:960px){.versus{grid-template-columns:1fr}}
+
+/* the 3 truths */
+.ans-intro{min-height:min(70svh,640px)}
+.q-tag{display:inline-block;font-size:16px;font-weight:600;line-height:1.3;margin:2px 0 12px;padding-left:14px;border-left:3px solid currentColor}
+.a-indigo .q-tag{color:var(--tint-2)}.a-peri .q-tag{color:var(--indigo)}.a-pale .q-tag{color:var(--indigo)}
+.ans-copy .h3{font-size:clamp(28px,2.7vw,40px);line-height:1.08;margin-bottom:16px}
+.ans-copy p:not(.lead):not(.stat):not(.q-tag){font-size:clamp(18px,1.4vw,21px);line-height:1.55;opacity:.92}
+.ans-copy .stat{font-size:clamp(21px,1.7vw,26px)}
+.ans-copy{min-width:0}
+.scene-card{position:relative;width:100%;background:var(--tint-1);border-radius:20px;overflow:hidden;padding:10px}
+.scene-card svg.sc{width:100%;height:auto;display:block;max-width:none;overflow:visible}
+.scene-card .sc-t{font-family:var(--f);font-weight:600;letter-spacing:0}
+.scene-cap{position:relative;text-align:center;font-weight:600;color:var(--cobalt);padding:6px 12px 14px;font-size:17px}
+.scene-still{display:none}
+@media (prefers-reduced-motion:reduce){
+  .scene-card .scene-still{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .scene-card .scene-still ~ *{}
+  .scene-card[data-scene="nothing-to-find"]>svg.st-live{display:none}
+}
+
+/* who we are: four rounded boxes, then the regulation chips, smaller */
+.receipts{padding:var(--pad) 0 calc(var(--pad) - 24px)}
+.receipts .sec-head{margin-bottom:44px}
+.rc-grid{gap:20px}
+.rc-grid li,.rc-grid li:first-child{border:0;background:var(--tint-1);border-radius:24px;padding:36px 20px 32px;transition:transform .2s var(--ease)}
+.rc-grid li:hover{transform:translateY(-2px)}
+.rc-grid li>span{font-size:17px;max-width:14em;color:var(--ink)}
+.rc-grid li:nth-child(3){border-left:0}
+@media (max-width:860px){.rc-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:420px){.rc-grid{grid-template-columns:1fr}}
+.cert-cap{margin:56px 0 18px;font-size:19px;letter-spacing:0;font-weight:600;color:var(--indigo)}
+.cert{padding:22px 0}
+.cp{font-size:24px;padding:8px 22px}
+.cert-set{gap:14px;padding-right:14px}
+@media (max-width:720px){.cp{font-size:20px;padding:7px 18px}.cert{padding:18px 0}.cert-set{gap:12px;padding-right:12px}}
+
+/* what we offer */
+#offer .h2-xl{font-size:clamp(52px,7vw,104px);margin-bottom:12px}
+.deck{font-size:clamp(24px,2.6vw,38px);line-height:1.15;font-weight:500;letter-spacing:-.015em;color:var(--indigo);text-align:center;margin:0 auto 22px;max-width:22em;text-wrap:balance}
+#offer .lead-p{max-width:46em;font-size:clamp(19px,1.5vw,23px);font-weight:400}
+#offer .lead-p b{font-weight:700}
+.box p{font-size:17px}
+.box .spec{margin-top:14px;padding-top:12px;border-top:1px solid var(--tint-2);font-size:14px;line-height:1.45;color:rgba(1,4,65,.66)!important}
+.also-h{margin:64px 0 20px;text-align:center;font-size:var(--label);font-weight:600;letter-spacing:var(--label-track);color:var(--indigo)}
+.tiles3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:1000px){.tiles3{grid-template-columns:1fr}}
+
+/* one partner */
+#partner .h2-xl{font-size:clamp(40px,5.6vw,83px)}
+#partner .lead-p{max-width:44em;font-weight:400}
+.one-grid{grid-template-columns:1.25fr .9fr;gap:56px}
+.one-l{display:block;width:100%}
+.one-l svg.sc{width:100%;height:auto}
+.trisian-box{padding:40px 34px}
+.trisian-box li{font-size:19px;line-height:1.45}
+
+/* who it's for: numbers and titles on the cards, no photos; the image runs wider than the column */
+.s-table{width:calc(100% + var(--side));margin-inline:calc(var(--side) / -2);aspect-ratio:21/8;margin-bottom:24px}
+@media (max-width:900px){.s-table{aspect-ratio:3/2}}
+.stair-card{padding:30px 28px 34px}
+.stair-num{font-size:96px}
+.stair-top{justify-content:flex-start}
+.stair-q{font-size:19px}
+.stair-body{font-size:18px;line-height:1.5}
+#seats .lead-p{max-width:40em;font-weight:400}
+
+/* how it works */
+#how .lead-p{max-width:40em;font-weight:400}
+.hs-text p{font-size:18px}
+
+/* questions: a wrapper around each answer so v5 can open it with grid-template-rows */
+.faq-list details .ans-wrap p{padding:0 44px 24px 0;color:var(--muted);font-size:18px}
+
+/* talk to us */
+.form-lead{margin:12px 0 10px;font-size:clamp(20px,1.7vw,26px);line-height:1.3;font-weight:600;color:#fff}
+.cta-copy .sub-p{font-size:18px}
+
+/* footer: the giant wordmark fades toward the bottom until it disappears */
+.foot-mark-wrap{margin-top:56px;overflow:hidden;-webkit-mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.55) 45%,transparent 92%);mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.55) 45%,transparent 92%)}
+.foot-mark{margin-top:0;opacity:.22}
+.ans{grid-template-columns:.88fr 1.12fr;gap:44px}
+@media (max-width:960px){.ans{grid-template-columns:1fr}}
+.receipts .h2-m{font-size:clamp(28px,3.25vw,44px);line-height:1.08}
+.one-l .scene-card{padding:14px}
+@media (max-width:960px){.one-grid{grid-template-columns:1fr;gap:36px}.trisian-box{padding:28px 22px}}
+.ans-copy p:not(.lead):not(.stat):not(.q-tag){opacity:1}
+.a-indigo .ans-copy p:not(.lead):not(.stat):not(.q-tag){color:rgba(255,255,255,.94)}

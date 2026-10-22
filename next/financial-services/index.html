@@ -19,9 +19,13 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231800AD'/%3E%3Cpath d='M7 9h18v4h-7v11h-4V13H7z' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="preload" href="../assets/fonts/Graphik-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../assets/fonts/Graphik-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/Graphik-Medium.woff2" as="font" type="font/woff2" crossorigin>
+
 <meta name="theme-color" content="#FFFFFF">
 <link rel="stylesheet" href="../css/styles.css">
 <link rel="stylesheet" href="../css/industry.css">
+<link rel="stylesheet" href="../css/motion.css">
+
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://schil79.github.io/Trisian/"}, {"@type": "ListItem", "position": 2, "name": "Who it's for", "item": "https://schil79.github.io/Trisian/who-its-for/"}, {"@type": "ListItem", "position": 3, "name": "Financial services", "item": "https://schil79.github.io/Trisian/financial-services/"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What does Regulation S-P require now?", "acceptedAnswer": {"@type": "Answer", "text": "A written incident response program, notice to affected customers within 30 days of becoming aware of unauthorized access to their sensitive information, and oversight of service providers, who are expected to notify you within 72 hours of discovering a breach. Compliance dates were December 3, 2025 for larger firms and June 3, 2026 for everyone else. Ask your counsel how it applies to your registration."}}, {"@type": "Question", "name": "We're a small adviser. Did the later date mean a lighter rule?", "acceptedAnswer": {"@type": "Answer", "text": "A later date, not a lighter rule. The requirements are the same. The calendar was longer."}}, {"@type": "Question", "name": "What does Azure actually cost us?", "acceptedAnswer": {"@type": "Answer", "text": "What Azure charges. It's billed as a straight pass-through with full visibility, and Trisian adds no markup. We optimize the spend and profit nothing on it."}}, {"@type": "Question", "name": "Who do we call at 2 AM?", "acceptedAnswer": {"@type": "Answer", "text": "One partner. Advanced and Enterprise run 24/7/365. Enterprise adds a named technical account manager and a 30-minute critical response."}}]}</script>
 <script>document.documentElement.classList.add('js')</script>
@@ -33,23 +37,19 @@
   <nav class="nav" id="nav" aria-label="Primary">
     <a href="../" class="logo" aria-label="Trisian home"><img src="../assets/img/trisian-logo.png" alt="Trisian"></a>
     <div class="nav-links" id="navLinks">
-      <a href="../#answers">The 3 answers</a>
+      <a href="../#offer">What we offer</a>
       <div class="nav-item has-dd is-active">
         <a href="../#seats" class="dd-link" aria-current="page">Who it's for</a>
         <button class="dd-toggle" type="button" aria-expanded="false" aria-controls="ddList" aria-label="Show industries"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4.5l4 4 4-4"/></svg></button>
-        <ul class="dd" id="ddList">
-          <li><a href="../who-its-for/">All industries</a></li>
-          <li><a href="../healthcare/">Healthcare</a></li>
-          <li><a href="../financial-services/">Financial services</a></li>
-          <li><a href="../legal/">Legal</a></li>
-          <li><a href="../growing-businesses/">Growing businesses</a></li>
-        </ul>
+        <ul class="dd" id="ddList"><li><a href="../who-its-for/">All industries</a></li><li><a href="../healthcare/">Healthcare</a></li><li><a href="../financial-services/">Financial services</a></li><li><a href="../legal/">Legal</a></li><li><a href="../growing-businesses/">Growing businesses</a></li></ul>
       </div>
-      <a href="../#offer">What we offer</a>
-      <a href="../coverage/">Coverage</a>
-      <a href="../services/">Services</a>
+      <div class="nav-item has-dd">
+        <a href="../coverage/" class="dd-link">Plans &amp; Projects</a>
+        <button class="dd-toggle" type="button" aria-expanded="false" aria-controls="ddPlans" aria-label="Show plans and projects"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4.5l4 4 4-4"/></svg></button>
+        <ul class="dd" id="ddPlans"><li><a href="../coverage/">Plans<small>Core, Advanced and Enterprise, and how pricing works.</small></a></li><li><a href="../services/">Projects<small>Migrations, security builds and compliance programs.</small></a></li></ul>
+      </div>
       <a href="../insights/">Insights</a>
-      <a href="#assessment" class="btn btn-sm">Book an assessment</a>
+      <a href="#assessment" class="btn btn-sm">Talk to us</a>
     </div>
     <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span></button>
   </nav>
@@ -209,35 +209,35 @@
   <div class="ip-wrap">
     <h2 class="ip-h2">Who's at the table.</h2>
     <ol class="stair" data-stagger><li class="stair-card st-blue" style="--k:0">
-        <div class="stair-top"><span class="stair-photo"><img src="../assets/img/table.webp" alt="" width="192" height="192" loading="lazy" style="object-position:50% 35%"></span><span class="stair-num" aria-hidden="true">1</span></div>
+        <div class="stair-top"><span class="stair-num" aria-hidden="true">1</span></div>
         <h3 class="stair-title">The managing principal.</h3>
         <p class="stair-q">Wants to stop thinking about it.</p>
         <p class="stair-body">Gets plain language, predictable pricing and proof from firms their size.</p>
       </li>
       <li class="stair-card st-dark" style="--k:1">
-        <div class="stair-top"><span class="stair-photo"><img src="../assets/img/closeup.webp" alt="" width="192" height="192" loading="lazy" style="object-position:50% 35%"></span><span class="stair-num" aria-hidden="true">2</span></div>
+        <div class="stair-top"><span class="stair-num" aria-hidden="true">2</span></div>
         <h3 class="stair-title">The CTO.</h3>
         <p class="stair-q">Already knows what's broken. Wants to be augmented, not replaced.</p>
         <p class="stair-body">Gets a co-managed partner who works inside the team's decisions.</p>
       </li>
       <li class="stair-card st-blue" style="--k:2">
-        <div class="stair-top"><span class="stair-photo"><img src="../assets/img/financial-services.webp" alt="" width="192" height="192" loading="lazy" style="object-position:50% 35%"></span><span class="stair-num" aria-hidden="true">3</span></div>
+        <div class="stair-top"><span class="stair-num" aria-hidden="true">3</span></div>
         <h3 class="stair-title">The chief compliance officer.</h3>
         <p class="stair-q">Wants the evidence on file before the examiner's letter arrives.</p>
         <p class="stair-body">Gets it.</p>
       </li>
       <li class="stair-card st-dark" style="--k:3">
-        <div class="stair-top"><span class="stair-photo stair-ph" role="img" aria-label="An operations leader reviewing a report at a desk" title="an operations leader reading a board report at a desk, daylight"><span>PHOTO PENDING &middot; 1:1</span></span><span class="stair-num" aria-hidden="true">4</span></div>
+        <div class="stair-top"><span class="stair-num" aria-hidden="true">4</span></div>
         <h3 class="stair-title">The COO</h3>
-        <p class="stair-q">Continuity. Board-ready visibility. Single ownership.</p>
-        <p class="stair-body">The one who has to say "it's handled" out loud, and mean it. A missed SLA or a failed audit lands on revenue. One accountable partner means one owner, fewer vendors to run and a report the board can read.</p>
+        <p class="stair-q">You’re the one who says “it’s handled.”</p>
+        <p class="stair-body">One partner means one owner for every issue, fewer vendors to run and a report your board can read.</p>
       </li></ol>
   </div>
 </section>
 
 <section class="ip-s ip-grey">
   <div class="ip-wrap">
-    <h2 class="ip-h2">Which plan fits. The assessment decides.</h2>
+    <h2 class="ip-h2">Which plan fits. The first call decides.</h2>
     <div class="ip-plans">
       <article class="ip-plan"><h3 class="ip-h3">Core</h3><p>Small advisers, lenders and boutique firms, up to 300 users. Business-hours support, 1-hour critical response.</p></article>
       <article class="ip-plan"><h3 class="ip-h3">Advanced</h3><p>Firms that serve clients across time zones or run after hours. Unlimited users, 24/7/365 support.</p></article>
@@ -275,7 +275,7 @@
           <option>Healthcare</option><option selected>Financial services</option><option>Legal</option><option>Growing business</option><option>Other regulated industry</option>
         </select>
       </label>
-      <button class="ip-btn on-light" type="submit">Book a financial services assessment</button>
+      <button class="ip-btn on-light" type="submit">Talk to us</button>
       <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
     </form>
   </div>
@@ -288,13 +288,12 @@
         <img src="../assets/img/trisian-logo.png" alt="Trisian" class="foot-logo">
         <p>Managed IT for regulated industries. 28 years in business.</p>
       </div>
-      <div class="foot-col" role="group" aria-label="Product">
-        <b>Product</b>
+      <div class="foot-col" role="group" aria-label="Explore">
+        <b>Explore</b>
         <a href="../#offer">What we offer</a>
-        <a href="../coverage/">Coverage</a>
-        <a href="../services/">Services</a>
+        <a href="../coverage/">Plans</a>
+        <a href="../services/">Projects</a>
         <a href="../insights/">Insights</a>
-        <a href="../#questions">Questions</a>
       </div>
       <div class="foot-col" role="group" aria-label="Who it's for">
         <b>Who it's for</b>
@@ -306,14 +305,14 @@
       </div>
       <div class="foot-col" role="group" aria-label="Company">
         <b>Company</b>
+        <a href="../#assessment">Talk to us</a>
         <a href="mailto:contact@trisian.com">contact@trisian.com</a>
-        <a href="../#assessment">Book an assessment</a>
       </div>
       <div class="foot-soc" role="group" aria-label="Social profiles"><a class="soc" href="#" data-confirm="url" target="_blank" rel="noopener noreferrer" aria-label="Trisian on LinkedIn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg></a><a class="soc" href="#" data-confirm="url" target="_blank" rel="noopener noreferrer" aria-label="Trisian on Instagram"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a><a class="soc" href="#" data-confirm="url" target="_blank" rel="noopener noreferrer" aria-label="Trisian on X"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l16 16M20 4 4 20"/></svg></a></div>
     </div>
     <p class="foot-legal">&copy; 2026 Trisian</p>
     <!-- the large wordmark: the existing logo file, scaled to the full container width, white at 12% opacity. No new asset. -->
-    <img class="foot-mark" src="../assets/img/trisian-logo.png" alt="" aria-hidden="true" width="960" height="220">
+    <div class="foot-mark-wrap" aria-hidden="true"><img class="foot-mark" src="../assets/img/trisian-logo.png" alt="" width="960" height="220"></div>
   </div>
 </footer>
 <script src="../js/common.js"></script>

@@ -19,13 +19,18 @@
   };
 
   /* ---------- enter-view: reveals, staggers, word splits, anim containers ---------- */
-  $$('[data-stagger]').forEach(g => [...g.children].forEach((c, i) => c.style.setProperty('--i', i)));
+  $$('[data-stagger]').forEach(g => [...g.children].forEach((c, i) => c.style.setProperty('--i', Math.min(i, 5))));
   $$('[data-split]').forEach(el => {
     const words = el.textContent.trim().split(/\s+/);
     el.innerHTML = words.map((w, i) => `<span class="w" style="--i:${i}"><span>${w}</span></span>`).join(' ');
   });
-  watch($$('[data-reveal],[data-stagger],[data-split],.vs-mid'), e => { e.classList.add('in'); if (e.hasAttribute('data-stagger')) setTimeout(() => e.classList.add('settled'), 1500); }, 0.12);
-  watch($$('.anim:not(#hpanel),[data-viz]'), e => e.classList.add('in'), 0.35);
+  // blocks trigger at 25% in view (5.4); anything taller than three viewports can never reach that, so it goes at 5%
+  const tall = e => e.getBoundingClientRect().height > innerHeight * 3;
+  const blocks = $$('[data-reveal],[data-stagger],[data-split],.vs-mid,.cert');
+  const onIn = e => { e.classList.add('in'); if (e.hasAttribute('data-stagger')) setTimeout(() => e.classList.add('settled'), 1800); };
+  watch(blocks.filter(e => !tall(e)), onIn, 0.25);
+  watch(blocks.filter(tall), onIn, 0.05);
+  watch($$('.anim,[data-viz]'), e => e.classList.add('in'), 0.35);
 
   /* ---------- hero: fit the line to 75% of the viewport width ----------
      This routine only sets font-size on #h1. It measures the rendered line at a 100px probe size, then scales.
@@ -45,17 +50,19 @@
     let rt; addEventListener('resize', () => { cancelAnimationFrame(rt); rt = requestAnimationFrame(fit); });
     requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('go')));
   }
-  const hs = $('#hsteps');
-  if (hs) { if (reduce) hs.classList.add('go'); else watch([hs], e => e.classList.add('go'), 0.3); }
-  const versus = $('#versus');
-  if (versus) { if (reduce) versus.classList.add('go'); else watch([versus], e => e.classList.add('go'), 0.35); }
-  const hp = $('#hpanel');
-  if (hp) {
-    if (reduce) hp.classList.add('play', 'done');
-    else watch([hp], e => { e.classList.add('play'); setTimeout(() => e.classList.add('done'), 2900); }, 0.3);
-  }
 
-  /* ---------- counters (receipts), run once ---------- */
+  /* ---------- questions: open and close with the rows technique (css), not a height tween ---------- */
+  $$('.faq-list details').forEach(d => {
+    const sum = $('summary', d);
+    sum.addEventListener('click', e => {
+      if (reduce) return;
+      e.preventDefault();
+      if (!d.open) { d.open = true; requestAnimationFrame(() => requestAnimationFrame(() => d.classList.add('is-open'))); }
+      else { d.classList.remove('is-open'); setTimeout(() => { d.open = false; }, 300); }
+    });
+  });
+
+  /* ---------- counters (receipts), run once. Only 28 and 9 count: a response time that counts up from zero is not a response time. ---------- */
   const grid = $('#rcGrid');
   if (grid && !reduce) {
     const nums = $$('[data-count]', grid);
@@ -78,70 +85,6 @@
     speed(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(speed); addEventListener('resize', speed);
   }
 
-  /* ---------- desktop pool (answer 1): check in, use, check out, reset, loop while in view ---------- */
-  const pool = $('#pool');
-  if (pool) {
-    const tiles = $$('.pt', pool), cols = 6, gridEl = $('#poolGrid'), clock = $('#poolClock'), status = $('#poolStatus'), steps = $$('#poolSteps li');
-    const setStep = k => steps.forEach(s => s.classList.toggle('on', s.dataset.s === k));
-    const fmt = m => { m = Math.round(m) % 1440; return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); };
-    const showReset = () => { tiles.forEach(t => { t.classList.remove('on', 'cursor', 'flash'); t.classList.add('rs'); }); clock.textContent = '00:00'; status.textContent = 'Reset 100%'; setStep('rs'); pool.dataset.phase = 'reset'; };
-    if (reduce) showReset();
-    else {
-      let alive = false, token = 0;
-      const run = async () => {
-        const my = ++token;
-        const live = () => alive && my === token;
-        const tween = (a, b, ms) => new Promise(res => { const t0 = performance.now(); const f = n => { if (!live()) return res(); const p = clamp((n - t0) / ms); clock.textContent = fmt(a + (b - a) * p); p < 1 ? requestAnimationFrame(f) : res(); }; requestAnimationFrame(f); });
-        while (live()) {
-          // idle
-          tiles.forEach(t => t.classList.remove('on', 'cursor', 'rs', 'flash'));
-          pool.dataset.phase = 'idle'; clock.textContent = '14:14'; setStep(''); status.textContent = 'Desktops idle.';
-          await wait(900); if (!live()) break;
-          // check in
-          setStep('in'); status.textContent = 'People checking in.';
-          const order = [...tiles.keys()].sort(() => Math.random() - .5);
-          const tw1 = tween(14 * 60 + 14, 16 * 60 + 40, 1800);
-          for (const i of order) { if (!live()) break; tiles[i].classList.add('on'); await wait(70); }
-          await tw1; if (!live()) break;
-          // use
-          setStep('use'); status.textContent = 'Users at work.';
-          const tw2 = tween(16 * 60 + 40, 24 * 60 - 1, 3400);
-          let cur = null;
-          const cursorTimer = setInterval(() => { if (cur) cur.classList.remove('cursor'); cur = tiles[Math.floor(Math.random() * tiles.length)]; cur.classList.add('cursor'); }, 650);
-          await tw2; clearInterval(cursorTimer); if (cur) cur.classList.remove('cursor'); if (!live()) break;
-          // check out
-          setStep('out'); status.textContent = 'Checking out.'; clock.textContent = '23:59'; await wait(900); if (!live()) break;
-          // reset: a sweep line crosses the pool, each tile flashes, clears, and goes dashed
-          setStep('rs'); status.textContent = 'Resetting.'; clock.textContent = '00:00';
-          pool.style.setProperty('--gw', (gridEl.clientWidth - 3) + 'px');
-          pool.dataset.phase = 'sweep';
-          tiles.forEach((t, i) => { const c = i % cols; setTimeout(() => { if (!live()) return; t.classList.add('flash'); setTimeout(() => { t.classList.remove('on', 'flash'); t.classList.add('rs'); }, 120); }, (c + .5) / cols * 1400); });
-          await wait(1700); if (!live()) break;
-          pool.dataset.phase = 'reset'; status.textContent = 'Reset 100%';
-          await wait(3200);
-        }
-      };
-      // start and stop with visibility
-      if (hasIO) new IntersectionObserver(es => { alive = es[0].isIntersecting; if (alive) run(); else token++; }, { threshold: 0.35 }).observe(pool);
-    }
-  }
-
-  /* ---------- mini pool inside the nightly reset tile: once, on entry ---------- */
-  const mini = $('#miniPool');
-  if (mini) {
-    const mt = $$('.mt', mini);
-    if (reduce) mt.forEach(t => t.classList.add('rs'));
-    else watch([mini], async () => {
-      for (const t of mt) { t.classList.add('on'); await wait(60); }
-      await wait(500);
-      mini.dataset.phase = 'sweep';
-      const sw = $('.sweep', mini); const w = mini.clientWidth;
-      sw.style.cssText = `opacity:.9;transition:transform 1s linear;transform:translateX(${w}px)`;
-      mt.forEach((t, i) => setTimeout(() => { t.classList.remove('on'); t.classList.add('rs'); }, (i % 3 + .5) / 3 * 1000));
-      setTimeout(() => { sw.style.opacity = 0; }, 1100);
-    }, 0.6);
-  }
-
   /* ---------- magnetic buttons ---------- */
   if (!reduce && matchMedia('(hover:hover)').matches) {
     $$('[data-magnet]').forEach(b => {
@@ -157,7 +100,7 @@
      Entry once (60ms stagger per icon in a group, capped at 6), ambient float only while the host is on screen,
      cursor lean through one delegated pointer handler (capped at 6px), a one-off lift on tap for touch.
      Under reduced motion none of this runs and the icons simply appear. */
-  const hosts = $$('[data-ico-host]');
+  const hosts = $$('[data-ico-host]').filter(h => !h.classList.contains('hs'));
   hosts.forEach((h, n) => {
     const group = h.parentElement, sibs = [...group.children].filter(c => c.hasAttribute('data-ico-host'));
     const i = Math.min(sibs.indexOf(h), 5);
@@ -200,12 +143,90 @@
     }, { passive: true });
   }
 
+  /* ---------- scenes: play once at 60% in view; scene 1 replays on click or tap; layers lean toward a fine pointer ---------- */
+  const scenes = $$('.scene-card[data-scene],.versus[data-scene]');
+  const playScene = c => { c.classList.remove('play'); void c.getBoundingClientRect(); c.classList.add('play'); };
+  if (reduce || !hasIO) scenes.forEach(c => c.classList.add('play'));
+  else watch(scenes, playScene, 0.6);
+  const nf = $('#sc-nothing-to-find');
+  if (nf && !reduce) {
+    const again = () => { if (nf.classList.contains('play')) playScene(nf); };
+    const m = $('.s1-machine', nf); if (m) m.addEventListener('click', again);
+    const rb = $('.scene-replay', nf); if (rb) rb.addEventListener('click', again);
+  }
+  if (!reduce && matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    let cur = null, raf = 0, lx = 0, ly = 0;
+    const lean = () => { raf = 0; if (cur) { cur.style.setProperty('--lx', lx.toFixed(3)); cur.style.setProperty('--ly', ly.toFixed(3)); } };
+    scenes.forEach(c => {
+      c.addEventListener('pointermove', e => { const r = c.getBoundingClientRect(); cur = c; lx = clamp(((e.clientX - r.left) / r.width) * 2 - 1, -1, 1); ly = clamp(((e.clientY - r.top) / r.height) * 2 - 1, -1, 1); if (!raf) raf = requestAnimationFrame(lean); }, { passive: true });
+      c.addEventListener('pointerleave', () => { c.style.setProperty('--lx', 0); c.style.setProperty('--ly', 0); });
+    });
+  }
+
+  /* ---------- scene 3: hover, focus or tap a row and its pair lights on the other sheet ---------- */
+  const zm = $('.sc-markup');
+  if (zm) {
+    const set = i => { [0, 1, 2].forEach(n => zm.classList.toggle('pair-' + n, n === i)); };
+    $$('.s3-row', zm).forEach(r => {
+      const i = +r.dataset.row;
+      r.addEventListener('pointerenter', () => set(i)); r.addEventListener('pointerleave', () => set(-1));
+      r.addEventListener('focus', () => set(i)); r.addEventListener('blur', () => set(-1));
+      r.addEventListener('pointerdown', e => { if (e.pointerType === 'touch') set(i); });
+    });
+    document.addEventListener('pointerdown', e => { if (!e.target.closest || !e.target.closest('.s3-row')) set(-1); }, { passive: true });
+  }
+
+  /* ---------- the regulation row: a visible pause control (WCAG 2.2.2) ---------- */
+  const cert = $('#cert'), pauseBtn = cert && $('.cert-pause', cert);
+  if (pauseBtn) pauseBtn.addEventListener('click', () => {
+    const on = cert.classList.toggle('is-paused');
+    pauseBtn.setAttribute('aria-pressed', on);
+    pauseBtn.setAttribute('aria-label', on ? 'Play the scrolling row' : 'Pause the scrolling row');
+    $('span', pauseBtn).textContent = on ? 'Play' : 'Pause';
+  });
+
+  /* ---------- depth roots: the nearest [data-scene] or section of every .depth layer. --p is written on the root, once per frame. ---------- */
+  const depthRoots = [...new Set($$('.depth').map(d => d.closest('[data-scene],section') || d.parentElement))];
+  const liveRoots = new Set();
+  if (depthRoots.length && hasIO && !reduce) {
+    const dio = new IntersectionObserver(es => es.forEach(en => {
+      en.target.classList.toggle('depth-live', en.isIntersecting);
+      en.isIntersecting ? liveRoots.add(en.target) : liveRoots.delete(en.target);
+    }), { rootMargin: '10% 0px' });
+    depthRoots.forEach(r => dio.observe(r));
+  }
+
+  /* ---------- scrubbed sections: how it works, one partner, the staircase (scroll position, not time; nothing is pinned) ---------- */
+  const hsteps = $('#hsteps'), hsNodes = hsteps ? $$('.hs', hsteps) : [];
+  let hsGeo = null;
+  const measureHs = () => {
+    if (!hsteps) return;
+    const vertical = innerWidth < 1024, box = hsteps.getBoundingClientRect();
+    const pts = hsNodes.map(h => { const r = $('.hs-node', h).getBoundingClientRect(); return vertical ? r.top + r.height / 2 - box.top : r.left + r.width / 2 - box.left; });
+    hsGeo = { vertical, pts, a: pts[0], b: pts[pts.length - 1] };
+    const fill = $('.hs-fill', hsteps), dot = $('.hs-dot', hsteps);
+    if (vertical) {
+      fill.style.cssText = `left:19px;right:auto;top:${hsGeo.a}px;height:${hsGeo.b - hsGeo.a}px;width:1.5px`;
+      dot.style.cssText = `left:19px;top:${hsGeo.a}px`;
+      hsteps.style.setProperty('--hy', (hsGeo.b - hsGeo.a) + 'px'); hsteps.style.setProperty('--hx', '0px');
+    } else {
+      fill.style.cssText = `left:${hsGeo.a}px;right:auto;width:${hsGeo.b - hsGeo.a}px`;
+      dot.style.cssText = `left:${hsGeo.a}px`;
+      hsteps.style.setProperty('--hx', (hsGeo.b - hsGeo.a) + 'px'); hsteps.style.setProperty('--hy', '0px');
+    }
+  };
+  if (hsteps && !reduce) {
+    hsteps.classList.add('scrub');
+    measureHs(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureHs); addEventListener('resize', measureHs);
+  }
+  const scene5 = $('#sc-one-partner'), partnerRows = $('.one-r'), stair = $('.stair');
+
   /* ---------- one loop for everything tied to scroll ---------- */
   const navWrap = $('#navWrap'), intro = $('#ansIntro'), introIn = intro && $('.ans-intro-in', intro);
   const ans = $$('[data-ans]'), steps = $('#steps'), parallax = $$('[data-parallax]'), pimgs = $$('[data-parallax-img]');
-  const navLinks = $$('.nav-links a').filter(a => /#(answers|seats|offer)$/.test(a.getAttribute('href') || ''));
-  const secs = { answers: $('#answers'), offer: null };
-  const secOf = id => (id === 'answers' ? [$('#answers'), $('#receipts')] : id === 'seats' ? [$('#seats')] : [$('#offer'), $('#six')]).filter(Boolean);
+  const navLinks = $$('.nav-links a').filter(a => /#(seats|offer)$/.test(a.getAttribute('href') || ''));
+  const secOf = id => (id === 'seats' ? [$('#seats')] : [$('#offer'), $('#partner')]).filter(Boolean);
+  const footMark = $('.foot-mark');
   let queued = false;
   const frame = () => {
     queued = false;
@@ -224,8 +245,28 @@
       steps.style.setProperty('--sp', clamp((H * .6 - r.top) / r.height).toFixed(3));
       $$('.step', steps).forEach(s => s.classList.toggle('here', s.getBoundingClientRect().top < H * .6));
     }
-    parallax.forEach(el => { const r = el.getBoundingClientRect(); if (r.bottom < -100 || r.top > H + 100) return; const f = +el.dataset.parallax; el.style.transform = `translateY(${(((r.top + r.height / 2) - H / 2) * -f).toFixed(1)}px)`; });
-    pimgs.forEach(im => { const c = im.parentElement.getBoundingClientRect(); if (c.bottom < -100 || c.top > H + 100) return; im.style.transform = `translateY(${clamp(((c.top + c.height / 2) - H / 2) * -.06, -c.height * .1, c.height * .1).toFixed(1)}px)`; });
+    if (innerWidth >= 768) liveRoots.forEach(r => {
+      const b = r.getBoundingClientRect();
+      r.style.setProperty('--p', clamp(((H - b.top) / (H + b.height)) * 2 - 1, -1, 1).toFixed(3));
+    });
+    if (hsteps && hsGeo && !reduce) {
+      const r = hsteps.getBoundingClientRect();
+      const hp = clamp((H * 0.72 - r.top) / (r.height + H * 0.1 > 0 ? Math.min(r.height * 0.9, H * 0.7) : 1));
+      hsteps.style.setProperty('--hp', hp.toFixed(3));
+      const head = hsGeo.a + hp * (hsGeo.b - hsGeo.a);
+      hsNodes.forEach((h, i) => h.classList.toggle('on', head >= hsGeo.pts[i] - 1));
+    }
+    if (scene5 && !reduce) {
+      const r = scene5.getBoundingClientRect(), cy = r.top + r.height / 2;
+      const sa = clamp((H * 0.95 - cy) / (H * 0.45)), sc = clamp((H * 0.5 - cy) / (H * 0.2));
+      const svg = $('svg', scene5);
+      svg.style.setProperty('--sa', sa.toFixed(3)); svg.style.setProperty('--sc', sc.toFixed(3)); svg.style.setProperty('--do', sc > 0 && sc < 1 ? 1 : 0);
+      if (sc >= 1 && partnerRows) partnerRows.classList.add('ticked');
+    }
+    if (stair) { const r = stair.getBoundingClientRect(); stair.style.setProperty('--sk', clamp((H * 0.92 - r.top) / (H * 0.45)).toFixed(3)); }
+    if (footMark) footMark.style.setProperty('--fr', clamp((y - (max - 400)) / 400).toFixed(3));
+    if (innerWidth >= 768) parallax.forEach(el => { const r = el.getBoundingClientRect(); if (r.bottom < -100 || r.top > H + 100) return; const f = +el.dataset.parallax; el.style.transform = `translateY(${(((r.top + r.height / 2) - H / 2) * -f).toFixed(1)}px)`; });
+    if (innerWidth >= 768) pimgs.forEach(im => { const c = im.parentElement.getBoundingClientRect(); if (c.bottom < -100 || c.top > H + 100) return; im.style.transform = `translateY(${clamp(((c.top + c.height / 2) - H / 2) * -.06, -c.height * .1, c.height * .1).toFixed(1)}px)`; });
   };
   const queue = () => { if (!queued) { queued = true; requestAnimationFrame(frame); } };
   addEventListener('scroll', queue, { passive: true });

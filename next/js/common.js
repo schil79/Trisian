@@ -17,16 +17,15 @@
     });
   }
 
-  /* ---------- industries dropdown (mouse, keyboard, touch) ---------- */
-  const dd = $('.has-dd');
-  if (dd) {
+  /* ---------- nav dropdowns: Who it's for and Plans & Projects (mouse, keyboard, touch) ---------- */
+  $$('.has-dd').forEach(dd => {
     const btn = $('.dd-toggle', dd);
     const set = open => { dd.classList.toggle('open', open); btn.setAttribute('aria-expanded', open); };
-    btn.addEventListener('click', e => { e.stopPropagation(); set(!dd.classList.contains('open')); });
+    btn.addEventListener('click', e => { e.stopPropagation(); $$('.has-dd').forEach(o => { if (o !== dd) { o.classList.remove('open'); $('.dd-toggle', o).setAttribute('aria-expanded', 'false'); } }); set(!dd.classList.contains('open')); });
     document.addEventListener('click', e => { if (!dd.contains(e.target)) set(false); });
     dd.addEventListener('keydown', e => { if (e.key === 'Escape') { set(false); btn.focus(); } });
     dd.addEventListener('focusout', e => { if (!dd.contains(e.relatedTarget)) set(false); });
-  }
+  });
 
   /* ---------- hash with a query: /#assessment?topic=question ----------
      One parser, on load, on hashchange and on click. Split location.hash on "?", scroll to the part before it, read topic from
@@ -85,9 +84,13 @@
     form.addEventListener('submit', e => {
       e.preventDefault();
       if (!form.checkValidity()) { form.reportValidity(); msg.textContent = ''; return; }
-      msg.textContent = 'Thanks. We will be in touch.';
-      form.reset();
-      if (sel && map[want]) sel.value = map[want];
+      form.classList.add('is-sending');     // a 2px bar sweeps the button's bottom edge (css); nothing is sent yet
+      setTimeout(() => {
+        form.classList.remove('is-sending');
+        msg.textContent = 'Thanks. We will be in touch.';   // [CONFIRM] confirmation copy is not written yet
+        form.reset();
+        if (sel && map[want]) sel.value = map[want];
+      }, 900);
     });
   }
 })();
