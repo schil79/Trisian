@@ -1,118 +1,123 @@
-/* The five scenes (Directive v5 section 6). Home page only.
+/* The scenes (Directive v5 section 6, revised by v6 section 5). Home page only.
    Default state of every scene is its END frame, so the page is complete with JavaScript off and under reduced motion.
-   Reduced motion (prefers-reduced-motion: reduce): every scene shows its static end frame; scene 1 shows two (11 PM and 12 AM).
-   Timelines are added in the motion layer (v5). No em dashes. */
+   Reduced motion (prefers-reduced-motion: reduce): every scene shows its static end frame; scene 1 shows two (In use and Rebuilt).
+   Looping scenes (the three truths, How we take it from here) are driven by js/main.js: it adds .play, waits one cycle, adds it again.
+   A loop starts at 60% in view, pauses off-screen, on keyboard focus and on its pause button. No scroll-scrubbed motion anywhere.
+   Everything below animates transform and opacity, plus stroke-dashoffset on drawn lines. No em dashes. */
 
-/* ---- scene 1: Nothing to Find. End frame: clean screen, 12 AM. The files shelf is never touched. ---- */
-.sc-nothing .hand-h,.sc-nothing .hand-m{transform-box:fill-box;transform-origin:50% 100%}
-.sc-nothing .t-11,.sc-nothing .s1-wins,.sc-nothing .s1-off,.sc-nothing .s1-cur2{opacity:0}
-.sc-nothing.st-before .t-11,.sc-nothing.st-before .s1-wins,.sc-nothing.st-before .s1-cur2{opacity:1}
-.sc-nothing.st-before .t-12{opacity:0}
-.sc-nothing.st-before .hand-h{transform:rotate(-30deg)}
+/* ---- shared: pause and replay buttons ---- */
+.pause-btn{position:absolute;right:10px;bottom:10px;z-index:3;display:grid;place-items:center;width:24px;height:24px;padding:0;border:0;border-radius:50%;background:#fff;color:var(--indigo);box-shadow:inset 0 0 0 1.5px var(--tint-2);cursor:pointer}
+.pause-btn::before{content:"";position:absolute;inset:-10px}      /* a 44px hit area around the 24px button */
+.pause-btn svg{width:11px;height:11px;fill:currentColor}
+.pause-btn .i-play{display:none}
+.pause-btn[aria-pressed="true"] .i-play{display:block}
+.pause-btn[aria-pressed="true"] .i-pause{display:none}
+.pause-btn:hover{background:var(--tint-1)}
+.is-paused,.is-paused *{animation-play-state:paused!important}
+.replay-btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin:18px auto 0;padding:0 18px;border:0;border-radius:999px;background:#fff;color:var(--indigo);font:600 15px/1 var(--f);box-shadow:inset 0 0 0 1.5px var(--tint-2);cursor:pointer}
+.replay-btn:hover{background:var(--tint-1)}
+.wrap>.replay-btn{display:flex;width:max-content}
+.replay-in{position:absolute;right:12px;bottom:12px;margin:0;z-index:3}
+@media (prefers-reduced-motion:reduce){.replay-btn,.pause-btn{display:none}}
 
-/* ---- scene 2: end frame is the whole picture; the slab trace rests invisible ---- */
+/* ---- scene 1: A Clean Start. End frame: a clean screen, "Rebuilt", the master card stamped. The files shelf is never touched. ---- */
+.sc-clean .s1-it,.sc-clean .t-use{opacity:0}
+.sc-clean.st-before .s1-it,.sc-clean.st-before .t-use{opacity:1}
+.sc-clean.st-before .t-reb,.sc-clean.st-before .s1-master{opacity:0}
+.sc-clean .s1-it,.sc-clean .s1-it-i{transform-box:fill-box;transform-origin:center}
+.scene-card[data-scene="a-clean-start"]{cursor:default}
+
+/* ---- scene 2: Industry-Bound, Not Size-Bound. The end frame is the whole picture; the trace rests invisible. ---- */
+.sc-exposure .s2-out,.sc-exposure .s2-trace{stroke-dasharray:1}
 .sc-exposure .s2-trace{opacity:0}
 
-/* ---- scene 3: the travelling clones are only for the motion; at rest the right sheet's own bars show ---- */
+/* ---- scene 3: Zero Markup. The travelling clones are only for the motion; at rest the right sheet's own bars show. ---- */
 .sc-markup .trav{opacity:0}
 .sc-markup .s3-row{outline:none}
 .sc-markup .s3-row:focus-visible .row-hit{stroke:var(--bright);stroke-width:2}
 .sc-markup .s3-row .bar{transition:fill .2s}
 .sc-markup.pair-0 .bar-0,.sc-markup.pair-1 .bar-1,.sc-markup.pair-2 .bar-2{fill:#1800AD}
+.sc-markup .s3-chip-in{transform-box:fill-box;transform-origin:center}
 
-/* ---- scene 5: end frame is the aligned stack with the connector drawn; the dot only exists mid-travel ---- */
+/* ---- scene 5: end frame is the aligned stack, the connector drawn, the plates in place; the dot exists only mid-travel ---- */
 .sc-partner .s5-dot{opacity:0}
-.sc-partner .s5-block{transform:none}
-
-/* ===================== timelines (Directive v5 section 6). Only under .js and without reduced motion. =====================
-   js/main.js adds .play when 60% of the scene card is in view, once. Click or tap replays scene 1 (removes and re-adds .play).
-   Each beat is an animation with its own delay, so the numbers below are the directive's own: ms from the start of the scene. */
-.s1-win{transform-box:fill-box;transform-origin:center}
-.scene-card[data-scene="nothing-to-find"]{cursor:default}
-.s1-machine{cursor:pointer}
-.scene-replay{position:absolute;left:12px;bottom:12px;z-index:3;clip-path:inset(50%);width:1px;height:1px;overflow:hidden;white-space:nowrap;border:0;padding:0;background:#fff;color:var(--indigo);font:600 14px/1 var(--f)}
-.scene-replay:focus-visible{clip-path:none;width:auto;height:auto;padding:12px 18px;border-radius:999px;box-shadow:inset 0 0 0 1.5px var(--indigo)}
+.sc-partner .s5-block{transform-box:fill-box;transform-origin:center}
+.sc-partner .s5-conn{stroke-dashoffset:0}
+.sc-partner .s5-plate{transform-box:fill-box}
 
 @media (prefers-reduced-motion:no-preference){
-  /* scene 1: before frame (11 PM, three windows) until .play, then the timeline ends on the clean 12 AM frame */
-  .js [data-scene="nothing-to-find"]:not(.play) svg.st-live{opacity:0}
-  .js [data-scene="nothing-to-find"]:not(.play) .s1-wins,.js [data-scene="nothing-to-find"]:not(.play) .t-11{opacity:1}
-  .js [data-scene="nothing-to-find"]:not(.play) .t-12{opacity:0}
-  .js [data-scene="nothing-to-find"]:not(.play) .hand-h{transform:rotate(-30deg)}
+  /* ======== scene 1 (cycle 4.8s) ======== */
+  .js [data-scene="a-clean-start"]:not(.play) .s1-machine,.js [data-scene="a-clean-start"]:not(.play) .s1-master,.js [data-scene="a-clean-start"]:not(.play) .s1-chip{opacity:0}
+  .js [data-scene="a-clean-start"]:not(.play) .t-use{opacity:0}
+  .play .sc-clean.st-live .s1-machine,.play .sc-clean.st-live .s1-chip{animation:cyc 4800ms linear both}
+  .play .sc-clean.st-live .t-use{animation:s1-use 4800ms linear both}
+  .play .sc-clean.st-live .t-reb{animation:s1-reb 4800ms linear both}
+  .play .sc-clean.st-live .s1-master{animation:s1-master 4800ms linear both}
+  /* 400 to 1700ms the desktop gets used: three windows 300ms apart, then stray blocks pile up. 2200 to 3000ms the pile clears in reverse. */
+  .play .sc-clean.st-live .s1-it{animation:s1-in 260ms var(--ease) both;animation-delay:var(--ap)}
+  .play .sc-clean.st-live .s1-it-i{animation:s1-out 240ms var(--ease) both;animation-delay:var(--cl)}
+  @keyframes cyc{0%{opacity:0}4%{opacity:1}87.5%{opacity:1}100%{opacity:0}}                                  /* fade in 0 to 200ms, cross-fade out 4200 to 4800ms */
+  @keyframes s1-use{0%,8%{opacity:0}8.4%,62%{opacity:1}62.5%,100%{opacity:0}}
+  @keyframes s1-reb{0%,8%{opacity:1}8.4%,62%{opacity:0}62.5%,100%{opacity:1}}
+  @keyframes s1-master{0%,37.5%{opacity:0;transform:translateY(-14px)}45.8%{opacity:1;transform:none}56%{transform:none}59%{transform:translateY(8px)}62.5%{transform:none}87.5%{opacity:1}100%{opacity:0}}
+  @keyframes s1-in{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+  @keyframes s1-out{from{opacity:1;transform:none}to{opacity:0;transform:scale(.9)}}
 
-  .play svg.st-live.sc-nothing{animation:s1-fade 500ms var(--ease) both}
-  .play .sc-nothing.st-live .s1-wins{opacity:1}
-  .play .sc-nothing.st-live .t-11{opacity:1;animation:s1-out 200ms linear 3400ms both}
-  .play .sc-nothing.st-live .t-12{animation:s1-in 200ms linear 3400ms both}
-  .play .sc-nothing.st-live .hand-h{animation:s1-hh 1200ms cubic-bezier(.45,0,.55,1) 2200ms both}
-  .play .sc-nothing.st-live .hand-m{animation:s1-hm 1200ms cubic-bezier(.45,0,.55,1) 2200ms both}
-  .play .sc-nothing.st-live .s1-win{animation:s1-win-out 300ms var(--ease) both;animation-delay:calc(3400ms + var(--i) * 80ms)}
-  .play .sc-nothing.st-live .s1-cur2{animation:s1-cur-life 3700ms linear both}
-  .play .sc-nothing.st-live .s1-cur2-p{animation:s1-cur-drift 800ms var(--ease) 800ms both}
-  .play .sc-nothing.st-live .s1-off{animation:s1-off 4700ms linear both}
-  @keyframes s1-fade{from{opacity:0}to{opacity:1}}
-  @keyframes s1-out{from{opacity:1}to{opacity:0}}
-  @keyframes s1-in{from{opacity:0}to{opacity:1}}
-  @keyframes s1-hh{from{transform:rotate(-30deg)}to{transform:rotate(0)}}
-  @keyframes s1-hm{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-  @keyframes s1-win-out{from{opacity:1;transform:none}to{opacity:0;transform:scale(.92)}}
-  @keyframes s1-cur-life{0%,21.6%{opacity:0}27%,91.9%{opacity:1}100%{opacity:0}}   /* 0 to 800ms nothing, in by 1000ms, gone with the windows at 3700ms */
-  @keyframes s1-cur-drift{from{translate:46px -34px}to{translate:0 0}}
-  @keyframes s1-off{0%,72.3%{opacity:0}85.1%{opacity:1}100%{opacity:0}}               /* 3400 to 4000ms the screen drops to flat, 4000 to 4700ms it comes back clean */
-}
-
-/* ---- cursor lean on fine pointers: the layers lean toward the pointer by depth, capped at 6px (js sets --lx and --ly on the scene) ---- */
-@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
-  [data-scene] .depth{translate:calc(var(--lx,0) * var(--depth,0) * -7.5px) calc(var(--p,0) * var(--depth,0) * var(--reach) + var(--ly,0) * var(--depth,0) * -7.5px)}
-}
-@media (max-width:767px){[data-scene] .depth{translate:none!important}}
-
-/* ===================== scene 2: Industry-Bound, Not Size-Bound (about 3s, once) ===================== */
-.sc-exposure .s2-out,.sc-exposure .s2-trace{stroke-dasharray:1}
-.sc-exposure .s2-floor,.sc-exposure .s2-label{transform-box:fill-box}
-@media (prefers-reduced-motion:no-preference){
-  .js [data-scene="same-exposure"]:not(.play) .s2-slab,.js [data-scene="same-exposure"]:not(.play) .s2-floor,.js [data-scene="same-exposure"]:not(.play) .s2-label{opacity:0}
-  .js [data-scene="same-exposure"]:not(.play) .s2-out{stroke-dashoffset:1}
-  /* 0 to 600ms: the slab's outline draws, then its fill fades in */
-  .play .sc-exposure .s2-out{animation:s2-draw 600ms var(--ease) both}
-  .play .sc-exposure .s2-slab{animation:s2-fade 300ms linear 400ms both}
-  /* 600 to 1200ms the small building stacks, floor by floor, 40ms apart; 800 to 1800ms the large one the same way */
-  .play .sc-exposure .s2-floor{animation:s2-floor 220ms var(--ease) both}
-  .play .sc-exposure .s2-floor.small{animation-delay:calc(600ms + var(--i) * 40ms)}
-  .play .sc-exposure .s2-floor.big{animation-delay:calc(800ms + var(--i) * 120ms)}
-  /* 1800 to 2200ms the labels */
-  .play .sc-exposure .s2-label{animation:s2-fade 400ms var(--ease) 1800ms both}
-  /* 2200 to 3000ms one thin indigo line traces the slab's edge, once, and fades to the outline colour: same slab */
-  .play .sc-exposure .s2-trace{animation:s2-trace 800ms var(--ease) 2200ms both}
+  /* ======== scene 2 (cycle 4.2s) ======== */
+  .js [data-scene="same-foundation"]:not(.play) .s2-slab,.js [data-scene="same-foundation"]:not(.play) .s2-floor,.js [data-scene="same-foundation"]:not(.play) .s2-label{opacity:0}
+  .js [data-scene="same-foundation"]:not(.play) .s2-out{stroke-dashoffset:1}
+  .play .sc-exposure.st-live{animation:xfade 4200ms linear both}
+  /* 0 to 400ms the slab outline draws and its fill fades in; the small building stacks 300 to 700ms, the large one 500 to 1100ms, 30ms a floor */
+  .play .sc-exposure .s2-out{animation:s2-draw 400ms var(--ease) both}
+  .play .sc-exposure .s2-slab{animation:s2-fade 200ms linear 200ms both}
+  .play .sc-exposure .s2-floor{animation:s2-floor 200ms var(--ease) both}
+  .play .sc-exposure .s2-floor.small{animation-delay:calc(300ms + var(--i) * 30ms)}
+  .play .sc-exposure .s2-floor.big{animation-delay:calc(500ms + var(--i) * 75ms)}
+  .play .sc-exposure .s2-label{animation:s2-fade 200ms var(--ease) 1100ms both}
+  /* 1300 to 1800ms one thin indigo line traces the slab's edge, once: same foundation */
+  .play .sc-exposure .s2-trace{animation:s2-trace 500ms var(--ease) 1300ms both}
+  @keyframes xfade{0%{opacity:0}5%{opacity:1}90%{opacity:1}100%{opacity:0}}
   @keyframes s2-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
   @keyframes s2-fade{from{opacity:0}to{opacity:1}}
   @keyframes s2-floor{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
-  @keyframes s2-trace{0%{stroke-dashoffset:1;opacity:1}65%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
-}
+  @keyframes s2-trace{0%{stroke-dashoffset:1;opacity:1}75%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
 
-/* ===================== scene 3: Zero Markup (about 4s, once). No digit moves. ===================== */
-.sc-markup .s3-chip-in{transform-box:fill-box;transform-origin:center}
-@media (prefers-reduced-motion:no-preference){
+  /* ======== scene 3 (cycle 4.4s). No digit moves. ======== */
   .js [data-scene="zero-markup"]:not(.play) .s3-sheet,.js [data-scene="zero-markup"]:not(.play) .s3-chip-in,.js [data-scene="zero-markup"]:not(.play) .bar-b{opacity:0}
-  /* 0 to 500ms the Azure sheet slides in 16px and fades up; its three rows tick in 100ms apart */
-  .play .sc-markup .s3-a{animation:s3-slide 500ms var(--ease) both}
-  .play .sc-markup .s3-a .s3-row{animation:s3-fade 300ms var(--ease) both;animation-delay:calc(120ms + var(--r,0) * 100ms)}
+  .play .sc-markup.st-live{animation:xfade3 4400ms linear both}
+  .play .sc-markup .s3-a{animation:s3-slide 300ms var(--ease) both}
+  .play .sc-markup .s3-a .s3-row{animation:s3-fade 200ms var(--ease) both;animation-delay:calc(300ms + var(--r,0) * 100ms)}
   .play .sc-markup .s3-a .r0{--r:0}.play .sc-markup .s3-a .r1{--r:1}.play .sc-markup .s3-a .r2{--r:2}
-  .play .sc-markup .s3-b{animation:s3-fade 400ms var(--ease) 400ms both}
-  /* 800 to 1800ms each bar clones and travels to its row on the other sheet, 120ms apart, 500ms each, and lands at exactly the same width */
-  .play .sc-markup .trav{animation:s3-trav 500ms var(--ease) both;animation-delay:calc(800ms + var(--i) * 120ms)}
-  .play .sc-markup .bar-b{animation:s3-land 80ms linear both}
-  .play .sc-markup .bar-b.bar-0{animation-delay:1280ms}.play .sc-markup .bar-b.bar-1{animation-delay:1400ms}.play .sc-markup .bar-b.bar-2{animation-delay:1520ms}
-  /* 1800 to 2050ms the 0% chip settles (scale .9 to 1) */
-  .play .sc-markup .s3-chip-in{animation:s3-chip 250ms var(--ease) 1800ms both}
+  .play .sc-markup .s3-b{animation:s3-fade 300ms var(--ease) 400ms both}
+  /* 700 to 1400ms each bar clones and travels to its row on the other sheet, 100ms apart, and lands at exactly the same width */
+  .play .sc-markup .trav{animation:s3-trav 400ms var(--ease) both;animation-delay:calc(700ms + var(--i) * 100ms)}
+  .play .sc-markup .bar-b{animation:s3-land 60ms linear both}
+  .play .sc-markup .bar-b.bar-0{animation-delay:1070ms}.play .sc-markup .bar-b.bar-1{animation-delay:1170ms}.play .sc-markup .bar-b.bar-2{animation-delay:1270ms}
+  .play .sc-markup .s3-chip-in{animation:s3-chip 200ms var(--ease) 1400ms both}
+  @keyframes xfade3{0%{opacity:0}4%{opacity:1}91%{opacity:1}100%{opacity:0}}
   @keyframes s3-slide{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
   @keyframes s3-fade{from{opacity:0}to{opacity:1}}
   @keyframes s3-trav{0%{opacity:0;transform:translateY(0)}12%{opacity:1}92%{opacity:1}100%{opacity:0;transform:translateY(var(--dy))}}
   @keyframes s3-land{from{opacity:0}to{opacity:1}}
   @keyframes s3-chip{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+
+  /* ======== scene 5: one partner (about 3s, once on entry, replay on click). Timed, not scrubbed. ======== */
+  .js [data-scene="one-partner"]:not(.play) .s5-block{transform:translateX(var(--nx)) rotate(var(--rot))}
+  .js [data-scene="one-partner"]:not(.play) .s5-conn{stroke-dashoffset:1}
+  .js [data-scene="one-partner"]:not(.play) .s5-plate{opacity:0}
+  /* 0 to 700ms the vendor blocks slide from scattered into one aligned stack; 700 to 1200ms the connector draws; 1200 to 1900ms the dot
+     travels it into the logo box; 1900 to 2900ms the three plates drop in under the logo, 150ms apart */
+  .play .sc-partner .s5-block{animation:s5-align 700ms var(--ease) both}
+  .play .sc-partner .s5-conn{animation:s5-draw 500ms var(--ease) 700ms both}
+  .play .sc-partner .s5-dot{animation:s5-dot 700ms cubic-bezier(.45,0,.55,1) 1200ms both}
+  .play .sc-partner .s5-plate{animation:s5-drop 500ms var(--ease) both;animation-delay:calc(1900ms + var(--i) * 150ms)}
+  @keyframes s5-align{from{transform:translateX(var(--nx)) rotate(var(--rot))}to{transform:none}}
+  @keyframes s5-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+  @keyframes s5-dot{0%{opacity:0;translate:0 0}8%{opacity:1}92%{opacity:1}100%{opacity:0;translate:var(--dx) var(--dy)}}
+  @keyframes s5-drop{from{opacity:0;transform:translateY(-26px)}to{opacity:1;transform:none}}
 }
 
-/* ===================== scene 4: the meeting (html and css, about 3.4s, once) =====================
+/* ===================== scene 4: the meeting comparison (html and css, about 3.4s, once; replay on click) =====================
    Left items arrive out of rhythm (0, 140, 410, 520, 700, 880ms) and never fully straighten. The bridge line draws (900 to 1500ms)
    and the logo pops (250ms). The dot crosses from the left edge, through the logo, onto the right card (1500 to 2400ms).
    The right items tick in on an even 150ms beat (2400 to 3000ms), checks after. The captions come last (3000 to 3400ms). No navy. */
@@ -122,7 +127,6 @@
   .js .versus:not(.play) .bridge-line{transform:scaleX(0)}
   .js .versus:not(.play) .bridge-abut,.js .versus:not(.play) .bridge-arrow,.js .versus:not(.play) .bridge-pill{opacity:0}
   .js .versus:not(.play) .ready .ck{transform:scale(.4);opacity:0}
-  .js .versus .scatter li{--d:0ms}
   .js .versus.play .scatter li{animation:m-left 360ms var(--ease) both;animation-delay:var(--d)}
   .js .versus.play .scatter li:nth-child(1){--d:0ms}.js .versus.play .scatter li:nth-child(2){--d:140ms}
   .js .versus.play .scatter li:nth-child(3){--d:410ms}.js .versus.play .scatter li:nth-child(4){--d:520ms}
@@ -149,41 +153,45 @@
 }
 .scatter li{transform:rotate(var(--r))}
 
-/* ===================== scene 5: One partner (scrubbed by scroll, not timed; never pinned) =====================
-   js sets --sa (0 scattered to 1 aligned), --sc (the connector and the dot, 0 to 1) and .ticked (the three rows).
-   Without JavaScript or under reduced motion the variables are never set, so the end frame shows: stack aligned, connector drawn. */
-.s5-block{transform-box:fill-box;transform-origin:center;transform:translateX(calc((1 - var(--sa,1)) * var(--nx))) rotate(calc((1 - var(--sa,1)) * var(--rot)))}
-.s5-conn{stroke-dashoffset:calc(1 - var(--sc,1))}
-.s5-dot{opacity:var(--do,0);translate:calc(var(--sc,1) * var(--dx)) calc(var(--sc,1) * var(--dy))}
-@media (prefers-reduced-motion:no-preference){
-  .js .one-r li{opacity:.25;transform:translateY(8px);transition:opacity var(--t-ui) var(--ease),transform var(--t-ui) var(--ease);transition-delay:calc(var(--i) * 120ms)}
-  .js .one-r.ticked li{opacity:1;transform:none}
-}
-
-/* ===================== how it works (scrubbed): the line draws, the dot rides its head, nodes fill, icons fade up ===================== */
+/* ===================== how we take it from here (loops by itself, about 5s) =====================
+   0 to 400ms everything resets: the track stays (#C7CBFA, 1.5px), the nodes are empty, the dot sits at the start.
+   400 to 3400ms the indigo line draws left to right and the 10px dot rides its head; as the head reaches a node the node fills and the dot
+   dissolves into it and comes out toward the next. At the last node the dot fades out as the fill completes, so the numeral is never covered.
+   3400 to 4600ms hold. 4600 to 5000ms fade out and restart. Under 1024px the line is vertical. Reduced motion: static, all four filled.
+   The numeral always sits above the dot. */
+.hs-wrap{position:relative}
 .hsteps::before{background:var(--tint-2)}
-.hs-fill{position:absolute;left:10%;right:10%;top:calc(var(--ico-h) + var(--gap) + 20px);height:1.5px;margin-top:-.75px;background:var(--indigo);transform-origin:left;transform:scaleX(var(--hp,1));pointer-events:none}
-.hs-dot{position:absolute;left:90%;top:calc(var(--ico-h) + var(--gap) + 20px);width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--indigo);z-index:2;pointer-events:none;translate:calc(var(--hp,1) * var(--hx,0px)) calc(var(--hp,1) * var(--hy,0px))}
+.hs-fill{position:absolute;left:10%;right:10%;top:calc(var(--ico-h) + var(--gap) + 20px);height:1.5px;margin-top:-.75px;background:var(--indigo);transform-origin:left;pointer-events:none}
+.hs-dot{position:absolute;left:10%;top:calc(var(--ico-h) + var(--gap) + 20px);width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--indigo);z-index:2;pointer-events:none;opacity:0}
+.hs-node{background:#fff;box-shadow:inset 0 0 0 2px var(--tint-2);z-index:3}
+.hs-node::before{content:"";position:absolute;inset:0;border-radius:50%;background:var(--indigo);z-index:-1}
+.hs-node b{position:relative;font-weight:700;color:#fff}
+.hs:hover .hs-node{transform:none}
 @media (max-width:1023px){
-  .hs-fill{left:19px;right:auto;top:20px;bottom:auto;width:1.5px;height:calc(100% - 40px);margin:0 0 0 -.75px;transform-origin:top;transform:scaleY(var(--hp,1))}
-  .hs-dot{left:19px;top:20px;display:none}
-  .js .hs-dot{display:block}
+  .hs-fill{left:19px;right:auto;top:20px;height:calc(100% - 40px);width:1.5px;margin:0 0 0 -.75px;transform-origin:top}
+  .hs-dot{left:19px;top:20px}
 }
 @media (prefers-reduced-motion:no-preference){
-  .js .hs-node{background:#fff;color:var(--indigo);box-shadow:inset 0 0 0 2px var(--tint-2);transition:background var(--t-micro),color var(--t-micro),box-shadow var(--t-micro),transform 250ms var(--ease)}
-  .js .hs.on .hs-node{background:var(--indigo);color:#fff;box-shadow:none}
-  .js .hs:hover .hs-node{transform:scale(1.1)}
-  .js .hsteps.scrub .hs:not(.on) .ico{opacity:0;transform:translateY(12px)}
-  .js .hsteps.scrub .hs.on .ico{opacity:1;transform:none}
-  .js .hsteps.done-dot .hs-dot{opacity:1}
-}
-
-/* who it's for (scrubbed): the four cards start on one baseline and rise into the staircase as the row passes */
-.stair-card{translate:0 calc(var(--k) * -40px * var(--sk,1) - var(--lift))}
-@media (max-width:1023px){.stair-card{translate:0 calc(var(--c,0) * 40px - var(--lift))}}
-@media (max-width:639px){.stair-card,.stair-card:nth-child(even){translate:0 calc(0px - var(--lift))}}
-.stair-num{transition:color var(--t-micro) var(--ease)}
-@media (hover:hover) and (pointer:fine){
-  .st-blue:hover .stair-num{color:var(--indigo)}
-  .st-dark:hover .stair-num{color:var(--tint-2)}   /* #1800AD on #191919 is 1.7:1, so the dark cards tint to #C7CBFA instead */
+  .js .hs-wrap:not(.play) .hs-fill{transform:scaleX(0)}
+  .js .hs-wrap:not(.play) .hs-node::before{transform:scale(0)}
+  .js .hs-wrap:not(.play) .hs-node b{color:var(--indigo)}
+  .play .hs-fill,.play .hs-node{animation:hs-cyc 5000ms linear both}      /* only the line and the nodes reset; the text and icons never fade */
+  .play .hs-fill{animation:hs-cyc 5000ms linear both,hs-draw 3000ms linear 400ms both}
+  .play .hs-dot{animation:hs-dot 3000ms linear 400ms both, hs-dotop 3000ms linear 400ms both}
+  .play .hs-node::before{animation:hs-fill 200ms var(--ease) both;animation-delay:var(--nd)}
+  .play .hs-node b{animation:hs-num 1ms linear both;animation-delay:calc(var(--nd) + 80ms)}
+  @keyframes hs-cyc{0%{opacity:0}8%{opacity:1}92%{opacity:1}100%{opacity:0}}
+  @keyframes hs-draw{from{transform:scaleX(0)}to{transform:none}}
+  @keyframes hs-dot{from{translate:0 0}to{translate:var(--hx,0px) var(--hy,0px)}}
+  /* opacity: out of each node and back (120ms = 4% of the run), and gone as the last node fills */
+  @keyframes hs-dotop{0%{opacity:0}4%{opacity:1}29.3%{opacity:1}33.3%{opacity:0}37.3%{opacity:1}62.7%{opacity:1}66.7%{opacity:0}70.7%{opacity:1}96%{opacity:1}100%{opacity:0}}
+  @keyframes hs-fill{from{transform:scale(0)}to{transform:none}}
+  @keyframes hs-num{from{color:var(--indigo)}to{color:#fff}}
+  @media (max-width:1023px){
+    .js .hs-wrap:not(.play) .hs-fill{transform:scaleY(0)}
+    .play .hs-fill{animation-name:hs-cyc,hs-drawv}
+    .play .hs-dot{animation:hs-dot 3000ms linear 400ms both, hs-dotopv 3000ms linear 400ms both}
+    @keyframes hs-drawv{from{transform:scaleY(0)}to{transform:none}}
+    @keyframes hs-dotopv{0%{opacity:0}4%{opacity:1}96%{opacity:1}100%{opacity:0}}
+  }
 }

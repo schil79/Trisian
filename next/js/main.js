@@ -117,7 +117,7 @@
       hosts.forEach(h => io.observe(h));
     }
   }
-  if (!reduce && matchMedia('(hover:hover) and (pointer:fine)').matches) {
+  if (!reduce && !document.body.classList.contains('home') && matchMedia('(hover:hover) and (pointer:fine)').matches) {
     let cur = null, px = 0, py = 0, raf = 0;
     const apply = () => {
       raf = 0;
@@ -144,20 +144,14 @@
   }
 
   /* ---------- scenes: play once at 60% in view; scene 1 replays on click or tap; layers lean toward a fine pointer ---------- */
-  const scenes = $$('.scene-card[data-scene],.versus[data-scene]');
+  const scenes = $$('.scene-card[data-scene],.versus[data-scene]').filter(c => !c.hasAttribute('data-loop'));
   const playScene = c => { c.classList.remove('play'); void c.getBoundingClientRect(); c.classList.add('play'); };
   if (reduce || !hasIO) scenes.forEach(c => c.classList.add('play'));
   else watch(scenes, playScene, 0.6);
-  const nf = $('#sc-nothing-to-find');
-  if (nf && !reduce) {
-    const again = () => { if (nf.classList.contains('play')) playScene(nf); };
-    const m = $('.s1-machine', nf); if (m) m.addEventListener('click', again);
-    const rb = $('.scene-replay', nf); if (rb) rb.addEventListener('click', again);
-  }
   if (!reduce && matchMedia('(hover:hover) and (pointer:fine)').matches) {
     let cur = null, raf = 0, lx = 0, ly = 0;
     const lean = () => { raf = 0; if (cur) { cur.style.setProperty('--lx', lx.toFixed(3)); cur.style.setProperty('--ly', ly.toFixed(3)); } };
-    scenes.forEach(c => {
+    $$('.scene-card[data-scene]').forEach(c => {
       c.addEventListener('pointermove', e => { const r = c.getBoundingClientRect(); cur = c; lx = clamp(((e.clientX - r.left) / r.width) * 2 - 1, -1, 1); ly = clamp(((e.clientY - r.top) / r.height) * 2 - 1, -1, 1); if (!raf) raf = requestAnimationFrame(lean); }, { passive: true });
       c.addEventListener('pointerleave', () => { c.style.setProperty('--lx', 0); c.style.setProperty('--ly', 0); });
     });
@@ -181,7 +175,6 @@
   if (pauseBtn) pauseBtn.addEventListener('click', () => {
     const on = cert.classList.toggle('is-paused');
     pauseBtn.setAttribute('aria-pressed', on);
-    pauseBtn.setAttribute('aria-label', on ? 'Play the scrolling row' : 'Pause the scrolling row');
     $('span', pauseBtn).textContent = on ? 'Play' : 'Pause';
   });
 
@@ -196,34 +189,53 @@
     depthRoots.forEach(r => dio.observe(r));
   }
 
-  /* ---------- scrubbed sections: how it works, one partner, the staircase (scroll position, not time; nothing is pinned) ---------- */
+  /* ---------- how we take it from here: geometry for the self-running loop (no scroll-scrubbing anywhere) ----------
+     The line and the dot are placed from the real node centres, and each node's fill time follows the dot's distance. */
   const hsteps = $('#hsteps'), hsNodes = hsteps ? $$('.hs', hsteps) : [];
-  let hsGeo = null;
   const measureHs = () => {
     if (!hsteps) return;
     const vertical = innerWidth < 1024, box = hsteps.getBoundingClientRect();
     const pts = hsNodes.map(h => { const r = $('.hs-node', h).getBoundingClientRect(); return vertical ? r.top + r.height / 2 - box.top : r.left + r.width / 2 - box.left; });
-    hsGeo = { vertical, pts, a: pts[0], b: pts[pts.length - 1] };
-    const fill = $('.hs-fill', hsteps), dot = $('.hs-dot', hsteps);
+    const a = pts[0], b = pts[pts.length - 1], fill = $('.hs-fill', hsteps), dot = $('.hs-dot', hsteps);
     if (vertical) {
-      fill.style.cssText = `left:19px;right:auto;top:${hsGeo.a}px;height:${hsGeo.b - hsGeo.a}px;width:1.5px`;
-      dot.style.cssText = `left:19px;top:${hsGeo.a}px`;
-      hsteps.style.setProperty('--hy', (hsGeo.b - hsGeo.a) + 'px'); hsteps.style.setProperty('--hx', '0px');
+      fill.style.cssText = `left:19px;right:auto;top:${a}px;height:${b - a}px;width:1.5px`;
+      dot.style.cssText = `left:19px;top:${a}px`;
+      hsteps.style.setProperty('--hy', (b - a) + 'px'); hsteps.style.setProperty('--hx', '0px');
     } else {
-      fill.style.cssText = `left:${hsGeo.a}px;right:auto;width:${hsGeo.b - hsGeo.a}px`;
-      dot.style.cssText = `left:${hsGeo.a}px`;
-      hsteps.style.setProperty('--hx', (hsGeo.b - hsGeo.a) + 'px'); hsteps.style.setProperty('--hy', '0px');
+      fill.style.cssText = `left:${a}px;right:auto;width:${b - a}px`;
+      dot.style.cssText = `left:${a}px`;
+      hsteps.style.setProperty('--hx', (b - a) + 'px'); hsteps.style.setProperty('--hy', '0px');
     }
+    hsNodes.forEach((h, i) => $('.hs-node', h).style.setProperty('--nd', Math.round(400 + 3000 * (pts[i] - a) / Math.max(1, b - a)) + 'ms'));
   };
-  if (hsteps && !reduce) {
-    hsteps.classList.add('scrub');
-    measureHs(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureHs); addEventListener('resize', measureHs);
-  }
-  const scene5 = $('#sc-one-partner'), partnerRows = $('.one-r'), stair = $('.stair');
+  if (hsteps && !reduce) { measureHs(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureHs); addEventListener('resize', measureHs); }
+
+  /* ---------- loops: the three truth scenes and how we take it from here ----------
+     Each loop starts at 60% in view, runs one cycle (adds .play, waits the cycle length, adds it again), pauses when it leaves the screen,
+     on keyboard focus inside it, and on its pause button (WCAG 2.2.2). Under reduced motion nothing loops: the static end frame shows. */
+  const CYCLE = { 'a-clean-start': 4800, 'same-foundation': 4200, 'zero-markup': 4400, how: 5000 };
+  const loops = reduce ? [] : $$('[data-loop]').map(el => ({ el, ms: CYCLE[el.dataset.scene] || 5000, seen: false, vis: false, hold: false, focus: false, running: false, t: 0, start: 0, left: 0 }));
+  const cycle = l => { l.el.classList.remove('play'); void l.el.getBoundingClientRect(); l.el.classList.add('play'); l.left = l.ms; l.start = performance.now(); arm(l); };
+  const arm = l => { clearTimeout(l.t); l.t = setTimeout(() => { if (l.running) cycle(l); }, l.left); };
+  const sync = l => {
+    const want = l.seen && l.vis && !l.hold && !l.focus;
+    if (want && !l.running) { l.running = true; l.el.classList.remove('is-paused'); if (!l.el.classList.contains('play')) cycle(l); else { l.start = performance.now(); arm(l); } }
+    else if (!want && l.running) { l.running = false; clearTimeout(l.t); l.left = Math.max(0, l.left - (performance.now() - l.start)); l.el.classList.add('is-paused'); }
+  };
+  loops.forEach(l => {
+    if (hasIO) new IntersectionObserver(es => es.forEach(en => { if (en.intersectionRatio >= 0.6) l.seen = true; l.vis = en.intersectionRatio > 0; sync(l); }), { threshold: [0, 0.6] }).observe(l.el);
+    else { l.seen = l.vis = true; sync(l); }
+    const pb = $('.pause-btn', l.el);
+    if (pb) pb.addEventListener('click', () => { l.hold = !l.hold; pb.setAttribute('aria-pressed', l.hold); sync(l); });
+    l.el.addEventListener('focusin', e => { if (e.target.matches && e.target.matches(':focus-visible') && !e.target.closest('.pause-btn')) { l.focus = true; sync(l); } });
+    l.el.addEventListener('focusout', () => { l.focus = false; sync(l); });
+  });
+
+  /* ---------- the meeting comparison and one partner: timed once on entry, replay on click ---------- */
+  $$('[data-replay]').forEach(b => b.addEventListener('click', () => { const t = $(b.dataset.replay); if (t) playScene(t); }));
 
   /* ---------- one loop for everything tied to scroll ---------- */
-  const navWrap = $('#navWrap'), intro = $('#ansIntro'), introIn = intro && $('.ans-intro-in', intro);
-  const ans = $$('[data-ans]'), steps = $('#steps'), parallax = $$('[data-parallax]'), pimgs = $$('[data-parallax-img]');
+  const navWrap = $('#navWrap'), parallax = $$('[data-parallax]'), pimgs = $$('[data-parallax-img]');
   const navLinks = $$('.nav-links a').filter(a => /#(seats|offer)$/.test(a.getAttribute('href') || ''));
   const secOf = id => (id === 'seats' ? [$('#seats')] : [$('#offer'), $('#partner')]).filter(Boolean);
   const footMark = $('.foot-mark');
@@ -238,32 +250,10 @@
       a.classList.toggle('is-here', on);
     });
     if (reduce) return;
-    if (intro) { const r = intro.getBoundingClientRect(); const q = clamp(-r.top / r.height); introIn.style.setProperty('--is', (1 - .1 * q).toFixed(3)); introIn.style.setProperty('--io', (1 - 1.1 * q).toFixed(3)); }
-    ans.forEach(a => { const r = a.getBoundingClientRect(); a.style.setProperty('--p', clamp((H * .98 - r.top) / (H * .5)).toFixed(3)); });
-    if (steps) {
-      const r = steps.getBoundingClientRect();
-      steps.style.setProperty('--sp', clamp((H * .6 - r.top) / r.height).toFixed(3));
-      $$('.step', steps).forEach(s => s.classList.toggle('here', s.getBoundingClientRect().top < H * .6));
-    }
     if (innerWidth >= 768) liveRoots.forEach(r => {
       const b = r.getBoundingClientRect();
       r.style.setProperty('--p', clamp(((H - b.top) / (H + b.height)) * 2 - 1, -1, 1).toFixed(3));
     });
-    if (hsteps && hsGeo && !reduce) {
-      const r = hsteps.getBoundingClientRect();
-      const hp = clamp((H * 0.72 - r.top) / (r.height + H * 0.1 > 0 ? Math.min(r.height * 0.9, H * 0.7) : 1));
-      hsteps.style.setProperty('--hp', hp.toFixed(3));
-      const head = hsGeo.a + hp * (hsGeo.b - hsGeo.a);
-      hsNodes.forEach((h, i) => h.classList.toggle('on', head >= hsGeo.pts[i] - 1));
-    }
-    if (scene5 && !reduce) {
-      const r = scene5.getBoundingClientRect(), cy = r.top + r.height / 2;
-      const sa = clamp((H * 0.95 - cy) / (H * 0.45)), sc = clamp((H * 0.5 - cy) / (H * 0.2));
-      const svg = $('svg', scene5);
-      svg.style.setProperty('--sa', sa.toFixed(3)); svg.style.setProperty('--sc', sc.toFixed(3)); svg.style.setProperty('--do', sc > 0 && sc < 1 ? 1 : 0);
-      if (sc >= 1 && partnerRows) partnerRows.classList.add('ticked');
-    }
-    if (stair) { const r = stair.getBoundingClientRect(); stair.style.setProperty('--sk', clamp((H * 0.92 - r.top) / (H * 0.45)).toFixed(3)); }
     if (footMark) footMark.style.setProperty('--fr', clamp((y - (max - 400)) / 400).toFixed(3));
     if (innerWidth >= 768) parallax.forEach(el => { const r = el.getBoundingClientRect(); if (r.bottom < -100 || r.top > H + 100) return; const f = +el.dataset.parallax; el.style.transform = `translateY(${(((r.top + r.height / 2) - H / 2) * -f).toFixed(1)}px)`; });
     if (innerWidth >= 768) pimgs.forEach(im => { const c = im.parentElement.getBoundingClientRect(); if (c.bottom < -100 || c.top > H + 100) return; im.style.transform = `translateY(${clamp(((c.top + c.height / 2) - H / 2) * -.06, -c.height * .1, c.height * .1).toFixed(1)}px)`; });
@@ -272,4 +262,40 @@
   addEventListener('scroll', queue, { passive: true });
   addEventListener('resize', queue);
   frame();
+
+  /* ---------- the orphan rule (v6 7.4): never leave one or two words alone on the last line ----------
+     css/motion.css sets text-wrap: pretty, which only avoids a single-word last line. This script measures each text paragraph and list
+     item and, only where the last line holds fewer than three words, puts the last three words in a no-wrap span so they wrap together.
+     It works on the last text node, so a paragraph that ends in bold text is covered too. Never headings. It runs on load, after fonts
+     load and when the width changes (spans from the last pass are unwrapped first). */
+  const orphanSel = 'main p, main li, footer p, footer address';
+  const unbind = () => $$('.nb').forEach(sp => { sp.replaceWith(document.createTextNode(sp.textContent)); });
+  const bindLast = () => {
+    unbind();
+    document.body.normalize();
+    $$(orphanSel).forEach(el => {
+      if (el.closest('.scatter,.dap-chips,.cert,.nav-links,.scene-card,.hs-node')) return;
+      const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT); let n, last = null;
+      while ((n = w.nextNode())) if (n.data.trim()) last = n;
+      if (!last) return;
+      const m = /(\S+\s+\S+\s+\S+)(\s*)$/.exec(last.data);
+      if (!m) return;
+      // the tops of the last three words: if they are not all on one line, the last line is short
+      const re = /\S+/g, base = m.index, words = []; let x;
+      while ((x = re.exec(m[1]))) words.push([base + x.index, base + x.index + x[0].length]);
+      const tops = words.map(([a, b]) => { const r = document.createRange(); r.setStart(last, a); r.setEnd(last, b); const q = r.getClientRects()[0]; return q ? Math.round(q.top) : 0; });
+      if (tops[0] === tops[2] || !tops[2]) return;
+      const span = document.createElement('span'); span.className = 'nb'; span.textContent = m[1];
+      const tail = last.data.slice(m.index + m[1].length);
+      last.data = last.data.slice(0, m.index);
+      last.parentNode.insertBefore(span, last.nextSibling);
+      if (tail) span.parentNode.insertBefore(document.createTextNode(tail), span.nextSibling);
+    });
+  };
+  let ot; const later = ms => { clearTimeout(ot); ot = setTimeout(bindLast, ms); };
+  bindLast();
+  // the fonts load after this script runs, so measure again once they have, and once the page has fully loaded
+  if (document.fonts) { document.fonts.addEventListener('loadingdone', () => later(60)); if (document.fonts.ready) document.fonts.ready.then(() => later(60)); }
+  addEventListener('load', () => later(60));
+  let lastW = innerWidth; addEventListener('resize', () => { if (innerWidth === lastW) return; lastW = innerWidth; later(150); });
 })();

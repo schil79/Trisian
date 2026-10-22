@@ -47,7 +47,6 @@
         <button class="dd-toggle" type="button" aria-expanded="false" aria-controls="ddPlans" aria-label="Show plans and projects"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4.5l4 4 4-4"/></svg></button>
         <ul class="dd" id="ddPlans"><li><a href="../coverage/">Plans<small>Core, Advanced and Enterprise, and how pricing works.</small></a></li><li><a href="../services/">Projects<small>Migrations, security builds and compliance programs.</small></a></li></ul>
       </div>
-      <a href="../insights/" aria-current="page">Insights</a>
       <a href="#assessment" class="btn btn-sm">Talk to us</a>
     </div>
     <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span></button>
@@ -66,32 +65,14 @@
 
 <section class="sec s-grey" id="library">
   <div class="wrap">
-    <div class="filters" role="group" aria-label="Filter by category" id="filters"><button class="f-chip" type="button" aria-pressed="true" data-f="all">All</button><button class="f-chip" type="button" aria-pressed="false" data-f="security"><svg class="ic ic-key " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/></svg><span>Security</span></button><button class="f-chip" type="button" aria-pressed="false" data-f="compliance"><svg class="ic ic-file-check " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/></svg><span>Compliance</span></button><button class="f-chip" type="button" aria-pressed="false" data-f="performance"><svg class="ic ic-gauge " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg><span>Performance</span></button><button class="f-chip" type="button" aria-pressed="false" data-f="pov"><svg class="ic ic-compass " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg><span>Point of view</span></button></div>
+    <div class="filters" role="group" aria-label="Filter by category" id="filters"><button class="f-chip" type="button" aria-pressed="true" data-f="all">All</button><button class="f-chip" type="button" aria-pressed="false" data-f="security"><svg class="ic ic-key " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/></svg><span>Security</span></button><button class="f-chip" type="button" aria-pressed="false" data-f="performance"><svg class="ic ic-gauge " width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg><span>Performance</span></button></div>
     <article class="feat" data-cat="security" data-ico-host>
       <div class="stage stage-feat"><span class="ico ico--simple ico--insight " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="../assets/icons/insight-01-midnight-desktop.webp"><img class="ico__img" src="../assets/icons/insight-01-midnight-desktop.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture></span></span></div>
-      <div class="feat-t"><span class="chip">Security</span><span class="chip soon">Coming soon</span><h2 class="h3 ico-title">What a desktop does at midnight</h2><p>Wiping every desktop every night changes what a breach is worth. How the reset works, and what it doesn’t touch.</p><a class="link-arrow" href="template/">Read</a></div>
+      <div class="feat-t"><span class="chip">Security</span><h2 class="h3 ico-title">What happens when we rebuild a desktop</h2><p>Rebuilding desktops from a clean image changes what a breach is worth. How it works, and what it leaves alone.</p></div>
     </article>
-    <div class="posts" id="posts" data-stagger><article class="post" data-cat="compliance" data-ico-host>
-        <div class="stage"><span class="ico ico--simple ico--insight " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="../assets/icons/insight-02-dora-plain-english.webp"><img class="ico__img" src="../assets/icons/insight-02-dora-plain-english.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture></span></span></div>
-        <div class="post-t"><div class="post-chips"><span class="chip">Compliance</span><span class="chip soon">Coming soon</span></div><h3 class="h4 ico-title">DORA, in plain English</h3><p>What the regulation asks of the people running your technology, and what you should be able to see in writing.</p><a class="link-arrow" href="template/">Read</a></div>
-      </article><article class="post" data-cat="performance" data-ico-host>
+    <div class="posts" id="posts" data-stagger><article class="post" data-cat="performance" data-ico-host>
         <div class="stage"><span class="ico ico--simple ico--insight " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="../assets/icons/insight-03-idle-hours.webp"><img class="ico__img" src="../assets/icons/insight-03-idle-hours.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture></span></span></div>
-        <div class="post-t"><div class="post-chips"><span class="chip">Performance</span><span class="chip soon">Coming soon</span></div><h3 class="h4 ico-title">Paying for the work, not the idle hours</h3><p>How auto-scaling and schedules bring the Azure bill in line with what your people actually do.</p><a class="link-arrow" href="template/">Read</a></div>
-      </article><article class="post" data-cat="pov" data-ico-host>
-        <div class="stage"><span class="ico ico--simple ico--insight " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="../assets/icons/insight-04-the-auditor.webp"><img class="ico__img" src="../assets/icons/insight-04-the-auditor.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture></span></span></div>
-        <div class="post-t"><div class="post-chips"><span class="chip">Point of view</span><span class="chip soon">Coming soon</span></div><h3 class="h4 ico-title">The real fear isn’t the hacker. It’s the auditor.</h3><p>Dek to be written with the article.</p><a class="link-arrow" href="template/">Read</a></div>
-      </article><article class="post" data-cat="pov" data-ico-host>
-        <div class="stage"><span class="ico ico--simple ico--insight " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="../assets/icons/insight-05-single-pane.webp"><img class="ico__img" src="../assets/icons/insight-05-single-pane.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture></span></span></div>
-        <div class="post-t"><div class="post-chips"><span class="chip">Point of view</span><span class="chip soon">Coming soon</span></div><h3 class="h4 ico-title">They want a single pane of glass. They know it’s a lie.</h3><p>Dek to be written with the article.</p><a class="link-arrow" href="template/">Read</a></div>
-      </article><article class="post" data-cat="pov" data-ico-host>
-        <div class="stage"><span class="ico ico--simple ico--insight " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="../assets/icons/insight-06-quiet-status.webp"><img class="ico__img" src="../assets/icons/insight-06-quiet-status.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture></span></span></div>
-        <div class="post-t"><div class="post-chips"><span class="chip">Point of view</span><span class="chip soon">Coming soon</span></div><h3 class="h4 ico-title">The highest status symbol in IT is never talking about it.</h3><p>Dek to be written with the article.</p><a class="link-arrow" href="template/">Read</a></div>
-      </article><article class="post" data-cat="pov" data-ico-host>
-        <div class="stage"><span class="ico ico--simple ico--insight " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="../assets/icons/insight-07-finger-pointing.webp"><img class="ico__img" src="../assets/icons/insight-07-finger-pointing.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture></span></span></div>
-        <div class="post-t"><div class="post-chips"><span class="chip">Point of view</span><span class="chip soon">Coming soon</span></div><h3 class="h4 ico-title">Finger-pointing costs more than the outage ever did.</h3><p>Dek to be written with the article.</p><a class="link-arrow" href="template/">Read</a></div>
-      </article><article class="post" data-cat="pov" data-ico-host>
-        <div class="stage"><span class="ico ico--simple ico--insight " aria-hidden="true"><span class="ico__float"><picture><source type="image/webp" srcset="../assets/icons/insight-08-the-247-line.webp"><img class="ico__img" src="../assets/icons/insight-08-the-247-line.png" width="480" height="480" alt="" loading="lazy" decoding="async"></picture></span></span></div>
-        <div class="post-t"><div class="post-chips"><span class="chip">Point of view</span><span class="chip soon">Coming soon</span></div><h3 class="h4 ico-title">A 24/7 line is worthless if the person answering can’t fix anything.</h3><p>Dek to be written with the article.</p><a class="link-arrow" href="template/">Read</a></div>
+        <div class="post-t"><div class="post-chips"><span class="chip">Performance</span></div><h3 class="h4 ico-title">Paying for the work, not the idle hours</h3><p>How auto-scaling and schedules bring the Azure bill in line with what your people actually do.</p></div>
       </article></div>
     <p class="f-empty" id="fEmpty" hidden>Nothing in this category yet.</p>
   </div>
@@ -111,13 +92,13 @@
       <div class="foot-brand">
         <img src="../assets/img/trisian-logo.png" alt="Trisian" class="foot-logo">
         <p>Managed IT for regulated industries. 28 years in business.</p>
+        <p class="foot-trust">Trisian is certified to ISO/IEC 27001:2022.</p>
       </div>
       <div class="foot-col" role="group" aria-label="Explore">
         <b>Explore</b>
         <a href="../#offer">What we offer</a>
         <a href="../coverage/">Plans</a>
         <a href="../services/">Projects</a>
-        <a href="../insights/">Insights</a>
       </div>
       <div class="foot-col" role="group" aria-label="Who it's for">
         <b>Who it's for</b>
@@ -131,11 +112,11 @@
         <b>Company</b>
         <a href="../#assessment">Talk to us</a>
         <a href="mailto:contact@trisian.com">contact@trisian.com</a>
+        <address>1451 W Cypress Creek Rd<br>Fort Lauderdale, FL 33309</address>
       </div>
-      <div class="foot-soc" role="group" aria-label="Social profiles"><a class="soc" href="#" data-confirm="url" target="_blank" rel="noopener noreferrer" aria-label="Trisian on LinkedIn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg></a><a class="soc" href="#" data-confirm="url" target="_blank" rel="noopener noreferrer" aria-label="Trisian on Instagram"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a><a class="soc" href="#" data-confirm="url" target="_blank" rel="noopener noreferrer" aria-label="Trisian on X"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l16 16M20 4 4 20"/></svg></a></div>
     </div>
     <p class="foot-legal">&copy; 2026 Trisian</p>
-    <!-- the large wordmark: the existing logo file, scaled to the full container width, white at 12% opacity. No new asset. -->
+    <!-- the large wordmark: the existing logo file, scaled to the full container width, white at 22% opacity under a fade-to-black mask. No new asset. -->
     <div class="foot-mark-wrap" aria-hidden="true"><img class="foot-mark" src="../assets/img/trisian-logo.png" alt="" width="960" height="220"></div>
   </div>
 </footer>

@@ -95,3 +95,22 @@
 .faq-list .ans-in p{padding:0 44px 24px 0}
 @media (prefers-reduced-motion:reduce){.js .faq-list .ans-wrap{transition:none}.faq-list summary svg{transition:none}}
 .faq-list .ans-in p{animation:none}
+
+/* ---- v6: the orphan rule. Body text and headings wrap without leaving one or two words alone. ---- */
+p,li,.lead{text-wrap:pretty}
+h1,h2,h3,.balance{text-wrap:balance}
+
+/* ---- v6: icons are hover-only on the home page. No entry fade, no float, no cursor lean, no Level 2 overlays. The hover is v3's
+   (lift 8px, scale 1.05, tilt -1.5deg, 250ms). The three "Also in every plan" tiles and the staircase-free seat row do not move at all. ---- */
+.js .home .ico{opacity:1!important;transform:none!important;transition:none!important}
+.home .ico--rich .ico__float{animation:none!important}
+.home .ico__ov{display:none!important}
+.home .ico--still .ico__img{transform:none!important}
+.home .tiles3 .tile{transition:none}
+.home [data-ico-host]{transition:none}
+@media (hover:hover) and (pointer:fine){
+  .js .home [data-ico-host]:hover,.home [data-ico-host]:hover{transform:none!important}
+  .home .box[data-ico-host]:hover .ico--rich .ico__img,.home .hs[data-ico-host]:hover .ico--rich .ico__img{transform:translateY(-8px) scale(1.05) rotate(-1.5deg)!important;transition:transform 250ms var(--ease)}
+  .home .box[data-ico-host]:hover .ico--simple .ico__img,.home .hs[data-ico-host]:hover .ico--simple .ico__img{transform:translateY(-6px) scale(1.06)!important;transition:transform 250ms var(--ease)}
+}
+.nb{white-space:nowrap}
